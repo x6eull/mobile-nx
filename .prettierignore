@@ -1,0 +1,13 @@
+src-tauri
+node_modules
+
+# npm will format theses files
+package.json
+package-lock.json
+
+tsconfig.*
+
+*.md
+*.bat
+*.sh
+.*
