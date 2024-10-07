@@ -8,16 +8,8 @@
   "permissions": [
     "core:default",
     "fs:default",
-    {
-      "identifier": "fs:scope",
-      "allow": [
-        {
-          "path": "$APPLOCALDATA"
-        },
-        {
-          "path": "$APPLOCALDATA/**"
-        }
-      ]
-    }
+    "fs:allow-app-write-recursive",
+    "fs:allow-app-read-recursive",
+    "fs:allow-app-meta-recursive"
   ]
 }

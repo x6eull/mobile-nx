@@ -1,6 +1,9 @@
 # Explicit local files
 /local.*
 
+# keystore files
+*.jks
+
 # Logs
 logs
 *.log

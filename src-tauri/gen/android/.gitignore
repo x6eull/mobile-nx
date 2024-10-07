@@ -1,3 +1,6 @@
+# Sign key properties
+keystore.properties
+
 *.iml
 .gradle
 /local.properties

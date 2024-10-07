@@ -13,6 +13,7 @@ function App() {
     invoke<string>('get_capa_version').then((v) => setCapaVersion(v), (r) => setCapaVersion('error' + r))
   }, [])
   return <div className='app'>
+    This is app loaded.
     <div>tauriVersion:{tauriVersion}</div>
     <div>capaVersion:{capaVersion}</div>
   </div>
