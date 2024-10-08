@@ -13,21 +13,26 @@ enum Mode {
   tauriFrontend = 'tauri-frontend',
   unknown = 'unknown',
 }
-let curMode: Mode = (Object.entries(Mode).find(([, v]) => import.meta.env.MODE.match(new RegExp(v.toString(), 'i')))?.[1] as Mode | undefined) ?? Mode.unknown
-switch (curMode) {
-  case Mode.development:
-  case Mode.production:
-    ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>,
-    )
-    break
-  case Mode.tauriFrontend:
-    await importFrontend()
-    break
-  case Mode.unknown:
-  default:
-    alert(`Unknown import.meta.env.MODE: ${import.meta.env.MODE}`)
-    break
-} 
+try {
+  let curMode: Mode = (Object.entries(Mode).find(([, v]) => import.meta.env.MODE.match(new RegExp(v.toString(), 'i')))?.[1] as Mode | undefined) ?? Mode.unknown
+  console.log(`import.meta.env.MODE: ${import.meta.env.MODE}, curMode: ${curMode}`)
+  switch (curMode) {
+    case Mode.development:
+    case Mode.production:
+      ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>,
+      )
+      break
+    case Mode.tauriFrontend:
+      await importFrontend()
+      break
+    case Mode.unknown:
+    default:
+      alert(`Unknown import.meta.env.MODE: ${import.meta.env.MODE}`)
+      break
+  }
+} catch (e) {
+  document.body.innerText = e?.toString() ?? 'unknown error'
+}

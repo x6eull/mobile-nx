@@ -7,11 +7,10 @@ import {
 } from '@tauri-apps/plugin-fs'
 import { nxFetch } from './nxFetch'
 import type { BundleManifest } from '../../generate-bundle'
-import { maxSatisfying, parse, SemVer } from 'semver'
+import { maxSatisfying, parse } from 'semver'
 import { path } from '@tauri-apps/api'
 import { sep } from '@tauri-apps/api/path'
 
-let frontendVersion: SemVer
 type FrontendColletion = {
   lastRenderedVersion: string
   versions: {
@@ -30,7 +29,7 @@ export async function getFrontendCollection(): Promise<FrontendColletion> {
     )
   } catch (e) {
     return {
-      lastRenderedVersion: frontendVersion?.toString() ?? '',
+      lastRenderedVersion: '',
       versions: {},
     }
   }
@@ -58,6 +57,7 @@ export async function outputTextFile(filePath: string, content: string) {
 const updateUrl = import.meta.env.VITE_BUNDLE_UPDATE_URL as string
 /**立即检查更新。如有新版本，立即下载。 */
 export async function updateFrontend(): Promise<boolean> {
+  console.log('check update', updateUrl)
   //TODO 检查dependencies
   const bundleText = await (await nxFetch(updateUrl)).text()
   const {
@@ -66,14 +66,17 @@ export async function updateFrontend(): Promise<boolean> {
     files,
   } = JSON.parse(bundleText) as BundleManifest
   const semNewVersion = parse(newVersion)!
-  if (frontendVersion && semNewVersion.compare(frontendVersion) <= 0)
+  const frontendCollection = await getFrontendCollection()
+  const { lastRenderedVersion: frontendVersion } = frontendCollection
+  if (frontendVersion && semNewVersion.compare(frontendVersion) <= 0) {
+    console.log('no update available', { frontendVersion, newVersion })
     return false // no update
+  }
   const newFrontendVersionSavePath = await path.join(
     'frontend',
-    `v${newVersion}`,
+    `${newVersion}`,
   )
-  const [frontendCollection] = await Promise.all([
-    getFrontendCollection(),
+  await Promise.all([
     outputTextFile(
       await path.join(newFrontendVersionSavePath, 'bundle.json'),
       bundleText,
@@ -99,6 +102,7 @@ export async function updateFrontend(): Promise<boolean> {
       },
     } as FrontendColletion),
   )
+  console.warn('downloaded new frontend version:', newVersion)
   return true
 }
 
@@ -116,10 +120,10 @@ const loadHandlers = {
     document.head.appendChild(ele)
   },
   html(src: string) {
-    console.warn('Ignore importing html', src)
+    console.log('Ignore importing html', src)
   },
 } as const
-/**加载前端内容。如果没有任何版本，立即下载一份。 */
+/**加载前端内容。如果没有任何版本，立即下载一份并加载。 */
 export async function importFrontend() {
   const { versions } = await getFrontendCollection()
   const versionEntries = Object.keys(versions)
@@ -132,7 +136,6 @@ export async function importFrontend() {
     includePrerelease: true,
   })
   if (!maxVersion) throw new Error('No valid frontend version found')
-  console.warn('Import new maxVersion', maxVersion, versions)
   const versionPath =
     typeof versions[maxVersion] === 'string'
       ? versions[maxVersion]
@@ -152,10 +155,11 @@ export async function importFrontend() {
       const src = convertFileSrc(
         await path.join(await path.appLocalDataDir(), versionPath, filePath),
       )
-      console.warn('new file src', src)
       loadHandlers[finalType](src)
     }),
   )
-  frontendVersion = parse(version)!
+  const collection = await getFrontendCollection()
+  collection.lastRenderedVersion = version
+  await outputTextFile('frontend-collection.json', JSON.stringify(collection))
   return version
 }

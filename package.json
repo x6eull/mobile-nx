@@ -1,13 +1,13 @@
 {
   "name": "mobile-nx",
   "private": true,
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.2-alpha.2",
   "type": "module",
   "scripts": {
     "format": "prettier --write .",
     "dev": "vite",
     "build": "tsc && vite build && tsx ./generate-bundle.ts",
-    "build-tauri-frontend": "tsc && vite build --mode tauri-frontend",
+    "build-tauri-frontend": "tsc && vite build --mode tauri-frontend --outDir ./dist-tauri",
     "preview": "vite preview",
     "tauri": "tauri"
   },

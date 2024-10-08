@@ -3,6 +3,7 @@ import './App.css'
 import { getTauriVersion } from '@tauri-apps/api/app'
 import { invoke } from '@tauri-apps/api/core'
 import { updateFrontend } from './interop/update'
+import { version } from '../package.json'
 
 function App() {
   const [tauriVersion, setTauriVersion] = useState('-')
@@ -13,9 +14,9 @@ function App() {
     invoke<string>('get_capa_version').then((v) => setCapaVersion(v), (r) => setCapaVersion('error' + r))
   }, [])
   return <div className='app'>
-    This is app loaded.
     <div>tauriVersion:{tauriVersion}</div>
     <div>capaVersion:{capaVersion}</div>
+    <div>frontend version: {version}</div>
   </div>
 }
 

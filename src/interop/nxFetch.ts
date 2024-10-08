@@ -1,3 +1,3 @@
-export function nxFetch(...args: Parameters<typeof fetch>) {
-  return fetch(...args)
+export function nxFetch(url: string, init?: RequestInit) {
+  return fetch(url, { cache: 'no-cache', ...init })
 }
