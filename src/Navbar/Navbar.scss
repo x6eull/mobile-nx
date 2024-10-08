@@ -1,0 +1,25 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  height: 4rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10%;
+  background-color: white;
+
+  .link {
+    width: 4.8rem;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    border-radius: 1.2rem;
+    transition: all ease-out .5s;
+
+    &.active {
+      background-color: #dde2f6;
+    }
+  }
+}

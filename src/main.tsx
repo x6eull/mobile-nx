@@ -19,6 +19,7 @@ try {
   switch (curMode) {
     case Mode.development:
     case Mode.production:
+      console.log('render react app')
       ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <React.StrictMode>
           <App />

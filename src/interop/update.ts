@@ -56,7 +56,7 @@ export async function outputTextFile(filePath: string, content: string) {
 
 const updateUrl = import.meta.env.VITE_BUNDLE_UPDATE_URL as string
 /**立即检查更新。如有新版本，立即下载。 */
-export async function updateFrontend(): Promise<boolean> {
+export async function updateFrontend(): Promise<string | null> {
   console.log('check update', updateUrl)
   //TODO 检查dependencies
   const bundleText = await (await nxFetch(updateUrl)).text()
@@ -70,7 +70,7 @@ export async function updateFrontend(): Promise<boolean> {
   const { lastRenderedVersion: frontendVersion } = frontendCollection
   if (frontendVersion && semNewVersion.compare(frontendVersion) <= 0) {
     console.log('no update available', { frontendVersion, newVersion })
-    return false // no update
+    return null // no update
   }
   const newFrontendVersionSavePath = await path.join(
     'frontend',
@@ -103,7 +103,7 @@ export async function updateFrontend(): Promise<boolean> {
     } as FrontendColletion),
   )
   console.warn('downloaded new frontend version:', newVersion)
-  return true
+  return newVersion
 }
 
 const loadHandlers = {
@@ -158,8 +158,11 @@ export async function importFrontend() {
       loadHandlers[finalType](src)
     }),
   )
-  const collection = await getFrontendCollection()
-  collection.lastRenderedVersion = version
-  await outputTextFile('frontend-collection.json', JSON.stringify(collection))
   return version
+}
+
+export async function setLatestRenderedVersion(renderedVersion: string) {
+  const collection = await getFrontendCollection()
+  collection.lastRenderedVersion = renderedVersion
+  await outputTextFile('frontend-collection.json', JSON.stringify(collection))
 }

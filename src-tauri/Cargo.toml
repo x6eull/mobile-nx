@@ -1,6 +1,6 @@
 [package]
 name = "mobile-nx"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Tauri App"
 authors = ["x6eull"]
 edition = "2021"

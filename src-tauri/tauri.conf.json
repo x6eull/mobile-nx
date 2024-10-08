@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "identifier": "com.zjuqsc.nx",
   "build": {
-    "beforeDevCommand": "npm run dev -- --mode=tauri-frontend",
+    "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "npm run build-tauri-frontend",
     "frontendDist": "../dist-tauri"

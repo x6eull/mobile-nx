@@ -1,0 +1,32 @@
+.index {
+  display: flex;
+  flex-direction: column;
+
+  .cover {
+    display: flex;
+    flex-direction: column;
+    height: 8rem;
+    background-color: #637dca;
+    border-radius: 0 0 .6rem .6rem;
+    align-items: center;
+    justify-content: space-between;
+
+    .debug-info {
+      list-style: none;
+      color: #ffffff55;
+      padding: 0;
+      margin: 0;
+      font-size: .75em;
+    }
+
+    .logo {
+      display: inline-flex;
+      font-weight: bold;
+      color: #637dca;
+      background-color: white;
+      padding: .5rem 1.2rem;
+      border-radius: .6rem;
+      margin: 0 0 .4rem 0;
+    }
+  }
+}

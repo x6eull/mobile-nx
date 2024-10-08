@@ -10,6 +10,14 @@
     "fs:default",
     "fs:allow-app-write-recursive",
     "fs:allow-app-read-recursive",
-    "fs:allow-app-meta-recursive"
+    "fs:allow-app-meta-recursive",
+    "core:app:allow-version",
+    "core:app:allow-set-app-theme",
+    "core:window:allow-close",
+    "core:window:allow-get-all-windows",
+    "core:window:allow-inner-size",
+    "core:window:allow-outer-size",
+    "core:window:allow-hide",
+    "core:window:allow-show"
   ]
 }
