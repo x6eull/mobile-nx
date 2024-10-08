@@ -1,6 +1,7 @@
 [package]
 name = "mobile-nx"
-version = "0.1.1"
+# Please set app version in tauri.conf.json
+version = "0.1.0"
 description = "A Tauri App"
 authors = ["x6eull"]
 edition = "2021"

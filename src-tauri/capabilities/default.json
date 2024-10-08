@@ -13,11 +13,9 @@
     "fs:allow-app-meta-recursive",
     "core:app:allow-version",
     "core:app:allow-set-app-theme",
+    "core:webview:allow-webview-close",
+    "core:webview:allow-clear-all-browsing-data",
     "core:window:allow-close",
-    "core:window:allow-get-all-windows",
-    "core:window:allow-inner-size",
-    "core:window:allow-outer-size",
-    "core:window:allow-hide",
-    "core:window:allow-show"
+    "core:window:allow-destroy"
   ]
 }

@@ -18,7 +18,7 @@ android {
     compileSdk = 34
     namespace = "com.zjuqsc.nx"
     defaultConfig {
-        manifestPlaceholders["usesCleartextTraffic"] = "false"
+        manifestPlaceholders["usesCleartextTraffic"] = "true"
         applicationId = "com.zjuqsc.nx"
         minSdk = 24
         targetSdk = 34
