@@ -14,7 +14,6 @@ const router = createHashRouter([
       { path: '', index: true, element: <Index />, },
       { path: 'calendar', element: <div>calendar</div> },
       { path: 'setting', element: <div>setting</div> },
-
     ],
     element: <>
       <main className='main'>

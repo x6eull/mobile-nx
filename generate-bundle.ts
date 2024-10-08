@@ -1,5 +1,6 @@
-/**构建脚本，将dist中所有文件生成清单 */
+/**构建脚本。将dist中所有文件生成清单bundle.json */
 
+import 'dotenv/config'
 import { version } from './package.json'
 import { stat, readdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'

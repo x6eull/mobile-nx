@@ -16,5 +16,11 @@ export default function Index() {
       <div className='logo'>MOBILE nx</div>
     </div>
     <button onClick={() => navigate('/detail/test', { replace: false })}>Click here to open a new subpage</button>
+    <button onClick={() => {
+      //TODO DEBUG only
+      const result = prompt('Please input js to eval\nWARNING: DEBUG only.')
+      if (!result) return
+      alert(JSON.stringify(eval(result ?? '')))
+    }}>Click here to eval</button>
   </div>
 }
