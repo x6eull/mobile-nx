@@ -1,9 +1,12 @@
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+
 // Currently unused in frontend
 #[tauri::command]
 fn exit_app(exit_code: i32, app_handle: tauri::AppHandle) {
     app_handle.exit(exit_code);
 }
+
+//TODO implement native layer fetch to bypass CORS
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

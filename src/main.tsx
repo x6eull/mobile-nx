@@ -19,15 +19,13 @@ try {
   switch (curMode) {
     case Mode.development:
     case Mode.production:
-      console.log('render react app')
-      ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>,
-      )
+      renderReactRoot()
       break
     case Mode.tauriFrontend:
-      await importFrontend()
+      await importFrontend().catch(() => {
+        console.error('importFrontend error, fallback to renderReactRoot(bundled)')
+        renderReactRoot()
+      })
       break
     case Mode.unknown:
     default:
@@ -36,4 +34,13 @@ try {
   }
 } catch (e) {
   document.body.innerText = e?.toString() ?? 'unknown error'
+}
+
+function renderReactRoot() {
+  console.log('render react app')
+  ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  )
 }

@@ -128,7 +128,7 @@ export async function importFrontend() {
   const { versions } = await getFrontendCollection()
   const versionEntries = Object.keys(versions)
   if (!versionEntries.length) {
-    await updateFrontend()
+    if (!(await updateFrontend())) throw new Error('No version available')
     await importFrontend()
     return
   }
