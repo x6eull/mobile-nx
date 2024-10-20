@@ -35,3 +35,8 @@ password=your_keystore_password
 keyAlias=your_key_alias
 storeFile=../../../../name-of-your-keystore.jks
 ```
+
+### iOS开发
+需要XCode 15+。
+
+使用`npm run tauri ios build`构建ipa。
