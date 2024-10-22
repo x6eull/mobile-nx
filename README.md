@@ -22,8 +22,9 @@ npm run tauri dev
 ```
 
 ### 安卓开发
-需要 **Android Studio 2024.1+**、**Android SDK Platform 24+**、**NDK**，并配置**ANDROID_HOME**、**NDK_HOME**环境变量。Tauri文档：[https://tauri.app/start/prerequisites/#android](https://tauri.app/start/prerequisites/#android)
+需要 **Android Studio 2024.1+**、**Android SDK Platform 24+**、**NDK**、**Java**，并配置**ANDROID_HOME**、**NDK_HOME**、**JAVA_HOME**环境变量。Tauri文档：[https://tauri.app/start/prerequisites/#android](https://tauri.app/start/prerequisites/#android)
 
+首次进行安卓相关开发时，需安装安卓相关rustc target：`npm run tauri android init`  
 开启安卓调试：`npm run tauri android dev`  
 构建安卓通用APK：`npm run tauri android build`  
 构建armv7架构APK：`npm run tauri android build -- --target armv7`（可选架构: aarch64, armv7, i686, x86_64）
