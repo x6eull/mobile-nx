@@ -1,7 +1,7 @@
 {
   "name": "mobile-nx",
   "private": true,
-  "version": "0.1.7-alpha.1",
+  "version": "0.1.7-alpha.2",
   "type": "module",
   "scripts": {
     "format": "prettier --write .",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@tauri-apps/api": "^2.0.1",
     "@tauri-apps/plugin-fs": "^2.0.0",
-    "@tauri-apps/plugin-shell": "^2.0.0",
+    "@tauri-apps/plugin-http": "^2.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
