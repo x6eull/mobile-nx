@@ -39,15 +39,14 @@ export async function getFrontendCollection(): Promise<FrontendColletion> {
 /**在数据目录里新建或覆写一个文件。自动(递归)创建其祖先文件夹 */
 export async function outputTextFile(filePath: string, content: string) {
   const lastSlash = filePath.lastIndexOf(sep())
-  if (lastSlash > 0) {
-    const dirPath = filePath.substring(0, lastSlash)
-    try {
-      await mkdir(dirPath, {
-        baseDir: BaseDirectory.AppLocalData,
-        recursive: true,
-      })
-    } catch {}
-  }
+  const dirPath = filePath.substring(0, lastSlash)
+  try {
+  // 如果lastSlash<0，dirPath为空字符串，尝试新建$APPLOCALDATA这个根文件夹（是必要操作）
+  await mkdir(dirPath, {
+      baseDir: BaseDirectory.AppLocalData,
+      recursive: true,
+    })
+  } catch {}
   await writeTextFile(filePath, content, {
     baseDir: BaseDirectory.AppLocalData,
     create: true,
