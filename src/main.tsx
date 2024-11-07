@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { importFrontend } from './interop/update'
+import { invoke } from '@tauri-apps/api/core'
 
 enum Mode {
   // 开发模式(npm run dev)
@@ -44,3 +45,6 @@ function renderReactRoot() {
     </React.StrictMode>,
   )
 }
+
+// 更新注入脚本
+invoke('set_inject_script', { newScript: (await import('./inject.js?raw')).default })
