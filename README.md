@@ -5,18 +5,19 @@
 1. Node.js v22.x LTS
 2. Rust v1.77.2+
 
-开发前端、后端、构建均需要安装`package.json`中的所有依赖：
+开发前端/Rust层、构建均需要上述环境，同时需要`package.json`中的所有依赖：
 ```sh
 npm i --include=dev
 ```
+Rust启动时会自动下载Cargo生态的依赖项。
 
 
-开发/构建时需要正确设置以下环境变量（可写在本地.env文件中，vite将自动读取；若新建构建脚本请使用 `import 'dotenv/config'` 读取）：  
+开发/构建时需要正确设置以下环境变量（可写在本地`.env`文件中，vite将自动读取；若新建构建脚本请使用 `import 'dotenv/config'` 读取）：  
 1. VITE_BUNDLE_UPDATE_URL 热更新时，指向bundle.json的url。如https://www.example.com/nx/bundle.json
 
 
 ### 本机开发
-在桌面环境上本机调试/运行：
+在桌面环境上本机(Windows/MacOS)调试/运行：
 ```sh
 npm run tauri dev
 ```
@@ -35,3 +36,33 @@ password=your_keystore_password
 keyAlias=your_key_alias
 storeFile=../../../../name-of-your-keystore.jks
 ```
+
+### iOS开发
+需要XCode 15+。
+
+首次进行iOS相关开发时，需要配置以下依赖：
+1. 安装Homebrew
+2. 使用Homebrew安装Cocoapods：`brew install cocoapods`
+3. 安装相关rustc target：`npm run tauri ios init`
+
+你需要加入 Apple Developer Team 才能构建打包产物。具体操作如下：  
+1. 在`Xcode - Settings - Accounts`添加Apple ID。
+2. 在Xcode项目管理（即`*.xcodeproj`文件）中的`Signing & Capabilities`选项卡，选择正确的签名证书。
+
+构建前，请确保`src-tauri/tauri.conf.json`中的`version`字段正确。  
+构建命令为：`npm run tauri ios build -- --export-method app-store-connect`
+
+你需要拥有`App Store Connect API key`才能自动化发布。具体操作如下：
+1. 前往 [Apple Store Connect](https://appstoreconnect.apple.com/) ，打开**用户与访问**页面。
+2. 打开**集成**选项卡。在**团队密钥**项目下新建你的API key，**访问**（即权限）设为**开发者**。
+3. 保存以下信息：
+   - Issuer ID
+   - 密钥 ID （即API_KEY_ID）
+   - 密钥文件（每个密钥生成后只能下载一次）
+4. 将密钥文件移动到以下文件夹之一（保持其文件名为`AuthKey_${APPLE_API_KEY_ID}.p8`）：
+   - ~/private_keys
+   - ~/.private_keys
+   - ~/.applestoreconnect/private_keys
+
+执行`./build_ios.sh`，进行打包+上传构建版本。  
+你需要在`.env`文件中正确设置该文件中提及的所有环境变量。

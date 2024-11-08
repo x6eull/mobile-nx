@@ -1,7 +1,7 @@
 {
   "name": "mobile-nx",
   "private": true,
-  "version": "0.1.7-alpha.2",
+  "version": "0.1.8-alpha.1",
   "type": "module",
   "scripts": {
     "format": "prettier --write .",
