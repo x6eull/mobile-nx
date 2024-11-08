@@ -10,7 +10,7 @@
   if (!event.match(/^PageLoadEvent::Started$/)) return
 
   // 对非tauri页面添加返回按钮
-  if (!url.match(/^(ipc|file|https?:\/\/(\w+\.)*localhost)/)) {
+  if (!url.match(/^(tauri:|ipc:|file:|https?:\/\/(\w+\.)*localhost)/)) {
     setInterval(() => {
       const buttonId = '__nx_backButton__';
       if (document.getElementById(buttonId)) return;

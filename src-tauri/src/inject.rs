@@ -26,8 +26,9 @@ pub struct InjectMeta {
 impl InjectMeta {
     /// 从 [`PageLoadPayload`] 创建一个新的 [`InjectMeta`]。
     pub fn new<R: Runtime>(webview: &Webview<R>, payload: &PageLoadPayload) -> Self {
+        let _ = webview;
         Self {
-            base_url: "http://localhost:5024".to_string(),
+            base_url: "http://localhost:5024".to_string(), //TODO 提供实际tauri前端url
             url: payload.url().to_string(),
             event: match payload.event() {
                 PageLoadEvent::Started { .. } => "PageLoadEvent::Started",

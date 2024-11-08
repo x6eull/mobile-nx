@@ -22,5 +22,6 @@ export default function Index() {
       if (!result) return
       alert(JSON.stringify(eval(result ?? '')))
     }}>Click here to eval</button>
+    <div>The current location.href: {location.href}</div>
   </div>
 }
