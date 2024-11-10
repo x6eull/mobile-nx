@@ -41,8 +41,8 @@ export async function outputTextFile(filePath: string, content: string) {
   const lastSlash = filePath.lastIndexOf(sep())
   const dirPath = filePath.substring(0, lastSlash)
   try {
-  // 如果lastSlash<0，dirPath为空字符串，尝试新建$APPLOCALDATA这个根文件夹（是必要操作）
-  await mkdir(dirPath, {
+    // 如果lastSlash<0，dirPath为空字符串，尝试新建$APPLOCALDATA这个根文件夹（是必要操作）
+    await mkdir(dirPath, {
       baseDir: BaseDirectory.AppLocalData,
       recursive: true,
     })

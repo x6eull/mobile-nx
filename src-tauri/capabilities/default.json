@@ -22,6 +22,8 @@
       "allow": [
         "*://*:*"
       ]
-    }
+    },
+    "os:default",
+    "os:allow-hostname"
   ]
 }

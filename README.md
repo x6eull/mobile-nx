@@ -54,16 +54,15 @@ storeFile=../../../../name-of-your-keystore.jks
 构建命令为：`npm run tauri ios build -- --export-method app-store-connect`
 
 你需要拥有`App Store Connect API key`才能自动化发布。具体操作如下：
-1. 前往 [Apple Store Connect](https://appstoreconnect.apple.com/) ，打开**用户与访问**页面。
+1. 前往 [Apple Store Connect](https://appstoreconnect.apple.com/) ，登录后打开**用户与访问**页面。
 2. 打开**集成**选项卡。在**团队密钥**项目下新建你的API key，**访问**（即权限）设为**开发者**。
-3. 保存以下信息：
-   - Issuer ID
-   - 密钥 ID （即API_KEY_ID）
+3. 保存以下信息（环境变量应添加至 `./.env` 文件中）：
+   - Issuer ID，对应环境变量 `APPLE_API_ISSUER`
+   - 密钥 ID，对应环境变量 `APPLE_API_KEY_ID`
    - 密钥文件（每个密钥生成后只能下载一次）
 4. 将密钥文件移动到以下文件夹之一（保持其文件名为`AuthKey_${APPLE_API_KEY_ID}.p8`）：
    - ~/private_keys
    - ~/.private_keys
    - ~/.applestoreconnect/private_keys
 
-执行`./build_ios.sh`，进行打包+上传构建版本。  
-你需要在`.env`文件中正确设置该文件中提及的所有环境变量。
+执行`./build_ios.sh`，进行打包+上传构建版本。

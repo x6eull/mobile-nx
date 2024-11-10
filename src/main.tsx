@@ -15,8 +15,13 @@ enum Mode {
   unknown = 'unknown',
 }
 try {
-  let curMode: Mode = (Object.entries(Mode).find(([, v]) => import.meta.env.MODE.match(new RegExp(v.toString(), 'i')))?.[1] as Mode | undefined) ?? Mode.unknown
-  console.log(`import.meta.env.MODE: ${import.meta.env.MODE}, curMode: ${curMode}`)
+  let curMode: Mode =
+    (Object.entries(Mode).find(([, v]) =>
+      import.meta.env.MODE.match(new RegExp(v.toString(), 'i')),
+    )?.[1] as Mode | undefined) ?? Mode.unknown
+  console.log(
+    `import.meta.env.MODE: ${import.meta.env.MODE}, curMode: ${curMode}`,
+  )
   switch (curMode) {
     case Mode.development:
     case Mode.production:
@@ -24,7 +29,9 @@ try {
       break
     case Mode.tauriFrontend:
       await importFrontend().catch(() => {
-        console.error('importFrontend error, fallback to renderReactRoot(bundled)')
+        console.error(
+          'importFrontend error, fallback to renderReactRoot(bundled)',
+        )
         renderReactRoot()
       })
       break
@@ -47,4 +54,6 @@ function renderReactRoot() {
 }
 
 // 更新注入脚本
-invoke('set_inject_script', { newScript: (await import('./inject.js?raw')).default })
+invoke('set_inject_script', {
+  newScript: (await import('./inject.js?raw')).default,
+})
