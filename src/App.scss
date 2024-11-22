@@ -6,8 +6,17 @@ body {
   width: -webkit-fill-available;
   height: 100%;
   height: -webkit-fill-available;
-  background-color: blue;
   //TODO 解决iOS safe area & 满屏问题
+}
+
+body {
+  $bg-color: #fafbfc;
+  $bg-color-dark: #232425;
+
+  background-color: $bg-color;
+  @media (prefers-color-scheme: dark) {
+    background-color: $bg-color-dark;
+  }
 }
 
 #root,
@@ -25,7 +34,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
   -webkit-tap-highlight-color: transparent;
-  background-color: #f8f8f8;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;

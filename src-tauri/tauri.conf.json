@@ -14,7 +14,8 @@
       {
         "title": "mobile-nx",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "backgroundColor": "#17181900"
       }
     ],
     "security": {
