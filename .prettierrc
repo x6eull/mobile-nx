@@ -4,7 +4,7 @@
   "endOfLine": "crlf",
   "tabWidth": 2,
   "useTabs": false,
-  "semi": false,
+  "semi": true,
   "arrowParens": "always",
   "quoteProps": "as-needed",
   "printWidth": 80

@@ -1,0 +1,130 @@
+//------------------
+// You must specify a fetch which handles cookies automatically.
+// define the fetch or import a fetch function from a library like axios.
+//
+// By default, it is using fetch in global domain.
+//
+// Note that the spider does not care about the user's identity.
+// Users' identity is supposed to be implicated in the fetch function
+//
+//------------------
+
+import { ExamArrangement } from '@/models/Course';
+import { Term, Semester } from '@/models/shared';
+
+/**
+ *
+ * @param str looks like '2025年01月04日(14:00-16:00)'
+ */
+const parseZDBKDate = (str: string) => {
+  const slice = str
+    .split(/年|月|日|\(|\)|:|-/)
+    .filter((v: any) => v)
+    .map(Number);
+  return {
+    startAt: new Date(
+      slice[0],
+      slice[1] - 1,
+      slice[2],
+      slice[3],
+      slice[4],
+      0,
+      0,
+    ),
+    endAt: new Date(slice[0], slice[1] - 1, slice[2], slice[5], slice[6], 0, 0),
+  };
+};
+
+/**
+ * @param custom_fetch WIP, a fetch function that handles cookies automatically
+ * @param xnxq xxq 学年学期 小学期. false means the param is not speciific, when we want to filter the both semester in a term
+ */
+const implement = async (
+  custom_fetch: (
+    arg0: RequestInfo | URL,
+    arg1: RequestInit,
+  ) => Promise<Response>,
+  xnxq: string | false,
+  xxq: string | false,
+): Promise<ExamArrangement[]> => {
+  return new Promise((resolve, reject) => {
+    const formdata = new FormData();
+    formdata.append('queryModel.showCount', '1024');
+    formdata.append('queryModel.currentPage', '1');
+    formdata.append('queryModel.sortName', 'xxq');
+    formdata.append('queryModel.sortOrder', 'asc');
+    xxq && formdata.append('xxq', xxq);
+    xnxq && formdata.append('xnxq', xnxq);
+    custom_fetch(
+      'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
+      {
+        body: formdata,
+        method: 'POST',
+      },
+    )
+      .then((res) => {
+        res.json().then((data) => {
+          const resx: ExamArrangement[] = [];
+          data.items.forEach((item: any) => {
+            if (item.qzkssj /* 期中考试时间 */) {
+              resx.push({
+                type: 'midterm',
+                ...parseZDBKDate(item.qzkssj),
+                location: item.qzjsmc || '',
+                seat: Number(item.qzzwxh || 0),
+              });
+            }
+            if (item.qmksrq /* 期末考试时间 */) {
+              resx.push({
+                type: 'final',
+                ...parseZDBKDate(item.qmksrq),
+                location: item.jsmc || '',
+                seat: Number(item.qzzwxh || 0),
+              });
+            }
+          });
+          resolve(resx);
+        });
+      })
+      .catch(reject);
+  });
+};
+
+const prepareSemesterString = (
+  Semester: Semester,
+): [string | false, string | false] => {
+  if (Semester.term & 0b10000) {
+    return [`(${Semester.year}-${Semester.year + 1}-1)-`, '短'];
+  }
+  const t = Semester.term & 0b1111;
+  return [
+    `(${Semester.year}-${Semester.year + 1}-${
+      // 愉快的位运算。
+      (Number(!!(t & 12)) * 1 + Number(!!(t & 3)) * 2) % 3 ||
+      (() => {
+        throw new Error('查询不能横跨多个半学年');
+      })()
+    })-`,
+    ((m) => (m[1] ? false : m[0][1]))(
+      Object.entries({
+        0b1: '春',
+        0b10: '夏',
+        0b100: '秋',
+        0b1000: '冬',
+      }).filter((a) => t & Number(a[0])),
+    ),
+  ];
+};
+
+/**
+ * Fetch exam arrangements from zdbk.zju.edu.cn.
+ *
+ * Note that if location and seat are empty in upstream data,
+ * they will be set to empty string and 0 respectively.
+ *
+ * @param Semester Semester to query.
+ * @returns Promise<ExamArrangement[]> List of exam arrangements
+ * @author Locean<locean@5dbwat4.top>
+ */
+export default (Semester: Semester) =>
+  implement(fetch, ...prepareSemesterString(Semester));
