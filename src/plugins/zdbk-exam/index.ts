@@ -1,16 +1,6 @@
-//------------------
-// You must specify a fetch which handles cookies automatically.
-// define the fetch or import a fetch function from a library like axios.
-//
-// By default, it is using fetch in global domain.
-//
-// Note that the spider does not care about the user's identity.
-// Users' identity is supposed to be implicated in the fetch function
-//
-//------------------
-
 import { ExamArrangement } from '@/models/Course';
 import { Term, Semester } from '@/models/shared';
+import { ZJUAM, ZDBK } from './login-ZJU';
 
 /**
  *
@@ -40,10 +30,7 @@ const parseZDBKDate = (str: string) => {
  * @param xnxq xxq 学年学期 小学期. false means the param is not speciific, when we want to filter the both semester in a term
  */
 const implement = async (
-  custom_fetch: (
-    arg0: RequestInfo | URL,
-    arg1: RequestInit,
-  ) => Promise<Response>,
+  custom_fetch: (url: string, options?: RequestInit) => Promise<Response>,
   xnxq: string | false,
   xxq: string | false,
 ): Promise<ExamArrangement[]> => {
@@ -126,5 +113,10 @@ const prepareSemesterString = (
  * @returns Promise<ExamArrangement[]> List of exam arrangements
  * @author Locean<locean@5dbwat4.top>
  */
-export default (Semester: Semester) =>
-  implement(fetch, ...prepareSemesterString(Semester));
+// export default (Semester: Semester) =>
+//   implement(fetch, ...prepareSemesterString(Semester));
+export default (username: string, password: string, Semester: Semester) => {
+  const zdbk = new ZDBK(new ZJUAM(username, password));
+  const fetch = zdbk.fetch.bind(zdbk);
+  return implement(fetch, ...prepareSemesterString(Semester));
+};
