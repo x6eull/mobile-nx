@@ -37,6 +37,50 @@ function ClassArrangement(weekType, dayOfWeek, startSection, sectionCount, locat
   this.location = location;
 }
 
+// 合并课程的函数
+function mergeCourses(courseList) {
+  // 首先对课程列表进行排序
+  courseList.sort((a, b) => {
+    if (a.id !== b.id) return a.id.localeCompare(b.id);
+    if (a.classes[0].dayOfWeek !== b.classes[0].dayOfWeek) return a.classes[0].dayOfWeek - b.classes[0].dayOfWeek;
+    return a.classes[0].startSection - b.classes[0].startSection;
+  });
+
+  const mergedCourses = [];
+  for (let i = 0; i < courseList.length; i++) {
+    let currentCourse = courseList[i];
+    while (
+      i + 1 < courseList.length &&
+      currentCourse.id === courseList[i + 1].id &&
+      currentCourse.classes[0].location === courseList[i + 1].classes[0].location &&
+      currentCourse.classes[0].dayOfWeek === courseList[i + 1].classes[0].dayOfWeek &&
+      currentCourse.classes[0].weekType === courseList[i + 1].classes[0].weekType &&
+      currentCourse.classes[0].startSection + currentCourse.classes[0].sectionCount === courseList[i + 1].classes[0].startSection
+    ) {
+      // 合并课程
+      currentCourse.classes[0].sectionCount += courseList[i + 1].classes[0].sectionCount;
+      i++;
+    }
+    mergedCourses.push(currentCourse);
+  }
+  return mergedCourses;
+}
+
+// 去重函数
+function removeDuplicates(courseList) {
+  const uniqueCourses = [];
+  const seenCourses = new Set();
+
+  courseList.forEach((course) => {
+    const courseKey = `${course.id}-${course.classes[0].dayOfWeek}-${course.classes[0].startSection}-${course.classes[0].location}-${course.classes[0].weekType}-${course.classes[0].sectionCount}`;
+    if (!seenCourses.has(courseKey)) {
+      seenCourses.add(courseKey);
+      uniqueCourses.push(course);
+    }
+  });
+
+  return uniqueCourses;
+}
 
 // 获取课程表
 function getTimetable(userid, cookies, data) {
@@ -44,25 +88,31 @@ function getTimetable(userid, cookies, data) {
     const classInfo = [];
     const termIdMap = { 春: "Spring", 夏: "Summer", 秋: "Autumn", 冬: "Winter" };
 
-    const kbList = data.kbList;
-    if (!kbList || !Array.isArray(kbList)) {
-      console.error("kbList is not an array or is undefined");
+    if (!data || !data.kbList || !Array.isArray(data.kbList)) {
+      console.error("Invalid data format or missing kbList:", data);
       return classInfo;
     }
+
+    const kbList = data.kbList;
 
     for (let i = 0; i < kbList.length; i++) {
       const item = kbList[i];
       const { kcb, dsz, djj, xqj, xxq, sfqd, jszgh, xkkh, skcd, skjc, skdd } = item;
 
       if (!kcb) {
-        console.error("kcb field is missing in one of the items");
+        console.error("kcb field is missing in one of the items:", item);
         continue;
       }
 
       const kcbItem = kcb.split("<br>");
       const className = kcbItem[0];
       const classTeacherName = kcbItem[2];
-      const classLocation = kcbItem[3];
+      let classLocation = kcbItem[3];
+
+      // 如果地点包含 "zwf"，只保留 "zwf" 之前的部分
+      if (classLocation.includes("zwf")) {
+        classLocation = classLocation.split("zwf")[0].trim();
+      }
 
       let termId = 0;
       for (let j = 0; j < xxq.length; j++) {
@@ -77,14 +127,14 @@ function getTimetable(userid, cookies, data) {
         term: termId,
       };
 
-      const weekType = dsz === "0" ? "odd" : dsz === "1" ? "even" : "every";    //教务网中，0代表单周，1代表双周，2代表每周
+      const weekType = dsz === "0" ? "odd" : dsz === "1" ? "even" : "every"; // 教务网中，0代表单周，1代表双周，2代表每周
 
       const classArrangement = new ClassArrangement(
         weekType,
         DayOfWeek[xqj], // 星期几
         parseInt(djj, 10), // 开始节次
         parseInt(skcd, 10), // 持续节数
-        classLocation // 地点
+        classLocation // 地点（处理过 "zwf" 的情况）
       );
 
       const course = new Course(
@@ -93,7 +143,7 @@ function getTimetable(userid, cookies, data) {
         className, // 课程名称
         0, // 学分暂未获取
         classTeacherName, // 教师姓名
-        [classArrangement], // 上课时间地点
+        [classArrangement] // 上课时间地点
       );
 
       classInfo.push(course);
@@ -112,13 +162,15 @@ function getTimetable(userid, cookies, data) {
     body: new URLSearchParams(data).toString(),
   })
     .then((response) => {
-      if (response.ok) {
-        return response.json();
+      if (!response.ok) {
+        throw new Error(`Network response was not ok. Status: ${response.status}`);
       }
-      throw new Error("Network response was not ok.");
+      return response.json();
     })
     .then((data) => {
-      return extractClassInfo(data);
+      const classInfo = extractClassInfo(data);
+      const uniqueClassInfo = removeDuplicates(classInfo); // 去重
+      return mergeCourses(uniqueClassInfo); // 合并
     })
     .catch((error) => {
       console.error("There has been a problem with your fetch operation:", error);
@@ -140,7 +192,7 @@ const testid = "3240104320";
 
 getTimetable(testid, cookies, data)
   .then((classInfo) => {
-    console.log(classInfo);
+    console.log("Merged Class Info:", classInfo);
   })
   .catch((error) => {
     console.error("Error fetching timetable:", error);
