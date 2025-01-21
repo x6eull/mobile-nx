@@ -34,47 +34,42 @@ const implement = async (
   xnxq: string | false,
   xxq: string | false,
 ): Promise<ExamArrangement[]> => {
-  return new Promise((resolve, reject) => {
-    const formdata = new FormData();
-    formdata.append('queryModel.showCount', '1024');
-    formdata.append('queryModel.currentPage', '1');
-    formdata.append('queryModel.sortName', 'xxq');
-    formdata.append('queryModel.sortOrder', 'asc');
-    xxq && formdata.append('xxq', xxq);
-    xnxq && formdata.append('xnxq', xnxq);
-    custom_fetch(
-      'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
-      {
-        body: formdata,
-        method: 'POST',
-      },
-    )
-      .then((res) => {
-        res.json().then((data) => {
-          const resx: ExamArrangement[] = [];
-          data.items.forEach((item: any) => {
-            if (item.qzkssj /* 期中考试时间 */) {
-              resx.push({
-                type: 'midterm',
-                ...parseZDBKDate(item.qzkssj),
-                location: item.qzjsmc || '',
-                seat: Number(item.qzzwxh || 0),
-              });
-            }
-            if (item.qmksrq /* 期末考试时间 */) {
-              resx.push({
-                type: 'final',
-                ...parseZDBKDate(item.qmksrq),
-                location: item.jsmc || '',
-                seat: Number(item.qzzwxh || 0),
-              });
-            }
-          });
-          resolve(resx);
-        });
-      })
-      .catch(reject);
+  const formdata = new FormData();
+  formdata.append('queryModel.showCount', '1024');
+  formdata.append('queryModel.currentPage', '1');
+  formdata.append('queryModel.sortName', 'xxq');
+  formdata.append('queryModel.sortOrder', 'asc');
+  xxq && formdata.append('xxq', xxq);
+  xnxq && formdata.append('xnxq', xnxq);
+  const data = await custom_fetch(
+    'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
+    {
+      body: formdata,
+      method: 'POST',
+    },
+  )
+    .then((res) => res.json())
+    .catch(Promise.reject);
+  const resx: ExamArrangement[] = [];
+  data.items.forEach((item: any) => {
+    if (item.qzkssj /* 期中考试时间 */) {
+      resx.push({
+        type: 'midterm',
+        ...parseZDBKDate(item.qzkssj),
+        location: item.qzjsmc || '',
+        seat: Number(item.qzzwxh || 0),
+      });
+    }
+    if (item.qmksrq /* 期末考试时间 */) {
+      resx.push({
+        type: 'final',
+        ...parseZDBKDate(item.qmksrq),
+        location: item.jsmc || '',
+        seat: Number(item.qzzwxh || 0),
+      });
+    }
   });
+  return resx;
 };
 
 const prepareSemesterString = (
