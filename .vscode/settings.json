@@ -3,7 +3,6 @@
   "editor.detectIndentation": true,
   "editor.insertSpaces": true,
   "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "modificationsIfAvailable",
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
