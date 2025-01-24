@@ -1,0 +1,45 @@
+.profile-card{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 500px; 
+  width: 100%;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.info>h1{
+  color: var(--, #FFF);
+  font-family: Inter;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+  font-style: normal;
+}
+.info>p{
+  color: var(--, #FFF);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  margin: 4px 0 0 0;
+}
