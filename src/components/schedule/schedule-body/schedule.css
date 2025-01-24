@@ -1,0 +1,88 @@
+a {
+    text-decoration: none;
+}
+
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    width: 94.660194vw;
+    margin-left: 2.670vw;
+    border-radius: 15px;
+    padding-bottom: 20px;
+    background-color: white;
+    .schedule-head{
+        display: flex;
+        flex-direction: row;
+        height: 8.600vw;
+        align-items: center;
+        justify-content: space-evenly;
+        align-items: center;
+        padding-top: 2%;
+        margin-bottom: 2%;
+        padding-left: 10px;
+        img{
+            background-color: #e7f4f5;
+            border-radius: 8px;
+            padding: 3px;
+        }
+        .schedule-head-head{
+            flex-basis: 62vw;
+            align-items: center;
+            justify-content:flex-start;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .schedule-head-all{
+            margin: 0;
+            color: #6bb9c1;
+            font-weight: bold;
+            flex-basis:19.656vw;
+            font-size: min(16px,3.883495vw);
+        }
+    }
+
+    .schedule-body{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        .schedule-body-body{
+            display: flex;
+            flex-direction: column;
+            height: 170px;
+            gap: 6px;
+            justify-content: space-between;
+            overflow-y: scroll;
+            padding-bottom: 6px;
+            padding-right: 8px;
+        }
+        /* 定义滚动条整体的样式 */
+        .schedule-body-body::-webkit-scrollbar {
+            width: 6px; /* 滚动条的宽度 */
+        }
+
+        /* 定义滚动滑块的样式 */
+        .schedule-body-body::-webkit-scrollbar-thumb {
+            background-color: #F1F1F5; /* 滚动滑块的颜色 */
+            border-radius: 3px; /* 滚动滑块的圆角 */
+            border: 2px solid transparent; /* 滚动滑块的边框 */
+        }
+
+        /* 定义滚动条轨道的样式 */
+        .schedule-body-body::-webkit-scrollbar-track {
+            background-color: white; /* 滚动条轨道的颜色 */
+            border-radius: 10px; /* 滚动条轨道的圆角 */
+        }
+
+        /* 定义滚动条在hover状态下的样式 */
+        .schedule-body-body:hover::-webkit-scrollbar-thumb {
+            background-color: #a1a1a1; /* 滚动滑块的颜色 */
+        }               
+    }
+}
+
+
+
+
+
+
+

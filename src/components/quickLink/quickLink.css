@@ -1,0 +1,36 @@
+.link{
+    display:flex;
+    flex-direction: column;
+    font-size: 21px;
+    width: 92.5vw;
+    background-color: white;
+    border-bottom: 10px solid white;
+    border-radius: 15px;
+    margin-left: 2.670vw;
+    padding-top: 2%;
+    margin-bottom: 2%;
+    padding-left: 10px;
+    gap: 7.8px;
+    div{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .logo-label{
+            background-color: #fff2ea;
+            border-radius: 8px;
+            padding: 3px;
+        }
+        span{
+            flex-basis: 72px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+    .logo{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 92.23301vw;
+    }
+}

@@ -1,0 +1,46 @@
+.todoItemWrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: min(350px,84.951456vw);
+    min-height: 60px ;
+    border-radius: 10px;
+    border-left: 10px solid #ff9eaa;
+    padding-left: 20px;
+    padding-right: 15px;
+    box-shadow: 3px 3px 5px 0 #c0c0c0;
+    background-color: white;
+    .todoItemElement{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        span{
+            font-size: min(18px,4.368932vw);
+            font-weight: 700;
+        }
+        div{
+            color: rgb(91, 119, 86);
+            font-weight: 400;
+            font-size: min(13px,3.15534vw);
+        }
+    }
+    .todoItemOther{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        div{
+            font-size: min(15px,3.64078vw);
+            color: grey;
+        }
+        button{
+            width: 30px;
+            height: 30px;
+            border-radius: 50px;
+            padding: 0;
+            border:1px solid rgb(187, 187, 187);
+            background-color: white;
+        }
+    }
+}

@@ -1,0 +1,4 @@
+body{
+    margin: 0;   /*消除组件与页面边界之间的边框，body是有margin的*/
+    background-color: #F8F8F8 !important;
+}

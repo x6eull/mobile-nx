@@ -1,31 +1,24 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react'
-import ExploreContainer from '../components/ExploreContainer'
-import './Tab1.css'
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import './Tab1.css';
+import Head from '../components/head/head';
+import Schedule from '../components/schedule/schedule-body/schedule';
+import TodoList from '../components/todoList/todoList';
+import QuickLink from '../components/quickLink/quickLink';
 
 const Tab1: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Tab 1</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Tab 1</IonTitle>
+            <IonTitle size="large">首页</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Tab 1 page" />
+          <Head/>
+          <Schedule/>
+          <TodoList/>
+          <QuickLink/>
       </IonContent>
-    </IonPage>
-  )
-}
+  );
+};
 
-export default Tab1
+export default Tab1;
