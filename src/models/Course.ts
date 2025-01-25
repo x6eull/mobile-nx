@@ -1,4 +1,4 @@
-import { DayOfWeek, Semester, WeekOfSemester } from './shared'
+import { DayOfWeek, Semester, WeekOfSemester } from './enums.ts'
 
 /**课程信息，对于同一课程代码，多次选课（弃修、重修）为不同的实例。 */
 export interface Course {
