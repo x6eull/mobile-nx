@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日程安排</title>
+    <link rel="stylesheet" href="ri.css">
+</head>
+<body>
+    <header class="header">
+        <div class="current-date">
+            <span id="current-week">2025年 三月 春5周</span>
+        </div>
+        <div class="view-toggle">
+            <button class="view-btn" data-view="day-list">日-列表</button>
+            <button class="view-btn" data-view="week-timeline">周-时间轴</button>
+            <button class="view-btn" data-view="month-table">月-表格</button>
+        </div>
+        <div class="back-to-today">
+            <button>回到今日</button>
+        </div>
+    </header>
+
+    <div class="date-picker">
+        <div class="week-view">
+            <span class="day" data-date="">1</span>
+            <span class="day" data-date="">2</span>
+            <span class="day" data-date="">3</span>
+            <span class="day" data-date="">4</span>
+            <span class="day" data-date="">5</span>
+            <span class="day" data-date="">6</span>
+            <span class="day" data-date="">7</span>
+        </div>
+        <div class="month-view">
+        </div>
+    </div>
+
+ 
+    <div class="schedule-list">
+        <div class="schedule-item" style="background-color: #FFD700;">
+            <div class="title">微积分(甲) II</div>
+            <div class="time">08:00-09:35</div>
+            <div class="location">紫金港校区-103</div>
+        </div>
+        <div class="schedule-item" style="background-color: #90EE90;">
+            <div class="title">跑步打卡</div>
+            <div class="time">17:00-17:30</div>
+            <div class="location">东操</div>
+        </div>
+        <div class="schedule-item" style="background-color: #ADD8E6;">
+            <div class="title">求是湖例会</div>
+            <div class="time">19:00-20:30</div>
+            <div class="location">带电脑</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button class="add-btn">+</button>
+    </div>
+    
+    <script src="scripts.js"></script>
+</body>
+</html>

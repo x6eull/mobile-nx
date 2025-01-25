@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日程安排</title>
+    <link rel="stylesheet" href="quan.css">
+</head>
+<body>
+    <header class="header">
+        <div class="current-date">
+            <span id="current-week">2025年 三月 春5周</span>
+        </div>
+        <div class="view-toggle">
+            <button class="view-btn" data-view="day-list">日-列表</button>
+            <button class="view-btn" data-view="week-timeline">周-时间轴</button>
+            <button class="view-btn" data-view="month-table">月-表格</button>
+        </div>
+        <div class="back-to-today">
+            <button>回到今日</button>
+        </div>
+    </header>
+
+    <div class="date-picker">
+        <div class="week-view">
+            <span class="day" data-date="">1</span>
+            <span class="day" data-date="">2</span>
+            <span class="day" data-date="">3</span>
+            <span class="day" data-date="">4</span>
+            <span class="day" data-date="">5</span>
+            <span class="day" data-date="">6</span>
+            <span class="day" data-date="">7</span>
+        </div>
+        <div class="month-view">
+        </div>
+    </div>
+
+    <div class="all-day-tasks">
+        <div class="task-item" style="background-color: #FFD700;">
+            <div class="task-title">微积分(甲) II</div>
+            <div class="task-time">08:00-09:35</div>
+            <div class="task-location">紫金港校区-103</div>
+        </div>
+        <div class="task-item" style="background-color: #90EE90;">
+            <div class="task-title">跑步打卡</div>
+            <div class="task-time">17:00-17:30</div>
+            <div class="task-location">东操</div>
+        </div>
+    </div>
+
+    <div class="timeline">
+        <div class="time-slots">
+            <div class="slot">01:00</div>
+            <div class="slot">02:00</div>
+            <div class="slot">03:00</div>
+            <div class="slot">04:00</div>
+            <div class="slot">05:00</div>
+            <div class="slot">06:00</div>
+            <div class="slot">07:00</div>
+            <div class="slot">08:00</div>
+            <div class="slot">09:00</div>
+            <div class="slot">10:00</div>
+            <div class="slot">11:00</div>
+            <div class="slot">12:00</div>
+            <div class="slot">13:00</div>
+            <div class="slot">14:00</div>
+            <div class="slot">15:00</div>
+            <div class="slot">16:00</div>
+            <div class="slot">17:00</div>
+            <div class="slot">18:00</div>
+            <div class="slot">19:00</div>
+            <div class="slot">20:00</div>
+            <div class="slot">21:00</div>
+            <div class="slot">22:00</div>
+            <div class="slot">23:00</div>
+        </div>
+
+        <div class="events">
+            <div class="event" style="top: 0; height: 2rem;">
+                <div class="event-title">PPT制作</div>
+                <div class="event-time">08:00 - 09:30</div>
+                <div class="event-location">201教室</div>
+            </div>
+            <div class="event" style="top: 3rem; height: 2rem;">
+                <div class="event-title">工作安排</div>
+                <div class="event-time">10:00 - 12:00</div>
+                <div class="event-location">201教室</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="schedule-details">
+        <div class="detail-item">
+            <div class="detail-title">微积分(甲) II</div>
+            <div class="detail-time">08:00 - 09:35</div>
+            <div class="detail-location">紫金港校区-103</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button class="add-btn">+</button>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

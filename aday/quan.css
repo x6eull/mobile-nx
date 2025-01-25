@@ -1,0 +1,179 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+.current-date {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.view-toggle button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.view-toggle button:hover {
+  background-color: #f0f0f0;
+}
+
+.back-to-today button {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.back-to-today button:hover {
+  background-color: #45a049;
+}
+
+/* Date Picker Styles */
+.date-picker {
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.week-view {
+  display: flex;
+  justify-content: space-between;
+}
+
+.day {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.day:hover {
+  background-color: #ddd;
+}
+
+.month-view {
+  margin-top: 10px;
+  display: none;
+}
+
+/* All Day Tasks Styles */
+.all-day-tasks {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.task-item {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.task-item .task-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.task-item .task-time {
+  font-size: 14px;
+  color: #666;
+}
+
+.task-item .task-location {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Timeline Styles */
+.timeline {
+  display: flex;
+  flex-direction: row;
+  height: 70%;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+
+.time-slots {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 10%;
+}
+
+.slot {
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.events {
+  width: 90%;
+  position: relative;
+}
+
+.event {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.event-title {
+  font-weight: bold;
+}
+
+.event-time,
+.event-location {
+  font-size: 12px;
+}
+
+/* Footer Styles */
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  background-color: #f8f8f8;
+}
+
+.add-btn {
+  background-color: #4caf50;
+  color: white;
+  font-size: 30px;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #45a049;
+}
