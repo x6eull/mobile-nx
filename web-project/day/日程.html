@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日程安排</title>
+  <link rel="stylesheet" href="ri.css">
+  <style>
+    /* 设置页面布局紧密相连 */
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .header {
+      flex: 0 0 auto;
+    }
+
+    .week-view-container {
+      flex: 0 0 auto;
+    }
+
+    .schedule-list-container {
+      flex: 1 1 auto;
+      overflow-y: auto;
+    }
+
+    .footer {
+      flex: 0 0 auto;
+    }
+
+    .footer .nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 60px;
+      background-color: #fff;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .footer .nav-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .footer .nav-item img {
+      width: 30px;
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 顶部导航栏 -->
+    <header class="header">
+      <div class="current-date" id="current-date"></div>
+      <div class="controls">
+        <div class="view-toggle">
+          <button class="view-toggle-icon active">
+            <img src="icon/shitu.png" alt="切换视图">
+          </button>
+        </div>
+        <div class="back-to-today">
+          <button id="back-to-today">
+            <img src="icon/jinri.png" alt="回到今日">
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 周视图 -->
+    <div class="week-view-container">
+      <span class="day" data-date="2025-03-04">一</span>
+      <span class="day" data-date="2025-03-05">二</span>
+      <span class="day" data-date="2025-03-06">三</span>
+      <span class="day" data-date="2025-03-07">四</span>
+      <span class="day" data-date="2025-03-08">五</span>
+      <span class="day" data-date="2025-03-09">六</span>
+      <span class="day selected" data-date="2025-03-10">日</span>
+    </div>
+
+    <!-- 日程列表视图 -->
+    <div class="schedule-list-container" id="schedule-list-container">
+      <!-- Schedules will be dynamically inserted here -->
+    </div>
+
+    <!-- 底部导航栏 -->
+    <footer class="footer">
+      <nav class="nav">
+        <a href="#" class="nav-item active">
+          <img src="icon/daiban.png" alt="主页">
+        </a>
+        <a href="#" class="nav-item">
+          <img src="icon/richeng.png" alt="日程">
+        </a>
+        <a href="#" class="nav-item">
+          <img src="icon/daiban.png" alt="代办">
+        </a>
+        <a href="#" class="nav-item">
+          <img src="icon/gongneng.png" alt="功能">
+        </a>
+        <a href="#" class="nav-item">
+          <img src="icon/wode.png" alt="我的">
+        </a>
+      </nav>
+    </footer>
+  </div>
+  <script src="ri.js"></script>
+</body>
+</html>

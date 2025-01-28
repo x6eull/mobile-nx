@@ -1,0 +1,127 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+/* 顶部导航栏 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.current-date {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.view-toggle button,
+.back-to-today button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.view-toggle img,
+.back-to-today img {
+  width: 30px;
+  height: 30px;
+}
+
+/* 周视图 */
+.week-view-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.day.selected {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* 日程列表 */
+.schedule-list-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.schedule-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-item .title {
+  font-weight: bold;
+  color: #333;
+}
+
+/* 底部导航栏 */
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav a img {
+  width: 25px;
+  height: 25px;
+}
+
+.nav a.active {
+  color: #4caf50;
+}
