@@ -1,6 +1,4 @@
-import { nxFetch } from './interop/fetch.ts'
-import { config } from 'dotenv'
-
+import { ZjuamService } from './interop/zjuam'
 /** 学在浙大作业
     deadline:截止日期
     title:作业名字
@@ -13,7 +11,9 @@ interface Schedule {
   is_closed: boolean
   submitted: boolean
 }
-async function Fetch_calendar(service: any): Promise<Schedule[] | undefined> {
+async function Fetch_calendar(
+  service: ZjuamService,
+): Promise<Schedule[] | undefined> {
   const url: string = 'https://courses.zju.edu.cn/api/my-courses'
   let calendar: Schedule[] = []
   try {
@@ -36,7 +36,7 @@ async function Fetch_calendar(service: any): Promise<Schedule[] | undefined> {
   }
 }
 async function Fetch_specific_calendar(
-  service: any,
+  service: ZjuamService,
   url: string,
 ): Promise<Schedule[] | undefined> {
   let homework: Schedule[] = []
