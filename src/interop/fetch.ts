@@ -59,7 +59,7 @@ async function nxFetchBase(
       const location = resp.headers.get('location')
       if (!location) throw new Error('Redirect without location header')
 
-      if (!preserveMethodInRedirects || status === 303)
+      if (!preserveMethodInRedirects || resp.status === 303)
         // 转为GET
         return nxFetch(
           location,
@@ -71,10 +71,12 @@ async function nxFetchBase(
           redirectLeft,
         )
 
-      //保留原始请求方法和正文
+      //保留原始请求方法和正文 但移除cookie和authorization
+      h.delete('cookie')
+      h.delete('authorization')
       return nxFetch(
         location,
-        { method, body, preserveMethodInRedirects, headers: reqHeaders },
+        { method, body, preserveMethodInRedirects, headers: toLiteral(h) },
         redirectLeft,
       )
     }
@@ -83,21 +85,18 @@ async function nxFetchBase(
 
   if (cookieJar) {
     //node native fetch
-    const { headers, ...otherProps } = init ?? {}
-    const h = new Headers(headers)
     const c = cookieJar.getCookieStringSync(input)
     if (c) h.append('cookie', c)
     const resp = await globalThis.fetch(input, {
+      ...init,
       headers: h,
       redirect: 'manual',
-      ...otherProps,
     })
     resp.headers
       .getSetCookie()
       .forEach((s) => cookieJar.setCookieSync(s, resp.url))
     const r = checkRedirect(resp)
     if (r) return await r
-
     return resp
   } else if (appPlatform === 'web') {
     //TODO 用本地开发服务器代理请求
@@ -143,7 +142,7 @@ async function nxFetchBase(
   const r = checkRedirect(new Response(null, { headers: respHeaders, status }))
   if (r) return await r //重定向
 
-  let result
+  let result: Response
   if (typeof respData === 'string')
     result = new Response(respData, { headers: respHeaders, status })
   else if (Reflect.getPrototypeOf(respData) === Object.prototype)
