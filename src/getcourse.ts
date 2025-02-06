@@ -133,7 +133,10 @@ export async function getTimetable(
   const url = `http://zdbk.zju.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdm=N253508&su=${userid}`
 
   try {
-    const service = new ZjuamService({ service: url }, 60 * 30)
+    const service = new ZjuamService(
+      { service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html' },
+      60 * 30,
+    )
     const params = new URLSearchParams(data)
     const response = await service.nxFetch.postUrlEncoded(url, {
       body: params,
