@@ -1,6 +1,7 @@
 import { ExamArrangement } from '@/models/Course';
-import { Term, Semester } from '@/models/shared';
-import { ZJUAM, ZDBK } from './login-ZJU';
+import { Term, Semester } from '@/models/enums';
+import store from '@/store/store.ts';
+import { ZjuamService } from '../base/zjuam';
 
 /**
  *
@@ -110,8 +111,17 @@ const prepareSemesterString = (
  */
 // export default (Semester: Semester) =>
 //   implement(fetch, ...prepareSemesterString(Semester));
-export default (username: string, password: string, Semester: Semester) => {
-  const zdbk = new ZDBK(new ZJUAM(username, password));
-  const fetch = zdbk.fetch.bind(zdbk);
-  return implement(fetch, ...prepareSemesterString(Semester));
+export default async (Semester: Semester) => {
+  // const zdbk = new ZDBK(new ZJUAM(username, password));
+  // const fetch = zdbk.fetch.bind(zdbk);
+  const service = new ZjuamService({
+    service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
+  });
+
+  const fetch = service.nxFetch;
+
+  return implement(
+    fetch as (arg0: string, arg1?: RequestInit) => Promise<Response>,
+    ...prepareSemesterString(Semester),
+  );
 };
