@@ -1,7 +1,8 @@
 //TODO 优化依赖/逻辑
 import * as bigintModArith from 'bigint-mod-arith'
-import { getRawUrl, nxFetch } from './fetch'
-import { requestCredential } from './credential'
+import nxFetch, { getRawUrl } from './nxFetch.ts'
+import { User } from '@/models/User.ts'
+import store from '@/store/store.ts'
 
 /**将字符串用utf-8编码，再将字节序列转为bigint，越靠前的字符处于越高位 */
 function encodeAsBigInt(s: string) {
@@ -55,8 +56,6 @@ function getEntryUrl(params: SupportedParams) {
 export class ZjuamService {
   /**
    * 初始化一个服务，设置参数。调用构造方法不会进行登录。
-   * @param params
-   * @param refreshInSeconds
    */
   public constructor(
     public readonly params: SupportedParams,
@@ -99,12 +98,12 @@ export class ZjuamService {
 
   /**立即重新登录。成功返回最终服务重定向地址（跟随zjuam登录成功302），失败异步抛出错误。 */
   public async login(): Promise<string> {
-    console.log('尝试登录服务', this)
+    console.log('尝试登录服务')
     const entryResp = await nxFetch.get(getEntryUrl(this.params))
     /**打开登录页面，zjuam重定向得到的最终地址 */
     const postUrl = getRawUrl(entryResp.url)
     if (!postUrl.match(ZjuamService.loginUrlRegex)) {
-      console.log('记住登录生效', this)
+      console.log('记住登录生效')
       // “记住我”生效，直接登录成功
       this.lastLoginTime = new Date()
       return postUrl
@@ -116,8 +115,10 @@ export class ZjuamService {
     )?.groups?.execution
     if (!execution) throw new Error('获取execution失败')
 
-    // 获取用户名密码
-    const { username, password } = await requestCredential(this)
+    const user = store.getState().user
+    if (!user) throw new Error('没有登录数据')
+
+    const { zjuId, password } = user!
 
     // 获取公钥
     const { exponent, modulus } = (await (
@@ -133,7 +134,7 @@ export class ZjuamService {
 
     const loginResp = await nxFetch.postUrlEncoded(postUrl, {
       body: new URLSearchParams({
-        username,
+        username: zjuId,
         password: encPassword,
         _eventId: 'submit',
         execution,
@@ -144,7 +145,7 @@ export class ZjuamService {
     })
     const loginUrl = getRawUrl(loginResp.url)
     if (!loginUrl.match(ZjuamService.loginUrlRegex)) {
-      console.log('登录成功', this)
+      console.log('登录成功')
       this.lastLoginTime = new Date()
       return loginUrl
     }
@@ -156,13 +157,12 @@ export class ZjuamService {
     if (allowDate) {
       const allowTimestamp = Date.parse(allowDate + '+0800').valueOf() //(上游)时区为UTC+8
       const waitSeconds = Math.ceil((allowTimestamp - Date.now()) / 1000)
-      error = `失败次数太多，请在 ${waitSeconds}s 重试`
+      error = `失败次数太多，请在${waitSeconds}s后重试`
     } else
       error =
         errorHtml.match(/<span id="msg">(?<errMsg>.*)<\/span>/)?.groups
           ?.errMsg ?? error
-    console.error('登录失败', this, error, loginUrl)
+    console.error('登录失败', error, loginUrl)
     throw new Error('登录失败: ' + error)
   }
 }
-

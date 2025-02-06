@@ -3,6 +3,7 @@ node_modules
 # native folders
 android
 ios
+dist
 
 # npm will format theses files
 package.json

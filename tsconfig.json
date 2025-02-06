@@ -21,11 +21,14 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-
-      "paths": {
-        "@/*": ["./src/*"]
-      }
-
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": [
     "src",
@@ -35,5 +38,5 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
 }
