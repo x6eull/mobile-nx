@@ -28,16 +28,24 @@ type Oauth2Params = {
   redirect_uri: string
   response_type: 'code'
 }
-type SupportedParams = CasParams | Oauth2Params
+/**跟随重定向（记录cookie），其需最后跳转到zjuam地址。
+ *
+ * 如果最后未跳转到zjuam地址，将视为已登录成功。
+ */
+type RedirectParams = { follow: string }
+type SupportedParams = CasParams | Oauth2Params | RedirectParams
 /**对于不同服务，编码参数，获得入口点 */
 function getEntryUrl(params: SupportedParams) {
   if ('service' in params)
     return `https://zjuam.zju.edu.cn/cas/login?${new URLSearchParams(params)}`
-  else
+  else if ('client_id' in params)
     //oauth2会被重定向到https://zjuam.zju.edu.cn/cas/login?service=http%3A%2F%2Fzjuam.zju.edu.cn%2Fcas%2Foauth2.0%2FcallbackAuthorize
     return `https://zjuam.zju.edu.cn/cas/oauth2.0/authorize?${new URLSearchParams(
       params,
     )}`
+  else if ('follow' in params) return params.follow
+
+  throw new Error('不支持的zjuam入口参数')
 }
 
 /**一个zjuam服务。是对fetch的包装，登录过期后会自动刷新登录
