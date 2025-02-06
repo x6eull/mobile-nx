@@ -2,6 +2,7 @@ import { ExamArrangement } from '@/models/Course';
 import { Term, Semester } from '@/models/enums';
 import store from '@/store/store.ts';
 import { ZjuamService } from '../base/zjuam';
+import 'dotenv/config';
 
 /**
  *
@@ -111,7 +112,7 @@ const prepareSemesterString = (
  */
 // export default (Semester: Semester) =>
 //   implement(fetch, ...prepareSemesterString(Semester));
-export default async (Semester: Semester) => {
+export default async function exam_spider(Semester: Semester) {
   // const zdbk = new ZDBK(new ZJUAM(username, password));
   // const fetch = zdbk.fetch.bind(zdbk);
   const service = new ZjuamService({
@@ -124,4 +125,13 @@ export default async (Semester: Semester) => {
     fetch as (arg0: string, arg1?: RequestInit) => Promise<Response>,
     ...prepareSemesterString(Semester),
   );
-};
+}
+
+if (process.env.debug == 'EXAM_SPIDER') {
+  console.log(
+    await exam_spider({
+      year: 2024,
+      term: Term.Spring,
+    }),
+  );
+}
