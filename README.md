@@ -189,13 +189,14 @@ VITE_PASSWORD=密码
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 
-import { fetchGradClass } from './src/plugins/GradInfo/GradCourses';
-import { fetchGrades } from './src/plugins/GradInfo/GradGrades';
-import { fetchStudentInfo } from './src/plugins/GradInfo/GradStuInfo';
+import { fetchGradClass } from './src/services/GradInfo/GradCourses';
+import { fetchGradGrades } from './src/services/GradInfo/GradGrades';
+import { fetchStudentInfo } from './src/services/GradInfo/GradStuInfo'; // 导入 fetchStudentInfo
 
 (async () => {
-  const academicYear = "2024"; // 2024学年
-  const semester = "14"; // 冬学期
+  const academicYear = "2023"; // 2024学年
+  const semester = "11"; // 冬学期
+  // 11春学期；12夏学期；13秋学期；14冬学期
 
   // 测试获取课程信息
   console.log('Testing fetchGradClass...');
@@ -208,11 +209,11 @@ import { fetchStudentInfo } from './src/plugins/GradInfo/GradStuInfo';
 
   // 测试获取成绩信息
   console.log('Testing fetchGrades...');
-  const gradesInfo = await fetchGrades(academicYear, semester);
+  const gradesInfo = await fetchGradGrades(academicYear, semester);
   if (gradesInfo) {
     console.log('Grades Information:', JSON.stringify(gradesInfo, null, 2));
   } else {
-    console.error('Failed to fetch grades information');
+    console.error('Failed to fetch grades information. This might be due to network issues or an invalid URL. Please check the URL validity and try again.');
   }
 
   // 测试获取学生信息
@@ -221,7 +222,7 @@ import { fetchStudentInfo } from './src/plugins/GradInfo/GradStuInfo';
   if (studentInfo) {
     console.log('Student Information:', JSON.stringify(studentInfo, null, 2));
   } else {
-    console.error('Failed to fetch student information');
+    console.error('Failed to fetch student information. This might be due to network issues or an invalid URL. Please check the URL validity and try again.');
   }
 })();
 ```
