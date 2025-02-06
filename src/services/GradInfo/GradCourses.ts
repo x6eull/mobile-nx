@@ -68,10 +68,10 @@ export async function fetchGradClass(academicYear: string, semester: string): Pr
               semester: `${academicYear}-${semester}`,
               id: courseData.kcbjId,
               name: courseData.kcmc,
-              credit: 0, // 课程学分可能需要从其他地方获取
+              credit: 0, // 课程学分没法从这个api获取
               teacherName: courseData.xm,
               classes: [classArrangement],
-              exams: [] // 考试信息可能需要从其他地方获取
+              exams: [] // 无考试信息
             };
 
             courses.push(course);
