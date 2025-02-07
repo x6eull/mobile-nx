@@ -112,26 +112,41 @@ const prepareSemesterString = (
  */
 // export default (Semester: Semester) =>
 //   implement(fetch, ...prepareSemesterString(Semester));
-export default async function exam_spider(Semester: Semester) {
-  // const zdbk = new ZDBK(new ZJUAM(username, password));
-  // const fetch = zdbk.fetch.bind(zdbk);
-  const service = new ZjuamService({
-    service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
-  });
+// export default async function exam_spider(Semester: Semester) {
+//   // const zdbk = new ZDBK(new ZJUAM(username, password));
+//   // const fetch = zdbk.fetch.bind(zdbk);
+//   const service = new ZjuamService({
+//     service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
+//   });
 
-  const fetch = service.nxFetch;
+//   const fetch = service.nxFetch;
 
-  return implement(
-    fetch as (arg0: string, arg1?: RequestInit) => Promise<Response>,
-    ...prepareSemesterString(Semester),
-  );
-}
+//   return implement(
+//     fetch as (arg0: string, arg1?: RequestInit) => Promise<Response>,
+//     ...prepareSemesterString(Semester),
+//   );
+// }
 
-if (process.env.debug == 'EXAM_SPIDER') {
-  console.log(
-    await exam_spider({
-      year: 2024,
-      term: Term.Spring,
-    }),
-  );
+// if (process.env.debug == 'EXAM_SPIDER') {
+//   console.log(
+//     await exam_spider({
+//       year: 2024,
+//       term: Term.Winter,
+//     }),
+//   );
+// }
+
+export default class {
+  #_fetch: Function;
+  constructor(zjuam: ZjuamService) {
+    this.#_fetch = new ZjuamService({
+      service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
+    }).nxFetch;
+  }
+  async getExamData(Semester: Semester) {
+    return await implement(
+      this.#_fetch as (arg0: string, arg1?: RequestInit) => Promise<Response>,
+      ...prepareSemesterString(Semester),
+    );
+  }
 }
