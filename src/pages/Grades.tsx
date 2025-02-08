@@ -1,6 +1,6 @@
+"use client"
 import React, { useState } from 'react'
 import {
-  IonModal,
   IonPage,
   IonHeader,
   IonToolbar,
@@ -11,10 +11,10 @@ import {
   IonContent,
 } from '@ionic/react'
 import { close, barChartOutline } from 'ionicons/icons'
-import GradesSummary from '../components/GradesSummary.tsx'
-import SemesterSummary from '../components/SemesterSummary'
-import CourseList from '../components/CourseList'
-import SemesterSelector from '../components/SemesterSelector'
+import GradesSummary from '../components/GradesPage/GradesSummary.tsx'
+import SemesterSummary from '../components/GradesPage/SemesterSummary.tsx'
+import CourseList from '../components/GradesPage/CourseList.tsx'
+import SemesterSelector from '../components/GradesPage/SemesterSelector.tsx'
 const Grades: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,

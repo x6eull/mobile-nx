@@ -108,5 +108,6 @@ export default function App() {
         </IonTabs>
       </IonReactRouter>
     </IonApp>
+  
   )
 }

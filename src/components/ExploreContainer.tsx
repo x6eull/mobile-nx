@@ -15,5 +15,6 @@ export default function ExploreContainer({ name }: { name: string }) {
         </a>
       </p>
     </div>
+    
   )
 }

@@ -3,24 +3,25 @@ import {
   IonPage
 } from '@ionic/react'
 import './Profile.css'
-import ProfileCard from '../components/ProfileCard'
-import FeatureCard from '../components/FeatureCard'
-import Settings from '../components/Settings'
-import Logout from '../components/Logout'
+import ProfileCard from '../components/ProfilePage/ProfileCard'
+import FeatureCard from '../components/ProfilePage/FeatureCard'
+import Settings from '../components/ProfilePage/Settings'
+import Logout from '../components/ProfilePage/Logout'
 const Profile: React.FC = () => {
   return (
-      <IonPage>
+    <>
+      <IonPage >
         <IonContent fullscreen>
         <ProfileCard/>
         <FeatureCard/>
-        <Settings />
+        <Settings/>
         <Logout/>
         </IonContent>
-      </IonPage>
+    </IonPage>
+    </>
     )
 }
 
 export default Profile
-
 
 

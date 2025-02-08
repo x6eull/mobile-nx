@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react'
 import {
   IonModal,
@@ -11,10 +12,10 @@ import {
   IonContent,
 } from '@ionic/react'
 import { close, calendarOutline } from 'ionicons/icons'
-import ScheduleHeader from '../components/ScheduleHeader'
-import WeekHeader from '../components/WeekHeader'
-import CourseGrid from '../components/CourseGrid'
-import SemesterSelector from '../components/SemesterSelector'
+import ScheduleHeader from '../components/SchedulePage/ScheduleHeader'
+import WeekHeader from '../components/SchedulePage/WeekHeader'
+import CourseGrid from '../components/SchedulePage/CourseGrid'
+import SemesterSelector from '../components/SchedulePage/SemesterSelector'
 
 const Schedule: React.FC = () => {
   return (

@@ -8,11 +8,11 @@ import {
   IonItemGroup
 } from '@ionic/react'
 
-import MdColor from '../assets/MdColorLens.svg'
-import MoreProducts from '../assets/MdBatchPrediction.svg'
-import MdHelp from '../assets/MdHelp.svg'
-import Nav from '../assets/AiFillControl.svg'
-import MdInfo from '../assets/MdInfo.svg'
+import MdColor from '../../assets/MdColorLens.svg'
+import MoreProducts from '../../assets/MdBatchPrediction.svg'
+import MdHelp from '../../assets/MdHelp.svg'
+import Nav from '../../assets/AiFillControl.svg'
+import MdInfo from '../../assets/MdInfo.svg'
 import './Settings.css'
 
 
