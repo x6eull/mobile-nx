@@ -7,7 +7,10 @@ import {
   IonPage,
   IonHeader,
   IonTitle,
-  IonToolbar
+  IonToolbar,
+  IonInput,
+  IonItem,
+  IonLabel
 } from '@ionic/react'
 import './Login.css'
 import Logo from '../components/LoginPage/Logo'
@@ -23,19 +26,17 @@ const Login: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton></IonBackButton>
+            <IonBackButton defaultHref="/nav-container" />
           </IonButtons>
           <IonTitle>欢迎使用Mobile</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="LoginPage" fullscreen>
         <Logo />
-        <UsernameInput
-          username={''}
-          setUsername={function (value: string): void {
-            throw new Error('Function not implemented.')
-          }}
-        />
+        <IonItem>
+          <IonLabel position="floating">学号</IonLabel>
+          <IonInput type="number" />
+        </IonItem>
         <PasswordInput
           password={''}
           setPassword={function (value: string): void {

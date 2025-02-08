@@ -1,5 +1,7 @@
 import {
+  IonButton,
   IonContent,
+  IonNavLink,
   IonPage
 } from '@ionic/react'
 import './Profile.css'
@@ -7,6 +9,7 @@ import ProfileCard from '../components/ProfilePage/ProfileCard'
 import FeatureCard from '../components/ProfilePage/FeatureCard'
 import Settings from '../components/ProfilePage/Settings'
 import Logout from '../components/ProfilePage/Logout'
+import Login from './Login'
 const Profile: React.FC = () => {
   return (
     <>
@@ -14,8 +17,11 @@ const Profile: React.FC = () => {
         <IonContent fullscreen>
         <ProfileCard/>
         <FeatureCard/>
-        <Settings/>
-        <Logout/>
+          <Settings />
+          <IonNavLink routerDirection="forward" component={() => <Login />}>
+          <IonButton routerLink='/Login'>退出登录</IonButton>
+          </IonNavLink>
+       
         </IonContent>
     </IonPage>
     </>

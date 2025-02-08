@@ -18,7 +18,7 @@ import Profile from './pages/Profile'
 import Schedule from './pages/Schedule'
 import Grades from './pages/Grades'
 import Login from './pages/Login'
-
+import NavContainerPage from './pages/NavContainerPage'
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
 
@@ -70,7 +70,7 @@ export default function App() {
           <Route exact path="/schedule">
             <Schedule />
           </Route>
-          
+          <Route exact path="/nav-container/*" component={NavContainerPage} />
         </IonRouterOutlet>
         <IonTabs>
           <IonRouterOutlet>
@@ -108,6 +108,5 @@ export default function App() {
         </IonTabs>
       </IonReactRouter>
     </IonApp>
-  
   )
 }
