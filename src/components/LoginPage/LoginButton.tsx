@@ -1,9 +1,32 @@
 import React from 'react'
 import { IonButton } from '@ionic/react'
+import './LoginButton.css'
 
-const LoginButton: React.FC<{ isChecked: boolean }> = ({ isChecked }) => {
+interface LoginButtonProps {
+  isChecked: boolean
+  studentId: string
+  password: string
+}
+
+const LoginButton: React.FC<LoginButtonProps> = ({
+  isChecked,
+  studentId,
+  password,
+}) => {
+  const isDisabled = !isChecked || !studentId || !password
+
+  const handleLogin = () => {
+    // 这里添加登录逻辑
+    console.log('登录信息：', { studentId, password })
+  }
+
   return (
-    <IonButton expand="block" disabled={!isChecked} className="login-button">
+    <IonButton
+      expand="block"
+      className="login-button"
+      disabled={isDisabled}
+      onClick={handleLogin}
+    >
       开启 Mobile
     </IonButton>
   )

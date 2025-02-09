@@ -18,7 +18,7 @@ import Profile from './pages/Profile'
 import Schedule from './pages/Schedule'
 import Grades from './pages/Grades'
 import Login from './pages/Login'
-import NavContainerPage from './pages/NavContainerPage'
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
 
@@ -56,10 +56,7 @@ export default function App() {
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route exact path="/">
-            <Redirect to="/nav-container" />
-          </Route>
-          <Route path="/nav-container" component={NavContainerPage} />
+          
           <Route exact path="/login" component={Login} />
           <Route exact path="/profile">
             <Profile />

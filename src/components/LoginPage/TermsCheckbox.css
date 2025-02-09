@@ -1,0 +1,17 @@
+.terms-checkbox {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 40px;
+  margin: 16px 0;
+}
+
+.terms-checkbox .terms-link {
+  color: var(--ion-color-primary);
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.terms-checkbox ion-checkbox {
+  --size: 20px;
+  margin-right: 8px;
+} 
