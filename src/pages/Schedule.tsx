@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from 'react'
 import {
-  IonModal,
   IonPage,
   IonHeader,
   IonToolbar,
@@ -10,41 +9,47 @@ import {
   IonButton,
   IonIcon,
   IonContent,
+  IonFooter,
 } from '@ionic/react'
 import { close, calendarOutline } from 'ionicons/icons'
 import ScheduleHeader from '../components/SchedulePage/ScheduleHeader'
-import WeekHeader from '../components/SchedulePage/WeekHeader'
 import CourseGrid from '../components/SchedulePage/CourseGrid'
 import SemesterSelector from '../components/SchedulePage/SemesterSelector'
+import './Schedule.css'
 
 const Schedule: React.FC = () => {
-  return (
-    
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonIcon icon={calendarOutline} size="large" />
-            </IonButtons>
-            <IonTitle>课表</IonTitle>
-            <IonButtons slot="end">
-              <IonButton >
-                <IonIcon icon={close} size="large" />
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
+  const [selectedSemester, setSelectedSemester] = useState('2023-fall')
 
-        <IonContent className="ion-padding">
+  return (
+    <IonPage className="schedule-page">
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonIcon icon={calendarOutline} size="large" />
+          </IonButtons>
+          <IonTitle>课程表</IonTitle>
+          <IonButtons slot="end">
+            <IonButton>
+              <IonIcon icon={close} size="large" />
+            </IonButton>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+
+      <IonContent className="schedule-content">
+        <div className="schedule-container">
           <ScheduleHeader />
-          <WeekHeader />
           <CourseGrid />
-          <SemesterSelector selected={''} onChange={function (value: string): void {
-            throw new Error('Function not implemented.')
-          } }/>
-        </IonContent>
-      </IonPage>
-   
+        </div>
+      </IonContent>
+
+      <IonFooter className="ion-no-border schedule-footer">
+        <SemesterSelector
+          selected={selectedSemester}
+          onChange={setSelectedSemester}
+        />
+      </IonFooter>
+    </IonPage>
   )
 }
 

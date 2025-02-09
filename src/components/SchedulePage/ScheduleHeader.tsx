@@ -1,25 +1,24 @@
 import React from 'react'
-import { IonGrid, IonRow, IonCol, IonButton, IonIcon } from '@ionic/react'
-import { eye, share } from 'ionicons/icons'
+import { IonRow, IonCol, IonButton, IonIcon } from '@ionic/react'
+import { eye, shareSocial } from 'ionicons/icons'
+import './ScheduleHeader.css'
 
 const ScheduleHeader: React.FC = () => {
   return (
-    <IonGrid>
-      <IonRow>
-        <IonCol>
-          <h4>学期学时</h4>
-          <h2 style={{ color: '#5A65F1' }}>43.0</h2>
-        </IonCol>
-        <IonCol className="ion-text-right">
-          <IonButton fill="clear">
-            <IonIcon icon={eye} size="large" />
-          </IonButton>
-          <IonButton fill="clear">
-            <IonIcon icon={share} size="large" />
-          </IonButton>
-        </IonCol>
-      </IonRow>
-    </IonGrid>
+    <div className="schedule-header">
+      <div className="credit-info">
+        <span className="credit-label">学期学分</span>
+        <span className="credit-value">43.0</span>
+      </div>
+      <div className="action-buttons">
+        <IonButton fill="clear" size="small">
+          <IonIcon icon={eye} slot="icon-only" />
+        </IonButton>
+        <IonButton fill="clear" size="small">
+          <IonIcon icon={shareSocial} slot="icon-only" />
+        </IonButton>
+      </div>
+    </div>
   )
 }
 

@@ -1,0 +1,149 @@
+.schedule-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --background: white;
+  --overflow: auto;
+}
+
+.schedule-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 48px;
+}
+
+.schedule-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.semester-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  z-index: 10;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 媒体查询保持不变 */
+@media (max-width: 320px) {
+  .time-text span {
+    font-size: 0.7em;
+  }
+  
+  .course-card h5 {
+    font-size: 0.8em;
+  }
+  
+  .course-card p {
+    font-size: 0.65em;
+  }
+}
+
+@media (min-width: 768px) {
+  .schedule-content {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}
+
+.schedule-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: white;
+}
+
+.schedule-content {
+  --background: white;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 48px; /* 为底部选择器留出空间 */
+}
+
+.schedule-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.schedule-footer {
+  --background: white;
+  height: 48px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+ion-content {
+  --background: white;
+}
+
+ion-content::part(scroll) {
+  padding-bottom: 48px; /* 为底部选择器留出空间 */
+}
+
+ion-toolbar {
+  --background: white;
+  --border-style: none;
+}
+
+/* 学期选择器标签栏样式 */
+.semester-tabs {
+  --background: white;
+  border-top: 1px solid var(--ion-color-light-shade);
+  height: 48px;
+}
+
+.semester-tab-button {
+  --color: var(--ion-color-medium);
+  --color-selected: var(--ion-color-primary);
+  font-size: 0.85em;
+  max-width: none;
+}
+
+/* 隐藏原有的 tab 指示器 */
+.semester-tab-button::before {
+  display: none;
+}
+
+/* 媒体查询保持不变 */
+@media (max-width: 320px) {
+  .semester-tab-button {
+    font-size: 0.8em;
+  }
+}
+
+@media (min-width: 768px) {
+  .schedule-content {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}
+
+/* 允许标签栏横向滚动 */
+ion-tab-bar {
+  overflow-x: auto;
+  overflow-y: hidden;
+  justify-content: flex-start;
+}
+
+ion-tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+ion-tab-button {
+  flex-shrink: 0;
+  min-width: auto;
+  --padding-start: 12px;
+  --padding-end: 12px;
+}

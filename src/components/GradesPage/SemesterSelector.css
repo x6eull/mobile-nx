@@ -1,0 +1,30 @@
+.semester-selector {
+  width: 100%;
+  background: white;
+  border-top: 1px solid var(--ion-color-light-shade);
+}
+
+ion-segment {
+  --background: white;
+  min-height: 48px;
+}
+
+ion-segment-button {
+  --color: var(--ion-color-medium);
+  --color-checked: #4C6FFF;
+  --indicator-color: #4C6FFF;
+  font-size: 0.85em;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  min-width: auto;
+}
+
+/* 允许横向滚动 */
+ion-segment {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+ion-segment::-webkit-scrollbar {
+  display: none;
+} 

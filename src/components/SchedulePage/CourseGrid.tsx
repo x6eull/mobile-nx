@@ -1,5 +1,6 @@
 import React from 'react'
 import { IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react'
+import './CourseGrid.css'
 
 const courses = [
   { name: '微积分（甲）II', period: 1, day: 1, location: '紫金港东 2-201' },
@@ -16,22 +17,47 @@ const courses = [
   { name: '形势与政策', period: 12, day: 7, location: '紫金港东 1A-207' },
 ]
 
+const timeSlots = [
+  { start: '08:00', index: 1 },
+  { start: '08:50', index: 2 },
+  { start: '10:00', index: 3 },
+  { start: '10:50', index: 4 },
+  { start: '11:40', index: 5 },
+  { start: '13:25', index: 6 },
+  { start: '14:15', index: 7 },
+  { start: '15:05', index: 8 },
+  { start: '16:15', index: 9 },
+  { start: '17:05', index: 10 },
+  { start: '18:50', index: 11 },
+  { start: '19:40', index: 12 },
+  { start: '20:30', index: 13 },
+]
+
 const CourseGrid: React.FC = () => {
   return (
-    <IonGrid>
-      {[...Array(13)].map((_, i) => (
-        <IonRow key={i}>
+    <IonGrid className="course-grid">
+      <IonRow className="weekday-row">
+        <IonCol size="1"></IonCol>
+        {['一', '二', '三', '四', '五', '六', '日'].map((day, index) => (
+          <IonCol key={index} className="weekday-cell">
+            {day}
+          </IonCol>
+        ))}
+      </IonRow>
+
+      {timeSlots.map((slot, i) => (
+        <IonRow key={i} className="time-row">
           <IonCol size="1" className="time-slot">
-            <span>
-              {8 + Math.floor(i / 2)}:{i % 2 === 0 ? '00' : '50'}
-            </span>
-            <small>{i + 1}</small>
+            <div className="time-text">
+              <span>{slot.start}</span>
+              <small>{slot.index}</small>
+            </div>
           </IonCol>
 
           {[...Array(7)].map((_, day) => (
             <IonCol key={day} className="course-cell">
               {courses.map((course, idx) =>
-                course.period === i + 1 && course.day === day + 1 ? (
+                course.period === slot.index && course.day === day + 1 ? (
                   <IonCard key={idx} className="course-card">
                     <IonCardContent>
                       <h5>{course.name}</h5>
@@ -49,3 +75,4 @@ const CourseGrid: React.FC = () => {
 }
 
 export default CourseGrid
+

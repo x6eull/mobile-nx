@@ -1,0 +1,27 @@
+.semester-summary {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.item-value {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--ion-color-dark);
+  margin-bottom: 4px;
+}
+
+.item-label {
+  font-size: 0.85em;
+  color: var(--ion-color-medium);
+} 

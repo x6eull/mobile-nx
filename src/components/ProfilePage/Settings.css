@@ -1,3 +1,36 @@
 ion-card {
-  margin-bottom: 25px;  
+  margin: 0 16px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 56px;
+  --background: white;
+  --border-color: #F0F0F0;
+}
+
+ion-item ion-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+ion-item ion-label {
+  font-size: 15px;
+  color: #333;
+}
+
+ion-toggle {
+  --background: #E5E5E5;
+  --background-checked: #4C6FFF;
+  --handle-background: white;
+  --handle-background-checked: white;
+}
+
+ion-item-group {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
 }

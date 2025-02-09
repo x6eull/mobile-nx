@@ -63,10 +63,7 @@ export default function App() {
           </Route>
           <Route exact path="/grades">
             <Grades
-              isOpen={false}
-              onClose={function (): void {
-                throw new Error('Function not implemented.')
-              }}
+        
             />
           </Route>
           <Route exact path="/schedule">

@@ -1,6 +1,22 @@
+.profile-content {
+  --background: linear-gradient(180deg, #E8F0FF 0%, #F5F6FA 100%);
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}
+
 .logout-button {
- display:flex;
- justify-content: center;
- align-items: center;
+  margin: 24px 16px;
+  --border-color: #FF6B6B;
+  --color: #FF6B6B;
+  --background: white;
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 8px;
+  height: 44px;
+  width: 100%;
+  max-width: 500px;
+  margin: 24px auto;
 }
 

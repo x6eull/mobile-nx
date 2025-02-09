@@ -1,32 +1,29 @@
 import React from 'react'
-import { IonCard, IonCardContent, IonGrid, IonRow, IonCol } from '@ionic/react'
+import { IonCard, IonCardContent } from '@ionic/react'
+import './SemesterSummary.css'
 
 const SemesterSummary: React.FC = () => {
   return (
-    <IonCard>
-      <IonCardContent>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <h4>学期学分</h4>
-              <h2>30.0</h2>
-            </IonCol>
-            <IonCol>
-              <h4>学期均绩</h4>
-              <h2>4.80</h2>
-            </IonCol>
-            <IonCol>
-              <h4>学年学分</h4>
-              <h2>64.5</h2>
-            </IonCol>
-            <IonCol>
-              <h4>学年均绩</h4>
-              <h2>4.80</h2>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonCardContent>
-    </IonCard>
+    <div className="semester-summary">
+      <div className="summary-row">
+        <div className="summary-item">
+          <div className="item-value">30.0</div>
+          <div className="item-label">学期学分</div>
+        </div>
+        <div className="summary-item">
+          <div className="item-value">4.80</div>
+          <div className="item-label">学期均绩</div>
+        </div>
+        <div className="summary-item">
+          <div className="item-value">64.5</div>
+          <div className="item-label">学年学分</div>
+        </div>
+        <div className="summary-item">
+          <div className="item-value">4.80</div>
+          <div className="item-label">学年均绩</div>
+        </div>
+      </div>
+    </div>
   )
 }
 

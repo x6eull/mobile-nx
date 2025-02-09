@@ -1,11 +1,6 @@
 import React from 'react'
-import {
-  IonCard,
-  IonCardContent,
-  IonRow,
-  IonCol,
-  IonProgressBar,
-} from '@ionic/react'
+import { IonProgressBar } from '@ionic/react'
+import './CourseList.css'
 
 const courses = [
   { name: '语言与社会', credits: 4, score: 4.5, total: 90 },
@@ -18,32 +13,27 @@ const courses = [
 
 const CourseList: React.FC = () => {
   return (
-    <>
+    <div className="course-list">
       {courses.map((course, index) => (
-        <IonCard key={index}>
-          <IonCardContent>
-            <IonRow>
-              <IonCol>
-                <h4>
-                  {course.name} {course.credits} 学分
-                </h4>
-              </IonCol>
-              <IonCol className="ion-text-right">
-                <h4>
-                  {course.score}/{course.total}
-                </h4>
-              </IonCol>
-            </IonRow>
-            {course.total > 0 && (
-              <IonProgressBar
-                value={Number(course.score) / Number(course.total) || 0} 
-                color="primary"
-              ></IonProgressBar>
-            )}
-          </IonCardContent>
-        </IonCard>
+        <div key={index} className="course-item">
+          <div className="course-header">
+            <div className="course-name">
+              {course.name} <span className="course-credits">{course.credits} 学分</span>
+            </div>
+            <div className="course-score">
+              {course.score}/{course.total}
+            </div>
+          </div>
+          {course.total > 0 && (
+            <IonProgressBar
+              value={Number(course.score) / Number(course.total)}
+              color="primary"
+              className="course-progress"
+            />
+          )}
+        </div>
       ))}
-    </>
+    </div>
   )
 }
 

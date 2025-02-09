@@ -1,0 +1,32 @@
+.grades-summary {
+  background: #4C6FFF;
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.item-value {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.item-label {
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+.update-time {
+  font-size: 0.8em;
+  opacity: 0.8;
+} 
