@@ -20,7 +20,13 @@ const Profile: React.FC = () => {
           <FeatureCard />
           <Settings />
           <IonNavLink routerDirection="forward" component={() => <Login />}>
-            <IonButton>退出登录</IonButton>
+            <IonButton
+              className="logout-button"
+              fill="outline"
+              
+            >
+              退出登录
+            </IonButton>
           </IonNavLink>
         </IonContent>
       </IonPage>

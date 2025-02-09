@@ -56,8 +56,13 @@ export default function App() {
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route exact path="/login">
-            <Login />
+          <Route exact path="/">
+            <Redirect to="/nav-container" />
+          </Route>
+          <Route path="/nav-container" component={NavContainerPage} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/profile">
+            <Profile />
           </Route>
           <Route exact path="/grades">
             <Grades
@@ -70,7 +75,6 @@ export default function App() {
           <Route exact path="/schedule">
             <Schedule />
           </Route>
-          <Route exact path="/nav-container/*" component={NavContainerPage} />
         </IonRouterOutlet>
         <IonTabs>
           <IonRouterOutlet>
