@@ -1,0 +1,80 @@
+.schedule {
+  background-color: #fff;
+  margin: 0 auto;
+  max-width: 480px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.status-bar {
+  position: relative;
+  display: flex;
+  min-height: 52px;
+  width: 100%;
+  padding: 22px 24px 10px;
+  align-items: flex-end;
+  font-family: Roboto, -apple-system, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.14px;
+  line-height: 1;
+  justify-content: space-between;
+}
+
+.time {
+  z-index: 0;
+}
+
+.signal-icon {
+  aspect-ratio: 2.7;
+  object-fit: contain;
+  object-position: center;
+  width: 46px;
+  z-index: 0;
+  flex-shrink: 0;
+}
+
+.menu-icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 24px;
+  align-self: start;
+  position: absolute;
+  z-index: 0;
+  flex-shrink: 0;
+  left: 50%;
+  bottom: 10px;
+  transform: translate(-50%, 0);
+  height: 24px;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  aspect-ratio: 0.484;
+  margin-top: 9px;
+  width: 100%;
+  padding-bottom: 702px;
+}
+
+.main-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.bottom-bar {
+  position: relative;
+  border-radius: 0 0 12px 12px;
+  background-color: #fff;
+  display: flex;
+  min-height: 69px;
+  width: 100%;
+}
