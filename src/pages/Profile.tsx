@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   IonButton,
   IonContent,
@@ -5,27 +6,26 @@ import {
   IonPage
 } from '@ionic/react'
 import './Profile.css'
+
 import ProfileCard from '../components/ProfilePage/ProfileCard'
 import FeatureCard from '../components/ProfilePage/FeatureCard'
 import Settings from '../components/ProfilePage/Settings'
-import Logout from '../components/ProfilePage/Logout'
 import Login from './Login'
 const Profile: React.FC = () => {
   return (
     <>
-      <IonPage >
+      <IonPage>
         <IonContent fullscreen>
-        <ProfileCard/>
-        <FeatureCard/>
+          <ProfileCard />
+          <FeatureCard />
           <Settings />
           <IonNavLink routerDirection="forward" component={() => <Login />}>
-          <IonButton routerLink='/Login'>退出登录</IonButton>
+            <IonButton>退出登录</IonButton>
           </IonNavLink>
-       
         </IonContent>
-    </IonPage>
+      </IonPage>
     </>
-    )
+  )
 }
 
 export default Profile
