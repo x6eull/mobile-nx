@@ -1,0 +1,16 @@
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5625rem;
+  font-weight: 450;
+  margin-top: 1.875rem;
+  margin-left: 1.5625rem;
+  .calendar-item1 {
+    height: 1.875rem;
+  }
+  .calendar-item2 {
+    display: flex;
+    flex-direction: row;
+    gap: 0.3125rem;
+  }
+}
