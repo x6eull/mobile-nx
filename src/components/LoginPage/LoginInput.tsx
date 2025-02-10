@@ -29,17 +29,18 @@ const LoginInput: React.FC<LoginInputProps> = ({
   return (
     <IonList>
       <IonItem>
-        <IonLabel position="floating">学号</IonLabel>
         <IonInput
+          label="学号"
           type="number"
           value={studentId}
           onIonChange={(e) => onStudentIdChange(e.detail.value || '')}
           clearInput={true}
+
         ></IonInput>
       </IonItem>
       <IonItem>
-        <IonLabel position="floating">学校通行证密码</IonLabel>
         <IonInput
+          label="学校通行证密码"
           type={passwordVisible ? 'text' : 'password'}
           value={password}
           onIonChange={(e) => onPasswordChange(e.detail.value || '')}

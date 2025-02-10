@@ -3,6 +3,20 @@
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  .item-value {
+  font-size: 1.6em;
+  font-weight: bold;
+  color: var(--ion-color-dark);
+  margin-bottom: 4px;
+  font-family: 'Inter', sans-serif;
+  color:  #586FC2;
+  font-weight: bolder;
+}
+  .item-label {
+  font-size: 0.85em;
+  color: var(--ion-color-medium);
+} 
 }
 
 .summary-row {
@@ -14,14 +28,5 @@
   text-align: center;
 }
 
-.item-value {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: var(--ion-color-dark);
-  margin-bottom: 4px;
-}
 
-.item-label {
-  font-size: 0.85em;
-  color: var(--ion-color-medium);
-} 
+

@@ -22,7 +22,7 @@
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
-  background: white;
+  background:  #57CDC8 0%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -39,14 +39,17 @@
 }
 
 .info h1 {
-  color: #333;
-  font-size: 22px;
+  color:  #FFFFFF;
+  font-size: 20px;
   font-weight: bold;
   margin: 0;
+  font-family: 'Inter', sans-serif;
 }
 
+
 .info p {
-  color: #666;
+  color: #FFFFFF;
   font-size: 16px;
   margin: 4px 0 0 0;
+  font-family: 'Inter', sans-serif;
 }

@@ -1,51 +1,53 @@
 .FeatureCard {
   display: flex;
-  align-items: flex-end;
-  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
   padding: 20px;
   width: 100%;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 300px;
+  min-width: 0px;
+  margin: 0 auto;
+  gap: 0px;
 }
-.left-card{
-  flex:1;
+.left-card {
+  flex: 2;
 }
+
 .card-container {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.idcard{
-  width: 100%;
-  max-width: 340px;
-  height: auto;
-  min-height: 200px;
-  padding: 20px 0;
+.idcard {
+  width: 200px;
+  height: 180px;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 15px; 
+  border-radius: 15px;
+
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff; 
+  background-color: #fff;
   padding-top: 50px;
-   overflow: visible; 
+  overflow: visible;
 }
-.floating-image  {
-  position:absolute;
-  top:-30px;
+.floating-image {
+  position: absolute;
+  top: -30px;
   transform: translateX(-50%);
-  left:50%;
+  left: 50%;
   width: 120px;
-  height: auto; 
+  height: auto;
   background: white;
   display: flex;
   align-items: center;
   justify-content: center;
+
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-   z-index: 10;
+  z-index: 10;
 }
 .floating-image img {
   width: 100%;
@@ -53,46 +55,51 @@
   border-radius: 0;
   object-fit: contain;
 }
+
+.right-cards {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+}
 .text-container {
   text-align: center;
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-}
-.right-cards {
-  flex: 1; 
-  display: flex;
-  flex-direction: column;
-  gap: 15px; 
-  align-items:flex-start;
+  line-height: 2;
+  font-family: 'Inter', sans-serif;
 }
 .text-container ion-card-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
+  margin-bottom: 0px;
+  height: 10px;
 }
 
 .text-container ion-card-content {
   font-size: 14px;
   color: #666;
+  margin-top: 0px;
 }
-.small-card{
- width: 100%;
- max-width: 280px;
-  height: auto;
-  min-height: 80px;
+.small-card {
+  width: 200px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   transition: transform 0.2s ease-in-out;
 }
- .card-content{
+.card-content {
   display: flex;
   align-items: center;
-  gap: 15px;
-   width: 100%;
+  gap: 0px;
+  width: 100%;
 }
 .icon-container {
   width: 50px;
@@ -100,73 +107,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 10px;
 }
 
 .icon-container img {
   width: 32px;
   height: 32px;
   object-fit: contain;
-}  
-
-.feature-card {
-  padding: 0 16px;
-  margin-bottom: 24px;
 }
-
-.card-container {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.feature-item {
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.feature-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background: #F5F6FA;
-}
-
-.feature-icon img {
-  width: 24px;
-  height: 24px;
-}
-
-.feature-text {
-  flex: 1;
-}
-
-.feature-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 4px 0;
-}
-
-.feature-desc {
-  font-size: 12px;
-  color: #666;
-  margin: 0;
-}
-
-

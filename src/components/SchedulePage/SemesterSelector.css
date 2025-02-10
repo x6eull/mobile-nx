@@ -3,6 +3,7 @@
   background: white;
   border-top: 1px solid var(--ion-color-light-shade);
   width: 100%;
+  position: fixed;
 }
 
 ion-segment {

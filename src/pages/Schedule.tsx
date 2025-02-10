@@ -27,7 +27,7 @@ const Schedule: React.FC = () => {
           <IonButtons slot="start">
             <IonIcon icon={calendarOutline} size="large" />
           </IonButtons>
-          <IonTitle>课程表</IonTitle>
+          <IonTitle>课表</IonTitle>
           <IonButtons slot="end">
             <IonButton>
               <IonIcon icon={close} size="large" />

@@ -13,13 +13,15 @@ ion-item {
 }
 
 ion-item ion-icon {
-  font-size: 20px;
+  font-size: 24px;
   margin-right: 12px;
 }
 
 ion-item ion-label {
-  font-size: 15px;
-  color: #333;
+  font-size: 18px;
+  color:#000000;
+  font-family: 'Inter', sans-serif;
+  
 }
 
 ion-toggle {

@@ -30,7 +30,8 @@ const Login: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/profile"></IonBackButton>
+            <IonBackButton defaultHref
+              ="/profile"></IonBackButton>
           </IonButtons>
           <IonTitle className="welcome-title">欢迎使用Mobile</IonTitle>
         </IonToolbar>
@@ -45,12 +46,14 @@ const Login: React.FC = () => {
           onPasswordChange={setPassword}
           onTogglePasswordVisibility={handleTogglePasswordVisibility}
         />
-        <TermsCheckbox isChecked={isChecked} setIsChecked={setIsChecked} />
+        
         <LoginButton
           isChecked={isChecked}
           studentId={studentId}
           password={password}
         />
+          <TermsCheckbox isChecked={isChecked} setIsChecked={setIsChecked} />
+        
       </IonContent>
     </IonPage>
   )
