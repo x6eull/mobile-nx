@@ -53,7 +53,7 @@
     justify-content: center;
     span {
       font-size: min(1.125rem, 4.368932vw);
-      font-weight: 700;
+      font-weight: 400;
     }
     div {
       color: var(--todoitem-note-color);
@@ -69,7 +69,7 @@
     gap: 0.9375rem;
     div {
       font-size: min(0.9375rem, 3.64078vw);
-      font-weight: bold;
+      font-weight: 400;
       color: var(--todoitem-button-color);
     }
     button {

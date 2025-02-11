@@ -28,7 +28,7 @@
   padding-top: 2%;
   margin-bottom: 2%;
   padding-left: 0.625rem;
-  gap: 0.4875rem;
+  gap: 0.5rem;
   div {
     display: flex;
     flex-direction: row;
@@ -42,7 +42,7 @@
     span {
       text-align: center;
       font-size: 1.25rem;
-      font-weight: bold;
+      font-weight: 700;
     }
   }
   .logo {

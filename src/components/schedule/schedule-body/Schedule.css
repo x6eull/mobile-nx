@@ -40,7 +40,7 @@ a {
     .schedule-head-all {
       height: 1.0625rem;
       color: var(--schedule-all-color);
-      font-weight: bold;
+      font-weight: 500;
       flex-basis: 19.656vw;
       font-size: min(1rem, 3.8834951vw);
     }

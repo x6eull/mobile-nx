@@ -12,32 +12,30 @@ function Main({ course, flag }: { course: courseMain; flag: boolean }) {
     className = "main-body";
     remark = (
       <div>
-        <img src={remarks} />
+        <img src={remarks} alt="404" />
         <span>{course.description}</span>
       </div>
     );
   }
   return (
-    <>
-      <a className="main-wrap" href="/schedule">
-        <div className="main-head">
-          <div>距上课</div>
-          <div id="time">{course.startTime}</div>
-          <div id="main-coursename">{course.name}</div>
+    <a className="main-wrap" href="/schedule">
+      <div className="main-head">
+        <div>距上课</div>
+        <div id="time">{course.startTime}</div>
+        <div id="main-coursename">{course.name}</div>
+      </div>
+      <div className={className}>
+        <div>
+          <img src={spot} alt="404" />
+          <span>{course.location}</span>
         </div>
-        <div className={className}>
-          <div>
-            <img src={spot} />
-            <span>{course.location}</span>
-          </div>
-          <div>
-            <img src={time} />
-            <span>{course.duration}</span>
-          </div>
-          {remark}
+        <div>
+          <img src={time} alt="404" />
+          <span>{course.duration}</span>
         </div>
-      </a>
-    </>
+        {remark}
+      </div>
+    </a>
   );
 }
 

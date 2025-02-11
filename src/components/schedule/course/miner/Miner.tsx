@@ -13,11 +13,11 @@ function Min({ item }: { item: courseMiner }) {
           </div>
           <div className="min-body">
             <div>
-              <img src={spot} />
+              <img src={spot} alt="404" />
               <span>{item.location}</span>
             </div>
             <div>
-              <img src={time} />
+              <img src={time} alt="404" />
               <span>{item.duration}</span>
             </div>
           </div>

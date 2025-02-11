@@ -54,7 +54,7 @@
       flex-direction: row;
       align-items: center;
       gap: 6px;
-      font-weight: bold;
+      font-weight: 400;
     }
   }
 

@@ -91,7 +91,7 @@ function Schedule() {
   return (
     <div className="schedule-container">
       <div className="schedule-head">
-        <img src={logo} />
+        <img src={logo} alt="404" />
         <span className="schedule-head-head">今日日程</span>
         <a href="/schedule" className="schedule-head-all">
           查看全部 {">"}

@@ -10,22 +10,22 @@ const QuickLink: React.FC = () => {
   return (
     <div className="link">
       <div>
-        <img className="logo-label" src={logo} />
+        <img className="logo-label" src={logo} alt="404" />
         <span>快捷链接</span>
       </div>
       <div className="logo">
         {/**为了让动画演示完毕再跳转，用了ref和useEffect，而一个<a>标签需要一个独立的ref，为了避免大段重复，做成组件 */}
         <LinkAnimation href="http://baidu.com">
-          <img src={logo1} />
+          <img src={logo1} alt="404" />
         </LinkAnimation>
         <LinkAnimation href="http://baidu.com">
-          <img src={logo2} />
+          <img src={logo2} alt="404" />
         </LinkAnimation>
         <LinkAnimation href="http://baidu.com">
-          <img src={logo3} />
+          <img src={logo3} alt="404" />
         </LinkAnimation>
         <LinkAnimation href="http://baidu.com">
-          <img src={logo4} />
+          <img src={logo4} alt="404" />
         </LinkAnimation>
       </div>
     </div>
