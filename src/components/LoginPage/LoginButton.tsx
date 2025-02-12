@@ -16,7 +16,6 @@ const LoginButton: React.FC<LoginButtonProps> = ({
   const isDisabled = !isChecked || !studentId || !password
 
   const handleLogin = () => {
-    // 这里添加登录逻辑
     console.log('登录信息：', { studentId, password })
   }
 

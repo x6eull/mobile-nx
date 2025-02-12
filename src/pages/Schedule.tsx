@@ -4,14 +4,16 @@ import {
   IonPage,
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonButtons,
   IonButton,
   IonIcon,
   IonContent,
   IonFooter,
+  IonImg,
+  IonLabel,
 } from '@ionic/react'
-import { close, calendarOutline } from 'ionicons/icons'
+import { close } from 'ionicons/icons'
+import kbleft from '../assets/schedule-left.png'
 import ScheduleHeader from '../components/SchedulePage/ScheduleHeader'
 import CourseGrid from '../components/SchedulePage/CourseGrid'
 import SemesterSelector from '../components/SchedulePage/SemesterSelector'
@@ -24,10 +26,10 @@ const Schedule: React.FC = () => {
     <IonPage className="schedule-page">
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonIcon icon={calendarOutline} size="large" />
-          </IonButtons>
-          <IonTitle>课表</IonTitle>
+          <div className="header-content">
+            <IonImg src={kbleft} alt="KB Left" slot="start" className="kbleft-img"/>
+            <IonLabel className="schedule-title">课表</IonLabel>
+          </div>
           <IonButtons slot="end">
             <IonButton>
               <IonIcon icon={close} size="large" />
@@ -36,7 +38,7 @@ const Schedule: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen className="schedule-content"
+      <IonContent className="schedule-content"
       scrollY={true}>
         <div className="schedule-container">
           <ScheduleHeader />

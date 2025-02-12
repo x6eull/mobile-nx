@@ -11,6 +11,9 @@ import {
   IonContent,
   IonFooter,
   IonItem,
+  IonRouterLink,
+  IonImg,
+  IonLabel,
 } from '@ionic/react'
 import { close } from 'ionicons/icons'
 import jdleft from '../assets/jdleft.png'
@@ -27,21 +30,21 @@ const Grades: React.FC = () => {
     <IonPage className="grades-page">
       <IonHeader>
         <IonToolbar>
-          <IonItem>
-            <IonIcon icon={jdleft} size="large" slot="start"/>
-          <IonTitle>绩点</IonTitle>
+          <div className="header-content">
+          <IonImg src={jdleft} alt="JD Left" slot="start" className="jdleft-img"/>
+          <IonLabel className="grades-title" >绩点</IonLabel>
+          </div>
           <IonButtons slot="end">
-            <IonButton routerLink="/profile">
-              <IonIcon icon={close} size="large" />
-            </IonButton>
-            </IonButtons>
-          </IonItem>
+            <IonRouterLink routerLink="/profile">
+              <IonButton>
+                <IonIcon icon={close} size="large" />
+              </IonButton>
+            </IonRouterLink>
+          </IonButtons>
         </IonToolbar>
-        
       </IonHeader>
 
-      <IonContent fullscreen className="grades-content"
-      scrollY={true}>
+      <IonContent fullscreen className="grades-content" scrollY={true}>
         <div className="grades-container">
           <GradesSummary />
           <SemesterSummary />

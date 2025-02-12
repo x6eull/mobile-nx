@@ -1,11 +1,26 @@
-
-.schedule-content {
-  --padding-start: 0;
-  --padding-end: 0;
-  --padding-top: 0;
-  --padding-bottom: 0;
-  --background: white;
+.header-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-left: 4vw;
+  margin-bottom: 2vh;
 }
+.kbleft-img {
+  width: 10vw;
+  height: 10vw;
+  margin-left: 2vw;
+  margin-right: 3vw;
+  margin-top: 2vh;
+}
+.schedule-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 5vw;
+  font-weight: bold;
+  margin-left: 0;
+  margin-bottom: 1vh;
+}
+
+
 
 .schedule-wrapper {
   display: flex;
@@ -32,26 +47,7 @@
 }
 
 
-@media (max-width: 320px) {
-  .time-text span {
-    font-size: 0.7em;
-  }
-  
-  .course-card h5 {
-    font-size: 0.8em;
-  }
-  
-  .course-card p {
-    font-size: 0.65em;
-  }
-}
 
-@media (min-width: 768px) {
-  .schedule-content {
-    max-width: 768px;
-    margin: 0 auto;
-  }
-}
 
 .schedule-page {
   display: flex;
@@ -116,19 +112,7 @@ ion-toolbar {
   display: none;
 }
 
-/* 媒体查询保持不变 */
-@media (max-width: 320px) {
-  .semester-tab-button {
-    font-size: 0.8em;
-  }
-}
 
-@media (min-width: 768px) {
-  .schedule-content {
-    max-width: 768px;
-    margin: 0 auto;
-  }
-}
 
 /* 允许标签栏横向滚动 */
 ion-tab-bar {
