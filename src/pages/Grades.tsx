@@ -10,8 +10,10 @@ import {
   IonIcon,
   IonContent,
   IonFooter,
+  IonItem,
 } from '@ionic/react'
-import { close, barChartOutline } from 'ionicons/icons'
+import { close } from 'ionicons/icons'
+import jdleft from '../assets/jdleft.png'
 import GradesSummary from '../components/GradesPage/GradesSummary'
 import SemesterSummary from '../components/GradesPage/SemesterSummary'
 import CourseList from '../components/GradesPage/CourseList'
@@ -25,19 +27,21 @@ const Grades: React.FC = () => {
     <IonPage className="grades-page">
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonIcon icon={barChartOutline} size="large" />
-          </IonButtons>
+          <IonItem>
+            <IonIcon icon={jdleft} size="large" slot="start"/>
           <IonTitle>绩点</IonTitle>
           <IonButtons slot="end">
-            <IonButton>
+            <IonButton routerLink="/profile">
               <IonIcon icon={close} size="large" />
             </IonButton>
-          </IonButtons>
+            </IonButtons>
+          </IonItem>
         </IonToolbar>
+        
       </IonHeader>
 
-      <IonContent className="grades-content">
+      <IonContent fullscreen className="grades-content"
+      scrollY={true}>
         <div className="grades-container">
           <GradesSummary />
           <SemesterSummary />

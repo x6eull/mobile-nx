@@ -9,7 +9,7 @@ import Settings from '../components/ProfilePage/Settings'
 const Profile: React.FC = () => {
   return (
     <IonPage>
-      <IonContent className="profile-content">
+      <IonContent fullscreen className="profile-content">
         <ProfileCard />
         <FeatureCard />
         <Settings />

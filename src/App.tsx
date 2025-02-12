@@ -56,15 +56,9 @@ export default function App() {
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          
           <Route exact path="/login" component={Login} />
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
           <Route exact path="/grades">
-            <Grades
-        
-            />
+            <Grades/>
           </Route>
           <Route exact path="/schedule">
             <Schedule />

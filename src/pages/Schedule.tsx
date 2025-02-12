@@ -36,7 +36,8 @@ const Schedule: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="schedule-content">
+      <IonContent fullscreen className="schedule-content"
+      scrollY={true}>
         <div className="schedule-container">
           <ScheduleHeader />
           <CourseGrid />
