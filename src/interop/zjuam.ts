@@ -1,127 +1,194 @@
 //TODO 优化依赖/逻辑
-import axios, { Axios } from 'axios'
-import { wrapper } from 'axios-cookiejar-support'
 import * as bigintModArith from 'bigint-mod-arith'
-import { CookieJar } from 'tough-cookie'
+import { getRawUrl, nxFetch } from './fetch'
+import { requestCredential } from './credential'
 
-interface GetPubKeyResp {
+/**将字符串用utf-8编码，再将字节序列转为bigint，越靠前的字符处于越高位 */
+function encodeAsBigInt(s: string) {
+  let res = 0n
+  new TextEncoder().encode(s).forEach((byte) => {
+    res <<= 8n
+    res |= BigInt(byte)
+  })
+  return res
+}
+
+type UpstreamPubKey = {
+  /**RSA加密的指数。16进制(不含0x)，一般为"10001" */
   exponent: string
+  /**RSA加密的模数。16进制(不含0x) */
   modulus: string
 }
 
-interface PubKey {
-  N: bigint
-  E: bigint
+/**zjuam入口为https://zjuam.zju.edu.cn/cas/login?service=...的服务 */
+type CasParams = { service: string }
+/**zjuam入口为https://zjuam.zju.edu.cn/cas/oauth2.0/authorize?client_id=...&redirect_uri=...&response_type=code的服务 */
+type Oauth2Params = {
+  client_id: string
+  redirect_uri: string
+  response_type: 'code'
+}
+/**跟随重定向（记录cookie），其需最后跳转到zjuam地址。
+ *
+ * 如果最后未跳转到zjuam地址，将视为已登录成功。
+ */
+type RedirectParams = { follow: string }
+type SupportedParams = CasParams | Oauth2Params | RedirectParams
+/**对于不同服务，编码参数，获得入口点 */
+function getEntryUrl(params: SupportedParams) {
+  if ('service' in params)
+    return `https://zjuam.zju.edu.cn/cas/login?${new URLSearchParams(params)}`
+  else if ('client_id' in params)
+    //oauth2会被重定向到https://zjuam.zju.edu.cn/cas/login?service=http%3A%2F%2Fzjuam.zju.edu.cn%2Fcas%2Foauth2.0%2FcallbackAuthorize
+    return `https://zjuam.zju.edu.cn/cas/oauth2.0/authorize?${new URLSearchParams(
+      params,
+    )}`
+  else if ('follow' in params) return params.follow
+
+  throw new Error('不支持的zjuam入口参数')
 }
 
-export class ZjuamClient {
-  public http: Axios
+/**一个zjuam服务。是对fetch的包装，登录过期后会自动刷新登录
+ *
+ * 由于原生层会自动保存cookie，登录一旦完成，对应用的所有HTTP请求都有效。
+ */
+export class ZjuamService {
+  /**
+   * 初始化一个服务，设置参数。调用此构造方法不会进行登录。
+   *
+   * 如果`refreshInSeconds`不为-1，调用`nxFetch`的方法时，若登录已过期或从未登录，则自动调用`login`登录。这可能导致突发的耗时增加。
+   * @param params 服务识别参数
+   * @param refreshInSeconds 登录成功后，多久后重新登录。若为-1则始终不会自动登录，需自行调用`login`方法
+   * @param preserveTicket 如果为true，则不跟随zjuam登录成功的重定向（即包含ticket的重定向），需自行处理ticket
+   */
+  public constructor(
+    public readonly params: SupportedParams,
+    public readonly refreshInSeconds = 60 * 30,
+    public readonly preserveTicket = false,
+  ) {
+    const rawNxFetch = nxFetch
+    const extendMethods: Record<string, any> = {}
+    const thisService = this
+    for (const [key, rawMethod] of Object.entries(nxFetch))
+      extendMethods[key] = async function (...args: any[]) {
+        await thisService.loginIfExpired()
+        return rawMethod.apply(this, args)
+      }
 
-  // NOTE: 在浏览器中不需要这个jar，但在nodejs中需要
-  public cookieJar: CookieJar
-
-  public constructor() {
-    this.cookieJar = new CookieJar()
-    //TODO 确认这些配置是否需要
-    this.http = wrapper(
-      axios.create({
-        timeout: 20000,
-        maxRedirects: 10,
-        withCredentials: true,
-        responseType: 'json',
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50',
-        },
-        jar: this.cookieJar,
-      }),
+    this.nxFetch = Object.assign(
+      async (...args: Parameters<typeof nxFetch>) => {
+        await this.loginIfExpired()
+        return await rawNxFetch(...args)
+      },
+      extendMethods as any,
     )
   }
+  /**上次登录成功时间 */
+  protected lastLoginTime?: Date
+  /**由ZjuamService修改的nxFetch，所有方法签名和原始nxFetch一致。
+   *
+   * 每次发送请求前，如果登录过期（根据`refreshInSeconds`）则重新登录。
+   */
+  public nxFetch: typeof nxFetch
 
-  public async login(zjuid: string, password: string, targetUrl: string) {
-    const auth_url = `https://zjuam.zju.edu.cn/cas/login?service=${targetUrl}`
-    const execution = await this.getExecutionStr(auth_url)
-    if (!execution) throw new Error('获取execution失败')
-    const key = await this.getPubKey()
-    const encrypted_password = this.rsaEncrypt(password, key)
-    const params = new URLSearchParams()
-    params.append('username', zjuid)
-    params.append('password', encrypted_password)
-    params.append('_eventId', 'submit')
-    params.append('execution', execution)
-    params.append('authcode', '')
-    params.append('rememberMe', 'true')
-    const succeed = { ok: false }
+  public async loginIfExpired(): Promise<string | null> {
+    if (
+      this.refreshInSeconds !== -1 &&
+      (!this.lastLoginTime ||
+        Date.now() - this.lastLoginTime.valueOf() >=
+          this.refreshInSeconds * 1000)
+    )
+      return await this.login()
+    return null
+  }
 
-    const resp = await this.http.post(auth_url, params, {
-      responseType: 'text',
-      validateStatus: () => true,
-      beforeRedirect(_, details) {
-        const target = details.headers.location as string
-        if (!target.startsWith('https://zjuam.zju.edu.cn/cas/login')) {
-          succeed.ok = true
-        } else {
-          console.log('error: redirect details=', details)
-        }
+  public static readonly loginUrlRegex = /https?:\/\/zjuam\.zju\.edu\.cn/
+
+  /**立即重新登录。成功返回最终服务重定向结果url（跟随zjuam登录成功的302），失败异步抛出错误。
+   *
+   * 如果`preserveTicket`为true，则返回包含ticket的url。
+   */
+  public async login(): Promise<string> {
+    console.log('尝试登录服务', this)
+    const entryResp = await nxFetch.get(getEntryUrl(this.params), {
+      redirectChecker: (resp) => {
+        if (this.preserveTicket)
+          // 停在最后包含ticket的重定向前
+          return resp.headers.get('location')?.match(/[?&]ticket=/) === null
+        else return true
       },
     })
-
-    if (succeed.ok) {
-      return
+    /**打开登录页面，zjuam重定向得到的最终地址 */
+    const postUrl = getRawUrl(entryResp.url)
+    if (
+      !postUrl.match(ZjuamService.loginUrlRegex) ||
+      postUrl.match(/[?&]ticket=/)
+    ) {
+      console.log('记住登录生效', this)
+      this.lastLoginTime = new Date()
+      return postUrl
     }
 
-    // else: parse html to get error message
-    const text = resp.data as string
-
-    if (text.includes('输错密码次数太多')) {
-      const allow_login_time = /allowLoginTime = '(.*?)'/.exec(text)?.at(1)
-      if (allow_login_time) {
-        const d = new Date(allow_login_time)
-        const waitSeconds = (d.getTime() - Date.now()) / 1000
-        throw new Error(
-          `输错密码次数太多，请在${waitSeconds.toFixed(0)}s之后再试`,
-        )
-      }
-      throw new Error('输错密码次数太多，请稍后再试')
-    }
-
-    // const doc = new JSDOM(text).window.document
-    //TODO 解析错误信息
-    const errmsg = null //doc.getElementById('msg')?.textContent
-    throw new Error(errmsg ?? '未知错误')
-  }
-
-  private async getPubKey() {
-    const resp = await this.http.get(
-      'https://zjuam.zju.edu.cn/cas/v2/getPubKey',
-    )
-    const data = resp.data as GetPubKeyResp
-    const E = BigInt('0x' + data.exponent)
-    const N = BigInt('0x' + data.modulus)
-    return { N, E } as PubKey
-  }
-
-  private async getExecutionStr(auth_url: string) {
-    const resp = await this.http.get(auth_url, { responseType: 'text' })
-    const respText = resp.data as string
+    const respText = await entryResp.text()
     const execution = respText.match(
       /<input type="hidden" name="execution" value="(?<execution>.+)"/,
     )?.groups?.execution
-    return execution
-  }
+    if (!execution) throw new Error('获取execution失败')
 
-  private rsaEncrypt(s: string, key: PubKey) {
-    let plainData = BigInt(0)
+    // 获取用户名密码
+    const { username, password } = await requestCredential(this)
 
-    const encoder = new TextEncoder()
-    encoder.encode(s).forEach((byte) => {
-      plainData <<= 8n
-      plainData |= BigInt(byte)
+    // 获取公钥
+    const { exponent, modulus } = (await (
+      await nxFetch.get('https://zjuam.zju.edu.cn/cas/v2/getPubKey')
+    ).json()) as UpstreamPubKey
+    const exponentBigInt = BigInt('0x' + exponent)
+    const modulusBigInt = BigInt('0x' + modulus)
+    const rawPassword = encodeAsBigInt(password)
+    const encPassword = bigintModArith
+      .modPow(rawPassword, exponentBigInt, modulusBigInt)
+      .toString(16)
+      .padStart(128, '0')
+
+    const loginResp = await nxFetch.postUrlEncoded(postUrl, {
+      body: new URLSearchParams({
+        username,
+        password: encPassword,
+        _eventId: 'submit',
+        execution,
+        authcode: '',
+        rememberMe: 'false',
+      }),
+      preserveMethodInRedirects: false, // 登录后若重定向则不再次发送凭据
+      redirectChecker: (resp) => {
+        if (this.preserveTicket)
+          return Boolean(
+            resp.headers.get('location')?.match(ZjuamService.loginUrlRegex),
+          )
+        else return true
+      },
     })
+    const loginUrl = getRawUrl(loginResp.url)
+    if (!loginUrl.match(ZjuamService.loginUrlRegex)) {
+      console.log('登录成功', this)
+      this.lastLoginTime = new Date()
+      return loginUrl
+    }
 
-    const res = bigintModArith.modPow(plainData, key.E, key.N)
-    const resStr = res.toString(16).padStart(128, '0')
-    return resStr
+    const errorHtml = await loginResp.text()
+    let error = '未知错误'
+    const { allowDate } =
+      errorHtml.match(/allowLoginTime\s*=\s*'(?<allowDate>.+)'/)?.groups ?? {}
+    if (allowDate) {
+      const allowTimestamp = Date.parse(allowDate + '+0800').valueOf() //(上游)时区为UTC+8
+      const waitSeconds = Math.ceil((allowTimestamp - Date.now()) / 1000)
+      error = `失败次数太多，请在 ${waitSeconds}s 重试`
+    } else
+      error =
+        errorHtml.match(/<span id="msg">(?<errMsg>.*)<\/span>/)?.groups
+          ?.errMsg ?? error
+    console.error('登录失败', this, error, loginUrl)
+    throw new Error('登录失败: ' + error)
   }
 }
 

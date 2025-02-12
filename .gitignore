@@ -1,12 +1,18 @@
 # Explicit local files
-/local.*
 *.env
+local.*
+/*.local
+
+# file that appears when running `ionic cap run android -l`
+# It gets deleted when the process is killed.
+AndroidManifest.xml.orig
 
 # dependencies
 node_modules/
 
 # build files
 dist/
+.tsbuildinfo
 
 # keystore files
 *.jks
