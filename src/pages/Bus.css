@@ -1,0 +1,39 @@
+.header-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-text {
+  opacity: 0.3;
+  transition: opacity 0.1s ease-in-out;
+  display: flex;
+  align-items: center; /* 确保文字垂直居中 */
+  height: 100%; /* 使高度与周围元素一致 */
+}
+
+.header-text.active {
+  opacity: 1;
+}
+
+.header-title {
+  text-align: center;
+}
+
+ion-button {
+  --border-radius: 10px;
+  --background: none;
+  --background-hover: none;
+  --background-activated: #9a9a9a;
+  --background-focused: none;
+
+  --box-shadow: none;
+
+  --ripple-color: #000000;
+}
+
+.card-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

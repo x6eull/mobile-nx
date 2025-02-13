@@ -1,15 +1,10 @@
-# dependencies
 node_modules
-
-# build output
-dist
-.tsbuildinfo
 
 # native folders
 android
 ios
 
-# npm will format these files
+# npm will format theses files
 package.json
 package-lock.json
 
