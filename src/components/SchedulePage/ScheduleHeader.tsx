@@ -1,5 +1,5 @@
 import React from 'react'
-import { IonRow, IonCol, IonButton, IonIcon, IonImg } from '@ionic/react'
+import {  IonButton, IonImg } from '@ionic/react'
 import eye from '../../assets/kbheader-eye.png'
 import  out  from '../../assets/kbheader-out.png'
 import './ScheduleHeader.css'

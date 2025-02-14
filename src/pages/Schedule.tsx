@@ -31,7 +31,7 @@ const Schedule: React.FC = () => {
             <IonLabel className="schedule-title">课表</IonLabel>
           </div>
           <IonButtons slot="end">
-            <IonButton>
+            <IonButton routerLink="/profile">
               <IonIcon icon={close} size="large" />
             </IonButton>
           </IonButtons>
