@@ -1,20 +1,101 @@
 import React from 'react'
 import { IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react'
 import './CourseGrid.css'
+import { Course, ClassArrangement } from '../../models/Course'
+import { Term } from '../../models/shared'
 
-const courses = [
-  { name: '微积分（甲）II', period: 1, day: 1, location: '紫金港东 2-201' },
-  { name: '大学物理（甲）I', period: 1, day: 2, location: '紫金港东 1B-306' },
+const courses: Course[] = [
   {
-    name: '信息与电子工程导论',
-    period: 1,
-    day: 3,
-    location: '紫金港东 1A-214',
+    semester: { year: 2024, term: Term.Autumn },
+    name: '微积分（甲）II',
+    classes: [
+      {
+        weekType: 'every',
+        dayOfWeek: 1,
+        startSection: 1,
+        sectionCount: 2,
+        location: '紫金港东 2-201',
+      },
+    ],
   },
-  { name: '常微分方程', period: 3, day: 5, location: '紫金港东 2-201' },
-  { name: '工程训练', period: 8, day: 5, location: '紫金港东 工实习中心-208' },
-  { name: '大脑与社会', period: 11, day: 6, location: '紫金港东 6-208' },
-  { name: '形势与政策', period: 12, day: 7, location: '紫金港东 1A-207' },
+  {
+    semester: { year: 2024, term: Term.Autumn },
+    name: '大学物理（甲）I',
+    classes: [
+      {
+        weekType: 'every',
+        dayOfWeek: 2,
+        startSection: 1,
+        sectionCount: 2,
+        location: '紫金港东 1B-306',
+      },
+    ],
+  },
+  {
+    semester: { year: 2024, term: Term.Autumn },
+    name: '信息与电子工程导论',
+    classes: [
+      {
+        weekType: 'every',
+        dayOfWeek: 3,
+        startSection: 1,
+        sectionCount: 2,
+        location: '紫金港东 1A-214',
+      },
+    ],
+  },
+  {
+    semester: { year: 2024, term: Term.Autumn },
+    name: '常微分方程',
+    classes: [
+      {
+        weekType: 'every',
+        dayOfWeek: 5,
+        startSection: 3,
+        sectionCount: 2,
+        location: '紫金港东 2-201',
+      },
+    ],
+  },
+  {
+    semester: { year: 2024, term: Term.Autumn },
+    name: '工程训练',
+    classes: [
+      {
+        weekType: 'every',
+        dayOfWeek: 5,
+        startSection: 8,
+        sectionCount: 2,
+        location: '紫金港东 工实习中心-208',
+      },
+    ],
+  },
+  {
+    semester: { year: 2024, term: Term.Autumn },
+    name: '大脑与社会',
+    classes: [
+      {
+        weekType: 'every', 
+        dayOfWeek: 6, 
+        startSection: 11,
+        sectionCount: 2,
+        location: '紫金港东 6-208',
+      },
+    ],
+  },
+  {
+    semester: { year: 2024, term: Term.Autumn },
+    name: '形势与政策',
+    classes: [
+      {
+        weekType: 'every', 
+        dayOfWeek: 7, 
+        startSection: 12,
+        sectionCount: 2,
+        location: '紫金港东 1A-207',
+      },
+    ],
+  },
 ]
 
 const timeSlots = [
@@ -57,14 +138,23 @@ const CourseGrid: React.FC = () => {
           {[...Array(7)].map((_, day) => (
             <IonCol key={day} className="course-cell">
               {courses.map((course, idx) =>
-                course.period === slot.index && course.day === day + 1 ? (
-                  <IonCard key={idx} className="course-card">
-                    <IonCardContent>
-                      <h5>{course.name}</h5>
-                      <p>{course.location}</p>
-                    </IonCardContent>
-                  </IonCard>
-                ) : null,
+                course.classes.map((classItem) => {
+                  // 通过 classItem.dayOfWeek 和 classItem.startSection 来匹配课程
+                  if (
+                    classItem.dayOfWeek === day + 1 &&
+                    classItem.startSection === slot.index
+                  ) {
+                    return (
+                      <IonCard key={idx} className="course-card">
+                        <IonCardContent>
+                          <h5>{course.name}</h5>
+                          <p>{classItem.location}</p>
+                        </IonCardContent>
+                      </IonCard>
+                    )
+                  }
+                  return null
+                }),
               )}
             </IonCol>
           ))}

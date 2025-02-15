@@ -1,32 +1,47 @@
 import React from 'react'
 import { IonSegment, IonSegmentButton, IonLabel } from '@ionic/react'
 import './SemesterSelector.css'
+import { Semester, Term } from '../../models/shared'
+
+const SemesterList: Semester[] = [
+  { year: 2024, term: Term.Autumn },
+  { year: 2023, term: Term.Summer },
+  { year: 2023, term: Term.Spring },
+  { year: 2023, term: Term.Winter },
+  { year: 2023, term: Term.Autumn },
+]
+
+
 
 const SemesterSelector: React.FC<{
   selected: string
   onChange: (value: string) => void
 }> = ({ selected, onChange }) => {
   return (
-    <IonSegment 
-      value={selected} 
+    <IonSegment
+      value={selected}
       onIonChange={(e) => onChange(e.detail.value as string)}
       className="semester-selector"
     >
-      <IonSegmentButton value="2024-fall">
-        <IonLabel>2024 秋</IonLabel>
-      </IonSegmentButton>
-      <IonSegmentButton value="2023-summer">
-        <IonLabel>2023 夏</IonLabel>
-      </IonSegmentButton>
-      <IonSegmentButton value="2023-spring">
-        <IonLabel>2023 春</IonLabel>
-      </IonSegmentButton>
-      <IonSegmentButton value="2023-winter">
-        <IonLabel>2023 冬</IonLabel>
-      </IonSegmentButton>
-      <IonSegmentButton value="2023-fall">
-        <IonLabel>2023 秋</IonLabel>
-      </IonSegmentButton>
+      {SemesterList.map((semester) => {
+        // 组合年份和学期作为key
+        const semesterKey = `${semester.year}-${semester.term}`
+        const label = `${semester.year} ${
+          semester.term === Term.Autumn
+            ? '秋'
+            : semester.term === Term.Summer
+              ? '夏'
+              : semester.term === Term.Spring
+                ? '春'
+                : '冬'
+        }`
+
+        return (
+          <IonSegmentButton key={semesterKey} value={semesterKey}>
+            <IonLabel>{label}</IonLabel>
+          </IonSegmentButton>
+        )
+      })}
     </IonSegment>
   )
 }

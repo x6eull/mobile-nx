@@ -5,17 +5,17 @@ export interface Course {
   /**学年&学期 */
   semester: Semester
   /**选课号 如(2024-2025-1)-761T0060-0017687-4 */
-  id: string
+  id?: string
   /**课程名称（中文） */
   name: string
   /**学分 */
-  credit: number
+  credit?: number
   /**教师姓名 */
-  teacherName: string
+  teacherName?: string
   /**上课时间地点 */
   classes: ClassArrangement[]
   /**考试 */
-  exams: ExamArrangement[]
+  exams?: ExamArrangement[]
 }
 
 /**相对于学期的上课时间、地点 */
