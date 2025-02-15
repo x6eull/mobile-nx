@@ -1,3 +1,13 @@
+.schedule-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+}
+.schedule-content {
+  flex: 1;
+  overflow-y: auto;
+}
 .header-content {
   display: flex;
   align-items: flex-end;

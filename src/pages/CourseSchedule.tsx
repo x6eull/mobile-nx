@@ -37,21 +37,21 @@ const CourseSchedule: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="schedule-content"
-      scrollY={true}>
+      <IonContent className="schedule-content">
         <div className="schedule-container">
           <CourseScheduleHeader />
           <CourseGrid />
         </div>
-      </IonContent>
-
-      <IonFooter className="ion-no-border schedule-footer">
         <SemesterSelector
           selected={selectedSemester}
           onChange={setSelectedSemester}
         />
-      </IonFooter>
-    </IonPage>
+      </IonContent>
+
+      
+        
+      
+      </IonPage>
   )
 }
 
