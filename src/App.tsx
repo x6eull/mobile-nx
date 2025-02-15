@@ -12,10 +12,10 @@ import {
 import { IonReactRouter } from '@ionic/react-router'
 import { ellipse, square, triangle } from 'ionicons/icons'
 import Tab1 from './pages/Tab1'
-import Tab2 from './pages/Tab2'
+import Schedule from './pages/Schedule'
 import Tab3 from './pages/Tab3'
 import Profile from './pages/Profile'
-import Schedule from './pages/Schedule'
+import CourseSchedule from './pages/CourseSchedule'
 import Grades from './pages/Grades'
 import Login from './pages/Login'
 
@@ -58,7 +58,7 @@ export default function App() {
         <IonRouterOutlet>
           <Route exact path="/login" component={Login} />
           <Route exact path="/grades" component={Grades} />
-          <Route exact path="/schedule" component={Schedule} />
+          <Route exact path="/course-schedule" component={CourseSchedule} />
           <Route exact path="/profile" component={Profile} />
         </IonRouterOutlet>
 
@@ -67,8 +67,8 @@ export default function App() {
             <Route exact path="/tab1">
               <Tab1 />
             </Route>
-            <Route exact path="/tab2">
-              <Tab2 />
+            <Route exact path="/schedule">
+              <Schedule />
             </Route>
             <Route exact path="/tab3">
               <Tab3 />
@@ -85,7 +85,7 @@ export default function App() {
             </IonTabButton>
             <IonTabButton tab="tab2" href="/tab2">
               <IonIcon icon={ellipse} />
-              <IonLabel>Tab 2</IonLabel>
+              <IonLabel>日程</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab3" href="/tab3">
               <IonIcon icon={square} />

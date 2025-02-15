@@ -1,7 +1,7 @@
 import React from 'react'
 import { IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react'
 import './CourseGrid.css'
-import { Course, ClassArrangement } from '../../models/Course'
+import { Course  } from '../../models/Course'
 import { Term } from '../../models/shared'
 
 const courses: Course[] = [
@@ -16,6 +16,7 @@ const courses: Course[] = [
         sectionCount: 2,
         location: '紫金港东 2-201',
       },
+
     ],
   },
   {
@@ -125,7 +126,6 @@ const CourseGrid: React.FC = () => {
           </IonCol>
         ))}
       </IonRow>
-
       {timeSlots.map((slot, i) => (
         <IonRow key={i} className="time-row">
           <IonCol size="1" className="time-slot">
@@ -136,10 +136,11 @@ const CourseGrid: React.FC = () => {
           </IonCol>
 
           {[...Array(7)].map((_, day) => (
-            <IonCol key={day} className="course-cell">
+            <IonCol key={`${day}-${slot.index}`} className="course-cell" style={{ gridRow: `span ${slot.index}` }}>
+              {' '}
+              {/* 使用 day 和 slot.index 组合作为 key */}
               {courses.map((course, idx) =>
                 course.classes.map((classItem) => {
-                  // 通过 classItem.dayOfWeek 和 classItem.startSection 来匹配课程
                   if (
                     classItem.dayOfWeek === day + 1 &&
                     classItem.startSection === slot.index

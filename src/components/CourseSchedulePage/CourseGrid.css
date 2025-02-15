@@ -23,7 +23,12 @@
 }
 
 .time-row {
-  min-height: 60px;
+  .time-row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr); /* 7天 + 1列时间 */
+  grid-auto-rows: minmax(4vh, auto); /* 设置每行的最小高度 */
+}
+
 }
 
 .time-slot {
@@ -61,6 +66,8 @@
   position: relative;
   min-width: 0;
 }
+
+
 
 .course-card {
   margin: 0;

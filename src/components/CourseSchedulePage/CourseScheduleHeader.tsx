@@ -2,9 +2,9 @@ import React from 'react'
 import {  IonButton, IonImg } from '@ionic/react'
 import eye from '../../assets/kbheader-eye.png'
 import  out  from '../../assets/kbheader-out.png'
-import './ScheduleHeader.css'
+import './CourseScheduleHeader.css'
 
-const ScheduleHeader: React.FC = () => {
+const CourseScheduleHeader: React.FC = () => {
   return (
     <div className="schedule-header">
       <div className="credit-info">
@@ -23,4 +23,4 @@ const ScheduleHeader: React.FC = () => {
   )
 }
 
-export default ScheduleHeader
+export default CourseScheduleHeader

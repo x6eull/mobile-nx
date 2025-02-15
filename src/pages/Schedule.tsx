@@ -1,57 +1,29 @@
-
-import React, { useState } from 'react'
 import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonIcon,
   IonContent,
-  IonFooter,
-  IonImg,
-  IonLabel,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react'
-import { close } from 'ionicons/icons'
-import kbleft from '../assets/schedule-left.png'
-import ScheduleHeader from '../components/SchedulePage/ScheduleHeader'
-import CourseGrid from '../components/SchedulePage/CourseGrid'
-import SemesterSelector from '../components/SchedulePage/SemesterSelector'
+import ExploreContainer from '../components/ExploreContainer'
 import './Schedule.css'
 
 const Schedule: React.FC = () => {
-  const [selectedSemester, setSelectedSemester] = useState('2023-fall')
-
   return (
-    <IonPage className="schedule-page">
+    <IonPage>
       <IonHeader>
         <IonToolbar>
-          <div className="header-content">
-            <IonImg src={kbleft} alt="KB Left" slot="start" className="kbleft-img"/>
-            <IonLabel className="schedule-title">课表</IonLabel>
-          </div>
-          <IonButtons slot="end">
-            <IonButton routerLink="/profile">
-              <IonIcon icon={close} size="large" />
-            </IonButton>
-          </IonButtons>
+          <IonTitle>Tab 2</IonTitle>
         </IonToolbar>
       </IonHeader>
-
-      <IonContent className="schedule-content"
-      scrollY={true}>
-        <div className="schedule-container">
-          <ScheduleHeader />
-          <CourseGrid />
-        </div>
+      <IonContent fullscreen>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">Tab 2</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <ExploreContainer name="Tab 2 page" />
       </IonContent>
-
-      <IonFooter className="ion-no-border schedule-footer">
-        <SemesterSelector
-          selected={selectedSemester}
-          onChange={setSelectedSemester}
-        />
-      </IonFooter>
     </IonPage>
   )
 }

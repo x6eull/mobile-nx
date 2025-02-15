@@ -28,7 +28,7 @@ const FeatureCard: React.FC = () => {
         </div>
       </div>
       <div className="right-cards">
-        <IonCard button routerLink="/schedule" className="small-card">
+        <IonCard button routerLink="/course-schedule" className="small-card">
           <div className="card-content">
             <div className="icon-container">
               <img alt="icon" src={schedule} />
