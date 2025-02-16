@@ -29,7 +29,10 @@
   margin-left: 0;
   margin-bottom: 1vh;
 }
- 
+/* 隐藏滚动条 */
+.schedule-content::-webkit-scrollbar {
+  display: none;
+}
 
 
 

@@ -1,9 +1,21 @@
 .semester-selector {
   .semester-selector-button {
     --background: #586fc2;
-    --background-activated: #fff;
+    --background-checked: #fff;
     --background-focused: #fff;
     --color: #fff;
     --color-checked: #586fc2;
+    --indicator-color: transparent;
+    --border-radius: 0;
+    transition: transform 0.2s;
+    transition: border-radius 0.2s;
+    &::part(indicator) {
+      display: none;
+    }
+    &.segment-button-checked {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 rgba(88, 111, 194, 0.3);
+      --border-radius: 0 0 20px 20px;
+    }
   }
 }
