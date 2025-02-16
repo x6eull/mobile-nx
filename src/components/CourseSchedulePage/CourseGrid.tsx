@@ -116,7 +116,7 @@ const timeSlots = [
 
 const CourseGrid: React.FC = () => {
   const timeSlotHeight = 5
-  const totalHeight = timeSlots.length * timeSlotHeight // 总高度，例如13个时间槽 * 8vh = 104vh
+  
   return (
     <IonGrid className="course-grid">
       <IonRow className="weekday-row">

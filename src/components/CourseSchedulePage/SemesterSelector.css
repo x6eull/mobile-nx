@@ -1,12 +1,1 @@
-.semester-selector ion-segment-button {
-  --padding-top: 4px;
-  --padding-bottom: 4px;
-  --padding-start: 12px;
-  --padding-end: 12px;
-  font-size: 0.85em;
-  --color: var(--ion-color-medium);
-  --color-checked: var(--ion-color-primary);
-  --indicator-color: var(--ion-color-primary);
-  min-width: auto;
-  flex-shrink: 0;
-}
+
