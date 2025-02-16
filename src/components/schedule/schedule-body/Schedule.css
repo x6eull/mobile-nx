@@ -80,7 +80,7 @@ a {
     color: var(--schedule-emoji-color);
   }
   .schedule-none {
-    font: 2.5rem "微软雅黑"; /*设置字体和字体大小*/
+    font: 2.5rem '微软雅黑'; /*设置字体和字体大小*/
     font-weight: 550; /*设置字体粗细*/
     text-align: center; /*设置文字居中*/
     color: var(--schedule-none-color); /*设置文字颜色*/

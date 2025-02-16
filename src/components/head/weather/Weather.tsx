@@ -1,18 +1,18 @@
-import "./Weather.css";
+import './Weather.css'
 
 interface weatherModel {
-  weather: string;
+  weather: string
   temperature: {
-    min: number;
-    max: number;
-  };
+    min: number
+    max: number
+  }
 }
 function Weather({
   weatherData,
   tip,
 }: {
-  weatherData: weatherModel;
-  tip: string;
+  weatherData: weatherModel
+  tip: string
 }) {
   return (
     <div className="weather-container1">
@@ -24,7 +24,7 @@ function Weather({
       </div>
       <div id="weather-tip">{tip}</div>
     </div>
-  );
+  )
 }
 
-export default Weather;
+export default Weather

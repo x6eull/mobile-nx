@@ -4,12 +4,12 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-} from "@ionic/react";
-import "./Home.css";
-import Head from "../components/head/HomeHead";
-import Schedule from "../components/schedule/schedule-body/Schedule";
-import TodoList from "../components/todoList/TodoList";
-import QuickLink from "../components/quickLink/QuickLink";
+} from '@ionic/react'
+import './Home.css'
+import Head from '../components/head/HomeHead'
+import Schedule from '../components/schedule/schedule-body/Schedule'
+import TodoList from '../components/todoList/TodoList'
+import QuickLink from '../components/quickLink/QuickLink'
 
 const Home: React.FC = () => {
   return (
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         <QuickLink />
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

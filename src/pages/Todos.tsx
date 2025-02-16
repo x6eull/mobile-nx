@@ -4,8 +4,8 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-} from "@ionic/react";
-import "./Todos.css";
+} from '@ionic/react'
+import './Todos.css'
 
 const Tab3: React.FC = () => {
   return (
@@ -18,7 +18,7 @@ const Tab3: React.FC = () => {
         </IonHeader>
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
-export default Tab3;
+export default Tab3

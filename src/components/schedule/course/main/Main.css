@@ -1,7 +1,7 @@
 @font-face {
   /* 引入Rubik字体，给时间用*/
-  font-family: "Rubik";
-  src: url("./Rubik/Rubik-Bold.ttf") format("truetype");
+  font-family: 'Rubik';
+  src: url('./Rubik/Rubik-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
@@ -28,7 +28,7 @@
     font-weight: 500;
     color: var(--main-header-color);
     #time {
-      font-family: "Rubik", sans-serif;
+      font-family: 'Rubik', sans-serif;
       font-size: 2.1875rem;
       font-weight: 700;
       color: var(--main-time-color);

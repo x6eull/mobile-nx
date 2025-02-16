@@ -1,10 +1,10 @@
-import logo from "./link.svg";
-import logo1 from "./quickLinkLogo/1.svg";
-import logo2 from "./quickLinkLogo/2.svg";
-import logo3 from "./quickLinkLogo/3.svg";
-import logo4 from "./quickLinkLogo/4.svg";
-import "./QuickLink.css";
-import LinkAnimation from "./LinkAnimation";
+import logo from './link.svg'
+import logo1 from './quickLinkLogo/1.svg'
+import logo2 from './quickLinkLogo/2.svg'
+import logo3 from './quickLinkLogo/3.svg'
+import logo4 from './quickLinkLogo/4.svg'
+import './QuickLink.css'
+import LinkAnimation from './LinkAnimation'
 
 const QuickLink: React.FC = () => {
   return (
@@ -29,7 +29,7 @@ const QuickLink: React.FC = () => {
         </LinkAnimation>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default QuickLink;
+export default QuickLink

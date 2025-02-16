@@ -1,7 +1,7 @@
-import spot from "./miner-logo/spot.svg";
-import time from "./miner-logo/time.svg";
-import "./Miner.css";
-import { courseMiner } from "../../schedule-body/Schedule";
+import spot from './miner-logo/spot.svg'
+import time from './miner-logo/time.svg'
+import './Miner.css'
+import { courseMiner } from '../../schedule-body/Schedule'
 
 function Min({ item }: { item: courseMiner }) {
   return (
@@ -22,10 +22,10 @@ function Min({ item }: { item: courseMiner }) {
             </div>
           </div>
         </div>
-        <div className="min-right">{">"}</div>
+        <div className="min-right">{'>'}</div>
       </a>
     </>
-  );
+  )
 }
 
-export default Min;
+export default Min

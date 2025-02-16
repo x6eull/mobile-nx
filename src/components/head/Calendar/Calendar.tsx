@@ -1,4 +1,4 @@
-import "./Calendar.css";
+import './Calendar.css'
 
 function Calendar({
   year,
@@ -8,12 +8,12 @@ function Calendar({
   number,
   num,
 }: {
-  year: number;
-  month: number;
-  day: number;
-  season: string;
-  number: number;
-  num: string;
+  year: number
+  month: number
+  day: number
+  season: string
+  number: number
+  num: string
 }) {
   return (
     <div className="calendar-container">
@@ -28,7 +28,7 @@ function Calendar({
         <div>星期{num}</div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Calendar;
+export default Calendar
