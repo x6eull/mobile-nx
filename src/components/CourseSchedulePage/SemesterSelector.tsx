@@ -1,5 +1,11 @@
 import React from 'react'
-import { IonSegment, IonSegmentButton, IonLabel } from '@ionic/react'
+import {
+  IonSegment,
+  IonSegmentButton,
+  IonLabel,
+  IonSegmentView,
+  IonSegmentContent,
+} from '@ionic/react'
 import './SemesterSelector.css'
 import { Semester, Term } from '../../models/shared'
 
@@ -10,8 +16,6 @@ const SemesterList: Semester[] = [
   { year: 2023, term: Term.Winter },
   { year: 2023, term: Term.Autumn },
 ]
-
-
 
 const SemesterSelector: React.FC<{
   selected: string
@@ -37,7 +41,12 @@ const SemesterSelector: React.FC<{
         }`
 
         return (
-          <IonSegmentButton key={semesterKey} value={semesterKey}>
+          <IonSegmentButton
+            key={semesterKey}
+            value={semesterKey}
+            contentId={semesterKey}
+            className="semester-selector-button"
+          >
             <IonLabel>{label}</IonLabel>
           </IonSegmentButton>
         )

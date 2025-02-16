@@ -116,7 +116,7 @@ const timeSlots = [
 
 const CourseGrid: React.FC = () => {
   const timeSlotHeight = 5
-  
+
   return (
     <IonGrid className="course-grid">
       <IonRow className="weekday-row">

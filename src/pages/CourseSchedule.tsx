@@ -9,6 +9,8 @@ import {
   IonContent,
   IonImg,
   IonLabel,
+  IonSegmentView,
+  IonSegmentContent,
 } from '@ionic/react'
 import { close } from 'ionicons/icons'
 import kbleft from '../assets/schedule-left.png'
@@ -25,7 +27,12 @@ const CourseSchedule: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <div className="header-content">
-            <IonImg src={kbleft} alt="KB Left" slot="start" className="kbleft-img"/>
+            <IonImg
+              src={kbleft}
+              alt="KB Left"
+              slot="start"
+              className="kbleft-img"
+            />
             <IonLabel className="schedule-title">课表</IonLabel>
           </div>
           <IonButtons slot="end">
@@ -36,24 +43,19 @@ const CourseSchedule: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="schedule-content" scrollY={true} fullscreen={true} >
-        
-        <div className="schedule-container">
-          <CourseScheduleHeader />
-          <CourseGrid />
-        </div>
-       
+      <IonContent className="schedule-content" scrollY={true} fullscreen={true}>
+        <IonSegmentView>
+          <IonSegmentContent id="semesterKey" className="schedule-content">
+            <CourseScheduleHeader />
+            <CourseGrid />
+          </IonSegmentContent>
+        </IonSegmentView>
         <SemesterSelector
           selected={selectedSemester}
           onChange={setSelectedSemester}
-          />
-        
+        />
       </IonContent>
-
-      
-        
-      
-      </IonPage>
+    </IonPage>
   )
 }
 

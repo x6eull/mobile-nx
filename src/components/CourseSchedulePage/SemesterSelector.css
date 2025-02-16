@@ -1,1 +1,9 @@
-
+.semester-selector {
+  .semester-selector-button {
+    --background: #586fc2;
+    --background-activated: #fff;
+    --background-focused: #fff;
+    --color: #fff;
+    --color-checked: #586fc2;
+  }
+}
