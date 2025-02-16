@@ -47,7 +47,7 @@ const CourseSchedule: React.FC = () => {
         <IonSegmentView>
           <IonSegmentContent id="semesterKey" className="schedule-content">
             <CourseScheduleHeader />
-            <CourseGrid />
+            <CourseGrid semesterKey={selectedSemester} />
           </IonSegmentContent>
         </IonSegmentView>
         <SemesterSelector

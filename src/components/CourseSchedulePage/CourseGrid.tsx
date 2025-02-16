@@ -114,8 +114,13 @@ const timeSlots = [
   { start: '20:30', index: 13 },
 ]
 
-const CourseGrid: React.FC = () => {
+const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
   const timeSlotHeight = 5
+  const [year, term] = semesterKey.split('-')
+   const filteredCourses = courses.filter(
+     (course) =>
+       course.semester.year === Number(year) && Term[course.semester.term] === term,
+   )
 
   return (
     <IonGrid className="course-grid">
@@ -146,7 +151,7 @@ const CourseGrid: React.FC = () => {
         {/* 天列 */}
         {[1, 2, 3, 4, 5, 6, 7].map((day) => (
           <IonCol key={day} className="day-column">
-            {courses.map((course, idx) =>
+            {filteredCourses.map((course, idx) =>
               course.classes
                 .filter((classItem) => classItem.dayOfWeek === day)
                 .map((classItem, classIdx) => (

@@ -29,7 +29,7 @@ const SemesterSelector: React.FC<{
     >
       {SemesterList.map((semester) => {
         // 组合年份和学期作为key
-        const semesterKey = `${semester.year}-${semester.term}`
+        const semesterKey = `${semester.year}-${Term[semester.term]}`
         const label = `${semester.year} ${
           semester.term === Term.Autumn
             ? '秋'
