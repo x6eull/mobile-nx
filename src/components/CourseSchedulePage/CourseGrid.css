@@ -1,103 +1,97 @@
 .course-grid {
   --ion-grid-padding: 0;
   background-color: white;
-}
+  .weekday-row {
+    font-weight: bold;
+    color: black;
+    font-size: 0.9em;
+    text-align: center;
+    top: 0;
+    z-index: 1;
+    margin-bottom: 3vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & .weekday-cell {
+      border: none;
+      padding: 4px;
+    }
+  }
+  & .time-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+     position: relative;
+    
+    & .time-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color:white;
+      
+      padding: 4px;
+      min-width: 40px;
+      & .time-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        margin-left: 1vw;
+        margin-right: 1vw;
+      }
+      & .time-text span {
+        font-size: 0.75em;
+        color: var(--ion-color-medium);
+        white-space: nowrap;
+      }
 
-.weekday-row {
-  background-color: white;
-  font-weight: bold;
-  color: black;
-  font-size: 0.9em;
-  text-align: center;
-  height: 40px;
-  line-height: 40px;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  margin-bottom: 3vh;
+      & .time-text small {
+        font-size: 1em;
+        color: black;
+        font-weight: bold;
+      }
+    }
+    
+  }
+ 
 }
-.time-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.weekday-cell {
-  border: none;
-  padding: 4px;
-}
-.time-slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background-color: white;
-  padding: 4px;
-  min-width: 40px;
-}
-
-.time-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  margin-left: 1vw;
-  margin-right: 1vw;
-  
-}
-
-.time-text span {
-  font-size: 0.75em;
-  color: var(--ion-color-medium);
-  white-space: nowrap;
-}
-
-.time-text small {
-  font-size: 1em;
-  color: black;
-  font-weight: bold;
-}
-
 .course-cell {
-  border: none;
-  padding: 2px;
-  position: relative;
-  min-width: 0;
-}
+      border: none;
+      position: relative;
+      min-width: 0;
+      margin: 1px ;
+      .course-card {
+        height: 100%;
+        background-color: #586fc2;
+        border-radius: 10px;
+        box-shadow: none;
+        min-width: 0;
+      }
+      .course-card ion-card-content {
+        padding: 6px;
+        color: white;
+      }
 
+      .course-card h5 {
+        margin: 0;
+        font-size: 0.85em;
+        font-weight: normal;
+        color: white;
+        white-space: wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
+      }
 
-.course-card {
-  margin: 0;
-  height: 100%;
-  background-color: #586FC2;
-  border-radius: 4px;
-  box-shadow: none;
-  min-width: 0;
-}
-
-.course-card ion-card-content {
-  padding: 6px;
-  color: white;
-}
-
-.course-card h5 {
-  margin: 0;
-  font-size: 0.85em;
-  font-weight: normal;
-  color: white;
-  white-space: wrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.course-card p {
-  margin: 4px 0 0;
-  font-size: 0.7em;
-  color: rgba(255, 255, 255, 0.8);
-  white-space: wrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} 
+      .course-card p {
+        margin: 1vh 0 0;
+        font-size: 0.7em;
+        color: rgba(255, 255, 255, 0.8);
+        white-space: wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
