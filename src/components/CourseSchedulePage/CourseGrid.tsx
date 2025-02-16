@@ -115,8 +115,8 @@ const timeSlots = [
 ]
 
 const CourseGrid: React.FC = () => {
-  const timeSlotHeight = 8
-
+  const timeSlotHeight = 5
+  const totalHeight = timeSlots.length * timeSlotHeight // 总高度，例如13个时间槽 * 8vh = 104vh
   return (
     <IonGrid className="course-grid">
       <IonRow className="weekday-row">
@@ -128,60 +128,50 @@ const CourseGrid: React.FC = () => {
         ))}
       </IonRow>
 
-      {timeSlots.map((slot, i) => (
-        <IonRow key={i} className="time-row">
-          <IonCol
-            size="1"
-            className="time-slot"
-            style={{ height: `${timeSlotHeight}vh` }}
-          >
-            <div className="time-text">
+      <IonRow className="main-content-row">
+        {/* 时间列 */}
+        <IonCol size="1" className="time-column">
+          {timeSlots.map((slot) => (
+            <div
+              key={slot.index}
+              className="time-slot-label"
+              style={{ height: `${timeSlotHeight}vh` }}
+            >
               <span>{slot.start}</span>
               <small>{slot.index}</small>
             </div>
-          </IonCol>
-
-          {[...Array(7)].map((_, day) => (
-            <IonCol key={`${day}-${slot.index}`} className="course-cell">
-              {' '}
-              {/* 使用 day 和 slot.index 组合作为 key */}
-              {courses.map((course, idx) =>
-                course.classes
-                  .filter((classItem) => classItem.dayOfWeek === day + 1)
-
-                  .map((classItem) => {
-                    const top = (classItem.startSection - 1) * timeSlotHeight
-                    const height = classItem.sectionCount * timeSlotHeight
-                    if (
-                      classItem.dayOfWeek === day + 1 &&
-                      classItem.startSection === slot.index
-                    ) {
-                      return (
-                        <IonCard
-                          key={idx}
-                          className="course-card"
-                          style={{
-                            position: 'absolute',
-                            top: `${top}vh`,
-                            height: `${height}vh`,
-                            width: '100%',
-                            margin: 0,
-                          }}
-                        >
-                          <IonCardContent>
-                            <h5>{course.name}</h5>
-                            <p>{classItem.location}</p>
-                          </IonCardContent>
-                        </IonCard>
-                      )
-                    }
-                    return null
-                  }),
-              )}
-            </IonCol>
           ))}
-        </IonRow>
-      ))}
+        </IonCol>
+
+        {/* 天列 */}
+        {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+          <IonCol key={day} className="day-column">
+            {courses.map((course, idx) =>
+              course.classes
+                .filter((classItem) => classItem.dayOfWeek === day)
+                .map((classItem, classIdx) => (
+                  <IonCard
+                    key={`${idx}-${classIdx}`}
+                    className="course-card"
+                    style={{
+                      position: 'absolute',
+                      top: `${(classItem.startSection - 1) * timeSlotHeight}vh`,
+                      height: `${classItem.sectionCount * timeSlotHeight}vh`,
+                      width: 'calc(100% - 2px)',
+                      left: '1px',
+                      right: '1px',
+                    }}
+                  >
+                    <IonCardContent>
+                      <h5>{course.name}</h5>
+                      <p>{classItem.location}</p>
+                    </IonCardContent>
+                  </IonCard>
+                )),
+            )}
+          </IonCol>
+        ))}
+      </IonRow>
     </IonGrid>
   )
 }
