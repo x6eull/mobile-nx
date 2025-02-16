@@ -5,6 +5,15 @@ import { ZjuamService } from '../base/zjuam';
 import 'dotenv/config';
 import { setUser } from '@/store/user';
 
+interface fullExamDataItem {
+  courseId: string;
+  type: 'midterm' | 'final';
+  startAt: Date;
+  endAt: Date;
+  location: string;
+  seat: number;
+}
+
 /**
  *
  * @param str looks like '2025年01月04日(14:00-16:00)'
@@ -36,16 +45,7 @@ const implement = async (
   custom_fetch: (url: string, options?: RequestInit) => Promise<Response>,
   xnxq: string | false,
   xxq: string | false,
-): Promise<
-  {
-    courseId: string;
-    type: 'midterm' | 'final';
-    startAt: Date;
-    endAt: Date;
-    location: string;
-    seat: number;
-  }[]
-> => {
+): Promise<fullExamDataItem[]> => {
   const formdata = new FormData();
   formdata.append('queryModel.showCount', '1024');
   formdata.append('queryModel.currentPage', '1');
@@ -62,14 +62,7 @@ const implement = async (
   )
     .then((res) => res.json())
     .catch(Promise.reject);
-  const resx: {
-    courseId: string;
-    type: 'midterm' | 'final';
-    startAt: Date;
-    endAt: Date;
-    location: string;
-    seat: number;
-  }[] = [];
+  const resx: fullExamDataItem[] = [];
   data.items.forEach((item: any) => {
     if (item.qzkssj /* 期中考试时间 */) {
       resx.push({
@@ -157,6 +150,16 @@ const prepareSemesterString = (
 //   );
 // }
 
+function trimExamDataItem(x: fullExamDataItem): ExamArrangement {
+  return {
+    type: x.type,
+    startAt: x.startAt,
+    endAt: x.endAt,
+    location: x.location,
+    seat: x.seat,
+  };
+}
+
 export default class {
   #_fetch: Function;
   #_examData: {
@@ -173,17 +176,18 @@ export default class {
     }).nxFetch;
   }
   async getExamData(Semester: Semester) {
-    return (this.#_examData = await implement(
+    this.#_examData = await implement(
       this.#_fetch as (arg0: string, arg1?: RequestInit) => Promise<Response>,
       ...prepareSemesterString(Semester),
-    ));
+    );
+    return this.#_examData.map(trimExamDataItem);
   }
   async getExamDataFromCourse(course: Course): Promise<ExamArrangement[]> {
     if (!this.#_examData.length) {
-      this.#_examData = await this.getExamData(course.semester);
+      await this.getExamData(course.semester);
     }
-    return this.#_examData.filter(
-      (exam) => exam.location == course.classes[0].location,
-    );
+    return this.#_examData
+      .filter((exam) => exam.location == course.classes[0].location)
+      .map(trimExamDataItem);
   }
 }
