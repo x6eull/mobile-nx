@@ -6,7 +6,7 @@ import { Term } from '../../models/shared'
 
 const courses: Course[] = [
   {
-    semester: { year: 2024, term: Term.Autumn },
+    semester: { year: 2023, term: Term.Autumn },
     name: '微积分（甲）II',
     classes: [
       {

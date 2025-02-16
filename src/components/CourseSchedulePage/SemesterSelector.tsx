@@ -2,9 +2,7 @@ import React from 'react'
 import {
   IonSegment,
   IonSegmentButton,
-  IonLabel,
-  IonSegmentView,
-  IonSegmentContent,
+  IonLabel
 } from '@ionic/react'
 import './SemesterSelector.css'
 import { Semester, Term } from '../../models/shared'
@@ -22,10 +20,12 @@ const SemesterSelector: React.FC<{
   onChange: (value: string) => void
 }> = ({ selected, onChange }) => {
   return (
+    
     <IonSegment
       value={selected}
       onIonChange={(e) => onChange(e.detail.value as string)}
       className="semester-selector"
+      scrollable={true}
     >
       {SemesterList.map((semester) => {
         // 组合年份和学期作为key
@@ -51,7 +51,8 @@ const SemesterSelector: React.FC<{
           </IonSegmentButton>
         )
       })}
-    </IonSegment>
+      </IonSegment>
+    
   )
 }
 
