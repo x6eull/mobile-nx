@@ -59,7 +59,6 @@ export default function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/grades" component={Grades} />
           <Route exact path="/course-schedule" component={CourseSchedule} />
-          <Route exact path="/profile" component={Profile} />
         </IonRouterOutlet>
 
         <IonTabs>

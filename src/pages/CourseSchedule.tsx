@@ -7,7 +7,6 @@ import {
   IonButton,
   IonIcon,
   IonContent,
-  IonFooter,
   IonImg,
   IonLabel,
 } from '@ionic/react'
@@ -37,15 +36,18 @@ const CourseSchedule: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="schedule-content">
+      <IonContent className="schedule-content" >
+        
         <div className="schedule-container">
           <CourseScheduleHeader />
           <CourseGrid />
         </div>
+       
         <SemesterSelector
           selected={selectedSemester}
           onChange={setSelectedSemester}
-        />
+          />
+        
       </IonContent>
 
       

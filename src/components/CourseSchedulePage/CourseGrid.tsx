@@ -116,6 +116,7 @@ const timeSlots = [
 ]
 
 const CourseGrid: React.FC = () => {
+  const timeSlotHeight = 50
   return (
     <IonGrid className="course-grid">
       <IonRow className="weekday-row">
@@ -126,6 +127,7 @@ const CourseGrid: React.FC = () => {
           </IonCol>
         ))}
       </IonRow>
+
       {timeSlots.map((slot, i) => (
         <IonRow key={i} className="time-row">
           <IonCol size="1" className="time-slot">
@@ -136,7 +138,7 @@ const CourseGrid: React.FC = () => {
           </IonCol>
 
           {[...Array(7)].map((_, day) => (
-            <IonCol key={`${day}-${slot.index}`} className="course-cell" style={{ gridRow: `span ${slot.index}` }}>
+            <IonCol key={`${day}-${slot.index}`} className="course-cell">
               {' '}
               {/* 使用 day 和 slot.index 组合作为 key */}
               {courses.map((course, idx) =>

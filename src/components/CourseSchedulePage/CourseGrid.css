@@ -16,22 +16,21 @@
   z-index: 1;
   margin-bottom: 3vh;
 }
+.time-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .weekday-cell {
   border: none;
   padding: 4px;
 }
-
-.time-row {
-  .time-row {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr); /* 7天 + 1列时间 */
-  grid-auto-rows: minmax(4vh, auto); /* 设置每行的最小高度 */
-}
-
-}
-
 .time-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   border: none;
   background-color: white;
   padding: 4px;
@@ -46,6 +45,7 @@
   height: 100%;
   margin-left: 1vw;
   margin-right: 1vw;
+  
 }
 
 .time-text span {
@@ -81,7 +81,6 @@
 .course-card ion-card-content {
   padding: 6px;
   color: white;
-  overflow: hidden;
 }
 
 .course-card h5 {
@@ -89,7 +88,7 @@
   font-size: 0.85em;
   font-weight: normal;
   color: white;
-  white-space: nowrap;
+  white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -98,7 +97,7 @@
   margin: 4px 0 0;
   font-size: 0.7em;
   color: rgba(255, 255, 255, 0.8);
-  white-space: nowrap;
+  white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
 } 
