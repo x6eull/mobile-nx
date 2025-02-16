@@ -55,12 +55,6 @@ export default function App() {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/grades" component={Grades} />
-          <Route exact path="/course-schedule" component={CourseSchedule} />
-        </IonRouterOutlet>
-
         <IonTabs>
           <IonRouterOutlet>
             <Route exact path="/tab1">
@@ -75,6 +69,11 @@ export default function App() {
             <Route exact path="/profile">
               <Profile />
             </Route>
+
+            {/* 嵌套路由 */}
+            <Route path="/profile/grades" component={Grades} />
+            <Route path="/profile/course-schedule" component={CourseSchedule} />
+            <Route path="/profile/login" component={Login} />
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">

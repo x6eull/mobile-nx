@@ -28,7 +28,7 @@ const FeatureCard: React.FC = () => {
         </div>
       </div>
       <div className="right-cards">
-        <IonCard button routerLink="/course-schedule" className="small-card">
+        <IonCard button routerLink="/profile/course-schedule" className="small-card">
           <div className="card-content">
             <div className="icon-container">
               <img alt="icon" src={schedule} />
@@ -40,7 +40,7 @@ const FeatureCard: React.FC = () => {
           </div>
         </IonCard>
 
-        <IonCard button routerLink="/grades" className="small-card">
+        <IonCard button routerLink="/profile/grades" className="small-card">
           <div className="card-content">
             <div className="icon-container">
               <img alt="icon" src={grades} />

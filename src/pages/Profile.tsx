@@ -14,7 +14,7 @@ const Profile: React.FC = () => {
         <FeatureCard />
         <Settings />
         <div className="logout-button-container">
-        <IonButton className="logout-button" fill="outline" routerLink="/login">
+        <IonButton className="logout-button" fill="outline" routerLink="/profile/login">
           退出登录
           </IonButton>
         </div>
