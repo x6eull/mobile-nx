@@ -5,6 +5,9 @@ import { ZjuamService } from '../base/zjuam';
 import 'dotenv/config';
 import { setUser } from '@/store/user';
 
+//TODO: Using another fetch type
+//      减少抽象层数
+
 interface fullExamDataItem {
   courseId: string;
   type: 'midterm' | 'final';
@@ -59,9 +62,7 @@ const implement = async (
       body: formdata,
       method: 'POST',
     },
-  )
-    .then((res) => res.json())
-    .catch(Promise.reject);
+  ).then((res) => res.json());
   const resx: fullExamDataItem[] = [];
   data.items.forEach((item: any) => {
     if (item.qzkssj /* 期中考试时间 */) {
@@ -103,11 +104,11 @@ const prepareSemesterString = (
     })-`,
     ((m) => (m[1] ? false : m[0][1]))(
       Object.entries({
-        0b1: '春',
-        0b10: '夏',
-        0b100: '秋',
-        0b1000: '冬',
-      }).filter((a) => t & Number(a[0])),
+        [Term.Spring]: '春',
+        [Term.Summer]: '夏',
+        [Term.Autumn]: '秋',
+        [Term.Winter]: '冬',
+      }).filter((a) => t & Number(a[0]))[0][1],
     ),
   ];
 };
@@ -160,30 +161,34 @@ function trimExamDataItem(x: fullExamDataItem): ExamArrangement {
   };
 }
 
-export default class {
-  #_fetch: Function;
-  #_examData: fullExamDataItem[] = [];
+export class ExamSpider {
+  #_service: ZjuamService;
+  // #_examData: fullExamDataItem[] = [];
   constructor(zjuam: ZjuamService) {
-    this.#_fetch = new ZjuamService(
+    this.#_service = new ZjuamService(
       {
         service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
       },
       60 * 30,
-    ).nxFetch;
-  }
-  async getExamData(Semester: Semester) {
-    this.#_examData = await implement(
-      this.#_fetch as (arg0: string, arg1?: RequestInit) => Promise<Response>,
-      ...prepareSemesterString(Semester),
     );
-    return this.#_examData.map(trimExamDataItem);
   }
-  async getExamDataFromCourse(course: Course): Promise<ExamArrangement[]> {
-    if (!this.#_examData.length) {
-      await this.getExamData(course.semester);
-    }
-    return this.#_examData
-      .filter((exam) => exam.location == course.classes[0].location)
-      .map(trimExamDataItem);
+  async getExamData(Semester: Semester): Promise<ExamArrangement[]> {
+    return (
+      await implement(
+        this.#_service.nxFetch as (
+          arg0: string,
+          arg1?: RequestInit,
+        ) => Promise<Response>,
+        ...prepareSemesterString(Semester),
+      )
+    ).map(trimExamDataItem);
   }
+  // async getExamDataFromCourse(course: Course): Promise<ExamArrangement[]> {
+  //   if (!this.#_examData.length) {
+  //     await this.getExamData(course.semester);
+  //   }
+  //   return this.#_examData
+  //     .filter((exam) => exam.courseId == course.id)
+  //     .map(trimExamDataItem);
+  // }
 }
