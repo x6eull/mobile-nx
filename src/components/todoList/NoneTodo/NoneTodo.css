@@ -1,0 +1,122 @@
+@keyframes moveBlack {
+  0% {
+    animation-timing-function: ease-in;
+  }
+  25% {
+    transform: translate3d(0, 100%, 0.625rem);
+    animation-timing-function: ease-out;
+  }
+  50% {
+    transform: translate3d(0, 200%, 0);
+    animation-timing-function: ease-in;
+  }
+  75% {
+    transform: translate3d(0, 100%, -0.625rem);
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes moveWhite {
+  0% {
+    animation-timing-function: ease-in;
+  }
+  25% {
+    transform: translate3d(0, -100%, -0.625rem);
+    animation-timing-function: ease-out;
+  }
+  50% {
+    transform: translate3d(0, -200%, 0);
+    animation-timing-function: ease-in;
+  }
+  75% {
+    transform: translate3d(0, -100%, 0.625rem);
+    animation-timing-function: ease-out;
+  }
+}
+
+.loading {
+  --loading-name-color: #58c9b9;
+  --loading-ball-before: #519d9e;
+  --loading-ball-after: #74dbcc;
+  width: 9.375rem;
+  height: 9.375rem;
+  margin: 2.125rem auto;
+  position: relative;
+  border-radius: 50%;
+  .name {
+    position: absolute;
+    width: 6.25rem;
+    left: 1.9375rem;
+    top: 3.75rem;
+    font-size: 1.4375rem;
+    color: var(--loading-name-color);
+  }
+  .dot {
+    --rotate-angle: 0deg;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.625rem;
+    height: 0.625rem;
+    margin-left: -0.3125rem;
+    margin-top: -0.3125rem;
+    perspective: 4.375rem;
+    transform-style: preserve-3d;
+    transform: rotate(var(--rotate-angle)) translateY(-75px);
+  }
+  .dot::before,
+  .dot::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+  .dot::before {
+    background: var(--loading-ball-before);
+    top: -100%;
+    animation: moveBlack 2000ms infinite;
+  }
+  .dot::after {
+    background: var(--loading-ball-after);
+    top: 100%;
+    animation: moveWhite 2000ms infinite;
+  }
+  .dot:nth-child(6n + 1) {
+    &::before,
+    &::after {
+      animation-delay: -333.333ms;
+    }
+  }
+  .dot:nth-child(6n + 2) {
+    &::before,
+    &::after {
+      animation-delay: -666.666ms;
+    }
+  }
+  .dot:nth-child(6n + 3) {
+    &::before,
+    &::after {
+      animation-delay: -999.999ms;
+    }
+  }
+  .dot:nth-child(6n + 4) {
+    &::before,
+    &::after {
+      animation-delay: -1333.332ms;
+    }
+  }
+  .dot:nth-child(6n + 5) {
+    &::before,
+    &::after {
+      animation-delay: -1666.665ms;
+    }
+  }
+  .dot:nth-child(6n + 6) {
+    &::before,
+    &::after {
+      animation-delay: -1999.998ms;
+    }
+  }
+}
+

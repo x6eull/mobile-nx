@@ -1,2 +1,29 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+@font-face {
+  font-family: "OPPO Sans";
+  src: url("../font/OPPOSans/OPPOSans-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OPPO Sans";
+  src: url("../font/OPPOSans/OPPOSans-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OPPO Sans";
+  src: url("../font/OPPOSans/OPPOSans-Medium.ttf") format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+
+:root {
+  ion-tab-button {
+    --color: grey;
+    --color-selected: #128f9d; /* 选中时颜色 */
+  }
+}
