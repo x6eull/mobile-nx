@@ -6,9 +6,9 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import ExploreContainer from '../components/ExploreContainer'
-import './Schedule.css'
+import './DaySchedule.css'
 
-const Schedule: React.FC = () => {
+const DaySchedule: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -28,4 +28,4 @@ const Schedule: React.FC = () => {
   )
 }
 
-export default Schedule
+export default DaySchedule
