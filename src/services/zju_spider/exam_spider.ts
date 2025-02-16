@@ -171,9 +171,12 @@ export default class {
     seat: number;
   }[] = [];
   constructor(zjuam: ZjuamService) {
-    this.#_fetch = new ZjuamService({
-      service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
-    }).nxFetch;
+    this.#_fetch = new ZjuamService(
+      {
+        service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
+      },
+      60 * 30,
+    ).nxFetch;
   }
   async getExamData(Semester: Semester) {
     this.#_examData = await implement(
