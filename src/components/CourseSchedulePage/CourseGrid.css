@@ -1,4 +1,5 @@
 .course-grid {
+  position: relative;
   .weekday-row {
     font-weight: bold;
     color: black;
@@ -20,7 +21,6 @@
     align-items: flex-start;
     justify-content: center;
     position: relative;
-
     & .time-slot {
       display: flex;
       flex-direction: column;
@@ -56,7 +56,10 @@
   position: relative;
   min-width: 0;
   margin: 1px;
+  
   .course-card {
+    position: absolute;
+    width: 100%;
     height: 100%;
     background-color: #586fc2;
     border-radius: 10px;
