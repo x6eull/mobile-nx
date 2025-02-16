@@ -1,7 +1,7 @@
 import React from 'react'
 import { IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react'
 import './CourseGrid.css'
-import { Course  } from '../../models/Course'
+import { Course } from '../../models/Course'
 import { Term } from '../../models/shared'
 
 const courses: Course[] = [
@@ -16,7 +16,6 @@ const courses: Course[] = [
         sectionCount: 2,
         location: '紫金港东 2-201',
       },
-
     ],
   },
   {
@@ -76,8 +75,8 @@ const courses: Course[] = [
     name: '大脑与社会',
     classes: [
       {
-        weekType: 'every', 
-        dayOfWeek: 6, 
+        weekType: 'every',
+        dayOfWeek: 6,
         startSection: 11,
         sectionCount: 2,
         location: '紫金港东 6-208',
@@ -89,8 +88,8 @@ const courses: Course[] = [
     name: '形势与政策',
     classes: [
       {
-        weekType: 'every', 
-        dayOfWeek: 7, 
+        weekType: 'every',
+        dayOfWeek: 7,
         startSection: 12,
         sectionCount: 2,
         location: '紫金港东 1A-207',
@@ -116,8 +115,8 @@ const timeSlots = [
 ]
 
 const CourseGrid: React.FC = () => {
-  const timeSlotHeight = 8;
-  const totalHeight = timeSlots.length * timeSlotHeight // 计算总高度
+  const timeSlotHeight = 8
+
   return (
     <IonGrid className="course-grid">
       <IonRow className="weekday-row">
@@ -163,8 +162,8 @@ const CourseGrid: React.FC = () => {
                           className="course-card"
                           style={{
                             position: 'absolute',
-                            top: `${top}px`,
-                            height: `${height}px`,
+                            top: `${top}vh`,
+                            height: `${height}vh`,
                             width: '100%',
                             margin: 0,
                           }}
@@ -188,4 +187,3 @@ const CourseGrid: React.FC = () => {
 }
 
 export default CourseGrid
-
