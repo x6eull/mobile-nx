@@ -162,14 +162,7 @@ function trimExamDataItem(x: fullExamDataItem): ExamArrangement {
 
 export default class {
   #_fetch: Function;
-  #_examData: {
-    courseId: string;
-    type: 'midterm' | 'final';
-    startAt: Date;
-    endAt: Date;
-    location: string;
-    seat: number;
-  }[] = [];
+  #_examData: fullExamDataItem[] = [];
   constructor(zjuam: ZjuamService) {
     this.#_fetch = new ZjuamService(
       {
