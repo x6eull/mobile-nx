@@ -65,5 +65,5 @@ export class HomeworkSpider {
   }
 }
 
-//const gradeSpider = new HomeworkSpider()
-//console.log(await gradeSpider.fetchHomework())
+//const homeworkSpider = new HomeworkSpider()
+//console.log(await homeworkSpider.fetchHomework())
