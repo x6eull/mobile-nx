@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   IonContent,
   IonHeader,
@@ -24,14 +24,13 @@ import {
   IonBackButton,
   IonListHeader,
 } from '@ionic/react'
-import ExploreContainer from '../components/ExploreContainer'
 import {
   repeatOutline,
   codeOutline,
   timeOutline,
   todayOutline,
 } from 'ionicons/icons'
-import './Bus.css'
+import styles from './Bus.module.css' // 导入CSS Modules样式
 
 const Bus: React.FC = () => {
   const [departureTime, setDepartureTime] = useState<string>(
@@ -119,37 +118,34 @@ const Bus: React.FC = () => {
   }
 
   return (
-    <IonPage>
+    <IonPage className={styles.busPage}>
       <IonHeader>
+        {/* Header 标题区域 */}
         <IonToolbar>
+          {/* 左侧返回按钮，点击后返回上层页面，如果没有上层页面则返回到tab1 */}
           <IonButtons slot="start">
-            <IonBackButton defaultHref="tab1"></IonBackButton>
-            {/* 返回上一级页面 */}
+            <IonBackButton defaultHref="tab1" />
           </IonButtons>
-          <IonTitle className="header-title">
+          {/* 班车和校园巴士切换，文字+按钮+文字 */}
+          <IonTitle>
             <IonGrid>
-              <IonRow className="header-row">
+              <IonRow className={styles.headerRow}>
                 <IonCol
                   size="auto"
-                  className={`header-text ${isBusSelected ? 'active' : ''}`}
-                  style={{ display: 'flex', alignItems: 'center' }} // 确保文字垂直居中
+                  className={`${styles.headerText} ${isBusSelected ? styles.active : ''}`}
                 >
                   班车
                 </IonCol>
-                <IonCol
-                  size="auto"
-                  style={{ display: 'flex', alignItems: 'center' }}
-                >
+                <IonCol size="auto" className={styles.rowCenteredArrangement}>
                   <IonIcon
                     icon={repeatOutline}
                     onClick={handleToggleTitle} // 点击图标切换文字
-                    style={{ cursor: 'pointer', fontSize: '24px' }} // 调整图标大小
+                    style={{ cursor: 'pointer' }}
                   />
                 </IonCol>
                 <IonCol
                   size="auto"
-                  className={`header-text ${!isBusSelected ? 'active' : ''}`}
-                  style={{ display: 'flex', alignItems: 'center' }} // 确保文字垂直居中
+                  className={`${styles.headerText} ${!isBusSelected ? styles.active : ''}`}
                 >
                   校园巴士
                 </IonCol>
@@ -160,22 +156,11 @@ const Bus: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        {/* 查询区块 */}
-        <IonCard
-          style={{
-            borderRadius: '17px',
-            boxShadow: '0 0 0px rgba(0, 0, 0)',
-
-            // 边框
-            border: '1.5px solid #22b5af',
-
-            marginTop: '20px',
-          }}
-        >
+        {/* 主查询卡片 */}
+        <IonCard className={styles.mainCard}>
           <IonCardContent>
             <IonGrid>
               {/* 校区选择器，位于同一行 */}
-
               <IonItem style={{ width: '100%' }} className="ion-no-padding">
                 <IonRow
                   style={{
@@ -306,46 +291,37 @@ const Bus: React.FC = () => {
               onClick={handleQuery}
               disabled={!isQueryEnabled}
               expand="block"
-              style={{
-                backgroundColor: '#22b5af', // 背景色
-                borderRadius: '10px', // 圆角
-                marginTop: '10px', // 顶部间距
-              }}
+              className={styles.queryButton}
             >
               查询
             </IonButton>
           </IonCardContent>
         </IonCard>
 
-        {/* 历史记录区块 */}
+        {/* 历史记录 */}
         {history.length > 0 && (
-          <IonGrid>
+          <IonGrid className={styles.moreInfo}>
             <IonListHeader>
-              <IonLabel style={{ display: 'flex', alignItems: 'center' }}>
-                <IonIcon
-                  icon={timeOutline}
-                  style={{
-                    cursor: 'pointer',
-                    marginRight: '1.5%',
-                  }} // 调整图标大小
-                />
+              <IonLabel className={styles.rowCenteredArrangement}>
+                <IonIcon icon={timeOutline} className={styles.iconSpacing} />
                 历史记录
               </IonLabel>
               <IonButton
                 fill="clear"
                 onClick={clearHistory}
-                style={{ color: '#22b5af' }}
+                className={styles.clearHistoryButton}
               >
                 清除历史
               </IonButton>
             </IonListHeader>
 
-            <IonList style={{ width: '100%' }}>
+            <IonList>
               {history.map((item, index) => (
                 <IonItem
                   key={index}
                   button
                   onClick={() => handleHistoryClick(item)}
+                  className={styles.historyItem}
                 >
                   <IonLabel>{`${item.departureCampus} → ${item.destinationCampus}，${item.departureTime}`}</IonLabel>
                 </IonItem>
@@ -353,6 +329,7 @@ const Bus: React.FC = () => {
             </IonList>
           </IonGrid>
         )}
+        {/*
         {history.length <= 0 && (
           <IonGrid>
             <IonCardContent>
@@ -360,32 +337,27 @@ const Bus: React.FC = () => {
             </IonCardContent>
           </IonGrid>
         )}
+        */}
 
         {/* 更多信息区块 */}
-        <IonGrid>
+        <IonGrid className={styles.moreInfo}>
           <IonListHeader>
-            <IonLabel style={{ display: 'flex', alignItems: 'center' }}>
-              <IonIcon
-                icon={todayOutline}
-                style={{
-                  cursor: 'pointer',
-                  marginRight: '1.5%',
-                }} // 调整图标大小
-              />
+            <IonLabel className={styles.rowCenteredArrangement}>
+              <IonIcon icon={todayOutline} className={styles.iconSpacing} />
               更多信息
             </IonLabel>
           </IonListHeader>
           <IonList>
-            <IonItem>
+            <IonItem button>
               <IonLabel>乘坐班车注意事项</IonLabel>
             </IonItem>
-            <IonItem>
+            <IonItem button>
               <IonLabel>浙江大学班车时刻表</IonLabel>
             </IonItem>
-            <IonItem>
+            <IonItem button>
               <IonLabel>紫金港循环车</IonLabel>
             </IonItem>
-            <IonItem>
+            <IonItem button>
               <IonLabel>紫金港教学区短驳班车</IonLabel>
             </IonItem>
           </IonList>

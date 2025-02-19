@@ -1,0 +1,99 @@
+.busPage {
+  --bus-primary: #22b5af;
+  --bus-radius: 17px;
+  --ion-color-primary: #22b5af;
+}
+
+.busPage ion-button {
+  --border-radius: 10px;
+  --background: none;
+  --background-hover: none;
+  --background-activated: #9a9a9a;
+  --background-focused: none;
+
+  --box-shadow: none;
+
+  --ripple-color: #000000;
+}
+
+/* Header 标题区域 */
+.busPage .headerRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.busPage .rowCenteredArrangement {
+  display: flex;
+  align-items: center;
+}
+
+.busPage .headerText {
+  opacity: 0.3;
+  transition: opacity 0.1s linear;
+  display: flex;
+  align-items: center; /* 确保文字垂直居中 */
+  height: 100%; /* 使高度与周围元素一致 */
+}
+
+.busPage .headerText.active {
+  opacity: 1;
+}
+
+/* 时间选择器 */
+.busPage .timePicker {
+  font-size: 0.9em;
+  color: var(--bus-primary);
+}
+
+/*
+.busPage .headerTitle {
+  text-align: center;
+}
+*/
+
+/* 按钮样式 */
+.busPage .queryButton {
+  --border-radius: 10px;
+  --background: var(--bus-primary);
+  --background-activated: #1a8d8a;
+  --box-shadow: none;
+  --ripple-color: #000000;
+  margin-top: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+/* 主卡片样式 */
+.busPage .mainCard {
+  border-radius: var(--bus-radius);
+  border: 1.5px solid var(--bus-primary);
+  margin-top: 20px;
+  padding: 7px;
+}
+
+/* 历史记录和更多信息区域 */
+.busPage .moreInfo {
+  margin-top: 0px;
+}
+
+/* 历史记录 */
+.busPage .historyItem {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.busPage .historyItem:hover {
+  background-color: #f5f5f5;
+}
+
+/* 清除历史按钮 */
+.busPage .clearHistoryButton {
+  color: var(--bus-primary);
+  font-size: 0.8em;
+}
+
+/* 图标与标题文字间距，用于历史记录和更多信息图标 */
+.busPage .iconSpacing {
+  margin-right: 8px;
+}
