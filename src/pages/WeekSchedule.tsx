@@ -7,18 +7,16 @@ import {
 } from '@ionic/react'
 import './WeekSchedule.css'
 import ScheduleHeader from '../components/WeekSchedulePage/ScheduleHeader'
+import EventGrid from '@/components/WeekSchedulePage/EventGrid'
+
+
 
 const WeekSchedule: React.FC = () => {
   return (
       <IonPage>
         <ScheduleHeader />
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 2</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        
+      <IonContent >
+        <EventGrid />
       </IonContent>
     </IonPage>
   )
