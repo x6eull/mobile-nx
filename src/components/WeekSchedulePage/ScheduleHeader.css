@@ -1,0 +1,36 @@
+* {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.header-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-left: 4vw;
+  margin-bottom: 2vh;
+  .schedule-title {
+     font-family: 'Inter', sans-serif;
+     font-size: 1.3em;
+     font-weight: bold;
+     margin-right: 16vw;
+  }
+  .week-schedule-img {
+    width: 9vw;
+    height: 9vw;
+    margin-left: 10vw;
+    margin-right: 0vw;
+    margin-top: 2vh;
+  }
+  .jin-text-img {
+    width: 8vw;
+    height: 8vw;
+    margin-left: 1vw;
+    margin-right: 0vw;
+    margin-top: 2vh;
+    margin-bottom: 0.6vh;
+  }
+}
+
+
