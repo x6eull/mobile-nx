@@ -4,7 +4,7 @@ import { ZjuamService } from './interop/zjuam'
     courseId:课程id
     deadline:截止日期
     title:作业名字
-    type:日程类型homework/exam/questionnaire
+    type:日程类型 homework/exam/questionnaire
  */
 export interface Schedule {
   courseId: number
