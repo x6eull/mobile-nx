@@ -70,40 +70,28 @@ const eventData: Event[] = [
 
 const timeSlots = [
   { start: '08:00', index: 1 },
-  { start: '08:50', index: 2 },
+  { start: '09:00', index: 2 },
   { start: '10:00', index: 3 },
-  { start: '10:50', index: 4 },
-  { start: '11:40', index: 5 },
-  { start: '13:25', index: 6 },
-  { start: '14:15', index: 7 },
-  { start: '15:05', index: 8 },
-  { start: '16:15', index: 9 },
-  { start: '17:05', index: 10 },
-  { start: '18:50', index: 11 },
-  { start: '19:40', index: 12 },
-  { start: '20:30', index: 13 },
+  { start: '11:00', index: 4 },
+  { start: '12:00', index: 5 },
+  { start: '13:00', index: 6 },
+  { start: '14:00', index: 7 },
+  { start: '15:00', index: 8 },
+  { start: '16:00', index: 9 },
+  { start: '17:00', index: 10 },
+  { start: '18:00', index: 11 },
+  { start: '19:00', index: 12 },
+  { start: '20:00', index: 13 },
+  { start: '21:00', index: 14 },
+  { start: '22:00', index: 15 },
+  { start: '23:00', index: 16 },  
 ]
 
-const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
-  const timeSlotHeight = 5
-  const [year, term] = semesterKey.split('-')
-  const filteredCourses = courses.filter(
-    (course) =>
-      course.semester.year === Number(year) &&
-      Term[course.semester.term] === term,
-  )
-
+const EventGrid: React.FC = () => {
+  const timeSlotHeight = 5//todo
+  //todo根据日期确定春/秋几周显示不同的周视图
   return (
-    <IonGrid className="course-grid">
-      <IonRow className="weekday-row">
-        <IonCol size="1"></IonCol>
-        {['一', '二', '三', '四', '五', '六', '日'].map((day, index) => (
-          <IonCol key={index} className="weekday-cell">
-            {day}
-          </IonCol>
-        ))}
-      </IonRow>
-
+    <IonGrid className="event-grid">
       <IonRow className="main-content-row">
         {/* 时间列 */}
         <IonCol size="1" className="time-column">
@@ -114,7 +102,6 @@ const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
               style={{ height: `${timeSlotHeight}vh` }}
             >
               <span>{slot.start}</span>
-              <small>{slot.index}</small>
             </div>
           ))}
         </IonCol>
@@ -122,25 +109,24 @@ const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
         {/* 天列 */}
         {[1, 2, 3, 4, 5, 6, 7].map((day) => (
           <IonCol key={day} className="day-column">
-            {filteredCourses.map((course, idx) =>
-              course.classes
-                .filter((classItem) => classItem.dayOfWeek === day)
-                .map((classItem, classIdx) => (
+            {eventData.map((event, idx) =>
+              event.startat
+                .map((startat, startatIdx) => (
                   <IonCard
-                    key={`${idx}-${classIdx}`}
-                    className="course-card"
+                    key={`${idx}-${startatIdx}`}
+                    className="event-card"
                     style={{
                       position: 'absolute',
-                      top: `${(classItem.startSection - 1) * timeSlotHeight}vh`,
-                      height: `${classItem.sectionCount * timeSlotHeight}vh`,
+                      top: `${(startat.time - 1) * timeSlotHeight}vh`,
+                      height: `${event.endat[0].time - startat.time}vh`,
                       width: 'calc(100% - 2px)',
                       left: '1px',
                       right: '1px',
                     }}
                   >
                     <IonCardContent>
-                      <h5>{course.name}</h5>
-                      <p>{classItem.location}</p>
+                      <h5>{event.name}</h5>
+                      <p>{event.location}</p>
                     </IonCardContent>
                   </IonCard>
                 )),
@@ -152,4 +138,4 @@ const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
   )
 }
 
-export default CourseGrid
+export default EventGrid
