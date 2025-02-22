@@ -31,12 +31,8 @@ const eventData: Event[] = [
     name: '工程伦理',
     allday: false,
     location: '玉泉曹光彪大楼西楼-201',
-    startat: [
-      { date: '2025-02-21', time: '08:00' },
-    ],
-    endat: [
-      { date: '2025-02-21', time: '10:30' },
-    ],
+    startat: [{ date: '2025-02-21', time: '08:00' }],
+    endat: [{ date: '2025-02-21', time: '10:30' }],
     label: [{ text: labelText.Work, color: 'blue' }],
     description: '工作练习在201号教室',
   },
@@ -44,12 +40,8 @@ const eventData: Event[] = [
     name: '团队训练',
     allday: false,
     location: '体育馆',
-    startat: [
-      { date: '2025-02-22', time: '09:00' },
-    ],
-    endat: [
-      { date: '2025-02-22', time: '12:00' },
-    ],
+    startat: [{ date: '2025-02-22', time: '09:00' }],
+    endat: [{ date: '2025-02-22', time: '12:00' }],
     label: [{ text: labelText.Sport, color: 'orange' }],
     description: '体育团队训练',
   },
@@ -57,14 +49,28 @@ const eventData: Event[] = [
     name: '工程伦理',
     allday: false,
     location: '玉泉曹光彪大楼西楼-201',
-    startat: [
-      { date: '2025-02-23', time: '11:00' },
-    ],
-    endat: [
-      { date: '2025-02-23', time: '12:00' },
-    ],
+    startat: [{ date: '2025-02-23', time: '11:00' }],
+    endat: [{ date: '2025-02-23', time: '16:00' }],
     label: [{ text: labelText.Work, color: 'green' }],
     description: '工作练习在201号教室',
+  },
+  {
+    name: '工程伦理',
+    allday: false,
+    location: '玉泉曹光彪大楼西楼-201',
+    startat: [{ date: '2025-02-20', time: '11:00' }],
+    endat: [{ date: '2025-02-20', time: '14:00' }],
+    label: [{ text: labelText.Study, color: 'red' }],
+    description: '学习在201号教室',
+  },
+  {
+    name: '工程伦理',
+    allday: false,
+    location: '玉泉曹光彪大楼西楼-201',
+    startat: [{ date: '2025-02-19', time: '14:00' }],
+    endat: [{ date: '2025-02-19', time: '18:00' }],
+    label: [{ text: labelText.Study, color: 'red' }],
+    description: '学习在201号教室',
   },
 ]
 
@@ -88,8 +94,46 @@ const timeSlots = [
 ]
 
 const EventGrid: React.FC = () => {
-  const timeSlotHeight = 5//todo
+  const timeSlotHeight = 5 //todo
   //todo根据日期确定春/秋几周显示不同的周视图
+  const baseHour = 8 // 基准时间8:00
+
+  // 处理事件数据
+  const processedEvents = eventData.flatMap((event) => 
+    event.startat.map((start, index) => {
+      // 转换日期到星期几（1-7对应周一到周日）
+      const date = new Date(start.date);
+      const dayOfWeek = date.getDay() === 0 ? 7 : date.getDay();
+
+      // 时间转换方法
+      const parseTime = (time: string) => {
+        const [hours, minutes] = time.split(":").map(Number);
+        return { hours, minutes };
+      };
+
+      // 计算时间位置
+      const startTime = parseTime(start.time);
+      const endTime = parseTime(event.endat[index].time);
+      
+      // 转换为分钟数
+      const startMinutes = startTime.hours * 60 + startTime.minutes;
+      const endMinutes = endTime.hours * 60 + endTime.minutes;
+
+      // 计算相对于基准时间的垂直位置
+      const top = ((startMinutes - baseHour * 60) / 60) * timeSlotHeight;
+      const height = ((endMinutes - startMinutes) / 60) * timeSlotHeight;
+
+      return {
+        ...event,
+        dayOfWeek,
+        top,
+        height,
+        startTime: start.time,
+        endTime: event.endat[index].time
+      };
+    })
+  );
+
   return (
     <IonGrid className="event-grid">
       <IonRow className="main-content-row">
@@ -109,27 +153,27 @@ const EventGrid: React.FC = () => {
         {/* 天列 */}
         {[1, 2, 3, 4, 5, 6, 7].map((day) => (
           <IonCol key={day} className="day-column">
-            {eventData.map((event, idx) =>
-              event.startat
-                .map((startat, startatIdx) => (
-                  <IonCard
-                    key={`${idx}-${startatIdx}`}
-                    className="event-card"
-                    style={{
-                      position: 'absolute',
-                      top: `${(startat.time - 1) * timeSlotHeight}vh`,
-                      height: `${event.endat[0].time - startat.time}vh`,
-                      width: 'calc(100% - 2px)',
-                      left: '1px',
-                      right: '1px',
-                    }}
-                  >
-                    <IonCardContent>
-                      <h5>{event.name}</h5>
-                      <p>{event.location}</p>
-                    </IonCardContent>
-                  </IonCard>
-                )),
+            {processedEvents
+              .filter((event: { dayOfWeek: number }) => event.dayOfWeek === day)
+              .map((event, idx) => (
+                <IonCard
+                  key={`${idx}-${event.startTime}`}
+                  className="event-card"
+                  style={{
+                    position: 'absolute',
+                    top: `${event.top}vh`,
+                    height: `${event.height}vh`,
+                    width: 'calc(100% - 10px)',
+                    left: '5px',
+                    right: '5px',
+                  }}
+                >
+                  <IonCardContent>
+                    <h5>{event.name}</h5>
+                    <p>{event.location}</p> 
+                 </IonCardContent>
+                </IonCard>
+              )
             )}
           </IonCol>
         ))}
