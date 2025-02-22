@@ -28,7 +28,6 @@ export class HomeworkSpider {
     const data = await response.json()
     for (let i = 0; i < data.todo_list.length; i++) {
       const value = data.todo_list[i]
-      console.log(value)
       this.homework.push({
         courseId: value.course_id,
         deadline: value.end_time,
