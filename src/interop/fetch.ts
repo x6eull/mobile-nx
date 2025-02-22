@@ -28,6 +28,13 @@ interface NxFetchInit {
   body?: string | FormData | URLSearchParams
   /**若发生重定向，是否保留请求方法和正文。根据标准除了303外，都应保留；但登录重定向实践中均转为GET */
   preserveMethodInRedirects?: boolean
+  /**即将重定向时，将调用该函数，返回false则不跟随。
+   *
+   * 如果不提供此参数则默认跟随。重定向次数判定优先于此参数。
+   *
+   * 仅在capacitor/node上支持。
+   */
+  redirectChecker?: (resp: Response) => boolean
 }
 async function nxFetchBase(
   input: string,
@@ -55,6 +62,7 @@ async function nxFetchBase(
 
   function checkRedirect(resp: Response): Promise<Response> | null {
     if ([301, 302, 303, 307, 308].includes(resp.status) && redirectLeft > 0) {
+      if (init?.redirectChecker?.(resp) === false) return null
       redirectLeft--
       const location = resp.headers.get('location')
       if (!location) throw new Error('Redirect without location header')
@@ -210,6 +218,7 @@ export const nxFetch: typeof nxFetchBase & typeof nxFetchExtend = Object.assign(
   nxFetchExtend,
 )
 
+/**TODO 此函数或将弃用 */
 export function getRawUrl(interceptedUrl: string) {
   //解析http://192.168.0.100:8100/_capacitor_http_interceptor_?u=https%3A%2F%2Fzjuam.zju.edu.cn%2Fcas%2Flogin%3Fservice%3Dhttp%253A%252F%252Fzdbk.zju.edu.cn%252Fjwglxt%252Fxtgl%252Flogin_ssologin.html
   const url = new URL(interceptedUrl)
