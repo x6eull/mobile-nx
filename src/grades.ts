@@ -1,38 +1,38 @@
-import type { Grade } from './src/models/Grade'
+import type { Grade } from './models/Grade'
 import { config } from 'dotenv'
 config({ path: '.env.local' })
 
-import { requestCredential } from './src/interop/credential'
-import { ZjuamService } from './src/interop/zjuam'
+import { requestCredential } from './interop/credential'
+import { ZjuamService } from './interop/zjuam'
 
 export class GradeSpider {
   private grades: Grade[] = [] // 存储处理后的成绩信息
-  private zjuamService: ZjuamService
+  private zjuamService = new ZjuamService(
+    {
+      service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
+    },
+    60 * 30,
+  )
   private items: any[] = []
-  constructor() {
-    this.zjuamService = new ZjuamService(
-      {
-        service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
-      },
-      60 * 30,
-    )
-  } // 接收成绩数据
+  constructor() {}
+  // 接收成绩数据
   async getGrade() {
     const { username } = await requestCredential(null as any)
     const response = await this.zjuamService.nxFetch.postJson(
-      `http://zdbk.zju.edu.cn/jwglxt/cxdy/xscjcx_cxXscjIndex.html?doType=query&gnmkdm=N5083&su=${username}`,
+      `http://zdbk.zju.edu.cn/jwglxt/cxdy/xscjcx_cxXscjIndex.html?doType=query&gnmkdm=N5083&${username}`,
       {
         body: {
           doType: 'query',
           gnmkdm: 'N5083',
-          su: '3240100550',
+          su: username,
         },
       },
     )
-    console.log(response.json)
-    this.items = response.json.item()
-  } // 解析课程信息并添加到 `grades` 列表
-  private addItem(item) {
+    const data = await response.json()
+    this.items = data.items
+  }
+  // 解析课程信息并添加到 `grades` 列表
+  private addItem(item: any) {
     let txkkh = item.xkkh
     let tYear = Number(txkkh.slice(1, 5))
     let tTerm = Number(txkkh.slice(11, 12))
@@ -56,6 +56,8 @@ export class GradeSpider {
 
   // 处理所有课程数据
   public async processGrades(): Promise<Grade[]> {
+    await this.getGrade()
+    // console.log(this.items)
     this.items.forEach((item) => this.addItem(item))
     return this.grades
   }
