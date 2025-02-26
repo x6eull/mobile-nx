@@ -24,7 +24,7 @@ export enum labelText {
   Life = '生活',
   Study = '学习',
   Sport = '运动',
-  GoOut = '出行'
+  GoOut = '出行',
 }
 const eventData: Event[] = [
   {
@@ -56,7 +56,7 @@ const eventData: Event[] = [
   },
   {
     name: '工程伦理',
-    allday: false,
+    allday: true,
     location: '玉泉曹光彪大楼西楼-201',
     startat: [{ date: '2025-02-20', time: '11:00' }],
     endat: [{ date: '2025-02-20', time: '14:00' }],
@@ -90,7 +90,7 @@ const timeSlots = [
   { start: '20:00', index: 13 },
   { start: '21:00', index: 14 },
   { start: '22:00', index: 15 },
-  { start: '23:00', index: 16 },  
+  { start: '23:00', index: 16 },
 ]
 
 const EventGrid: React.FC = () => {
@@ -99,29 +99,29 @@ const EventGrid: React.FC = () => {
   const baseHour = 8 // 基准时间8:00
 
   // 处理事件数据
-  const processedEvents = eventData.flatMap((event) => 
+  const processedEvents = eventData.flatMap((event) =>
     event.startat.map((start, index) => {
       // 转换日期到星期几（1-7对应周一到周日）
-      const date = new Date(start.date);
-      const dayOfWeek = date.getDay() === 0 ? 7 : date.getDay();
+      const date = new Date(start.date)
+      const dayOfWeek = date.getDay() === 0 ? 7 : date.getDay()
 
       // 时间转换方法
       const parseTime = (time: string) => {
-        const [hours, minutes] = time.split(":").map(Number);
-        return { hours, minutes };
-      };
+        const [hours, minutes] = time.split(':').map(Number)
+        return { hours, minutes }
+      }
 
       // 计算时间位置
-      const startTime = parseTime(start.time);
-      const endTime = parseTime(event.endat[index].time);
-      
+      const startTime = parseTime(start.time)
+      const endTime = parseTime(event.endat[index].time)
+
       // 转换为分钟数
-      const startMinutes = startTime.hours * 60 + startTime.minutes;
-      const endMinutes = endTime.hours * 60 + endTime.minutes;
+      const startMinutes = startTime.hours * 60 + startTime.minutes
+      const endMinutes = endTime.hours * 60 + endTime.minutes
 
       // 计算相对于基准时间的垂直位置
-      const top = ((startMinutes - baseHour * 60) / 60) * timeSlotHeight;
-      const height = ((endMinutes - startMinutes) / 60) * timeSlotHeight;
+      const top = ((startMinutes - baseHour * 60) / 60) * timeSlotHeight
+      const height = ((endMinutes - startMinutes) / 60) * timeSlotHeight
 
       return {
         ...event,
@@ -129,13 +129,69 @@ const EventGrid: React.FC = () => {
         top,
         height,
         startTime: start.time,
-        endTime: event.endat[index].time
-      };
-    })
-  );
+        endTime: event.endat[index].time,
+        backgroundColor: event.label[0]?.color || '#586fc2', // 使用事件标签颜色
+      }
+    }),
+  )
+
+  // 处理全天事件
+  const allDayEvents = eventData
+    .filter((event) => event.allday)
+    .flatMap((event) =>
+      event.startat.map((start, index) => {
+        const date = new Date(start.date)
+        const dayOfWeek = date.getDay() === 0 ? 7 : date.getDay()
+        return {
+          ...event,
+          dayOfWeek,
+        }
+      }),
+    )
 
   return (
     <IonGrid className="event-grid">
+      {/* 添加时间行 */}
+      <IonRow className="time-header-row">
+        <IonCol size="1"></IonCol>
+        {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+          <IonCol key={`time-header-${day}`} className="time-header-cell">
+            <div className="time-header-content">
+              <span className="weekday">
+                {['一', '二', '三', '四', '五', '六', '日'][day - 1]}
+              </span>
+              <span className="date">{day}</span>
+            </div>
+          </IonCol>
+        ))}
+      </IonRow>
+
+      {/* 添加全天事件行 */}
+      <IonRow className="all-day-row">
+        <IonCol size="1" className="all-day-label-column">
+          <div className="all-day-label">
+            <span>全</span>
+            <span>天</span>
+          </div>
+        </IonCol>
+        {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+          <IonCol key={`allday-${day}`} className="day-column">
+            {allDayEvents
+              .filter((event) => event.dayOfWeek === day)
+              .map((event, idx) => (
+                <IonCard
+                  key={`allday-event-${idx}`}
+                  className="all-day-event-card"
+                >
+                  <IonCardContent>
+                    <span>{event.name}</span>
+                  </IonCardContent>
+                </IonCard>
+              ))}
+          </IonCol>
+        ))}
+      </IonRow>
+
       <IonRow className="main-content-row">
         {/* 时间列 */}
         <IonCol size="1" className="time-column">
@@ -163,18 +219,18 @@ const EventGrid: React.FC = () => {
                     position: 'absolute',
                     top: `${event.top}vh`,
                     height: `${event.height}vh`,
-                    width: 'calc(100% - 10px)',
-                    left: '5px',
-                    right: '5px',
+                    backgroundColor: event.backgroundColor,
                   }}
                 >
                   <IonCardContent>
-                    <h5>{event.name}</h5>
-                    <p>{event.location}</p> 
-                 </IonCardContent>
+                    <div>
+                      <h5>{event.name}</h5>
+                      <p>{event.location}</p>
+                    </div>
+                    
+                  </IonCardContent>
                 </IonCard>
-              )
-            )}
+              ))}
           </IonCol>
         ))}
       </IonRow>

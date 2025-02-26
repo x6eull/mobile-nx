@@ -20,7 +20,7 @@ import jdleft from '../assets/jdleft.png'
 import GradesSummary from '../components/GradesPage/GradesSummary'
 import SemesterSummary from '../components/GradesPage/SemesterSummary'
 import CourseList from '../components/GradesPage/CourseList'
-import SemesterSelector from '../components/GradesPage/SemesterSelector'
+import SemesterSelector from '@/components/GradesPage/SemesterSelector'
 import './Grades.css'
 
 const Grades: React.FC = () => {
