@@ -63,7 +63,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
 }
 
 .all-day-row {
@@ -119,8 +118,9 @@
 }
 
 .time-header-content .weekday {
-  font-size: 0.8em;
+  font-size: 0.9em;
   color: var(--ion-color-medium);
+  text-transform: uppercase;
 }
 
 .time-header-content .date {

@@ -149,24 +149,25 @@ const EventGrid: React.FC = () => {
       }),
     )
 
+  // 添加星期标题数组
+  const weekDays = ['一', '二', '三', '四', '五', '六', '日']
+
   return (
     <IonGrid className="event-grid">
-      {/* 添加时间行 */}
+      {/* 修改时间行，添加数字行 */}
       <IonRow className="time-header-row">
         <IonCol size="1"></IonCol>
-        {[1, 2, 3, 4, 5, 6, 7].map((day) => (
-          <IonCol key={`time-header-${day}`} className="time-header-cell">
+        {weekDays.map((day, index) => (
+          <IonCol key={`time-header-${index}`} className="time-header-cell">
             <div className="time-header-content">
-              <span className="weekday">
-                {['一', '二', '三', '四', '五', '六', '日'][day - 1]}
-              </span>
-              <span className="date">{day}</span>
+              <span className="weekday">{day}</span>
+              <span className="date">{index + 1}</span>
             </div>
           </IonCol>
         ))}
       </IonRow>
 
-      {/* 添加全天事件行 */}
+      {/* 修改全天事件行的映射 */}
       <IonRow className="all-day-row">
         <IonCol size="1" className="all-day-label-column">
           <div className="all-day-label">
@@ -227,7 +228,6 @@ const EventGrid: React.FC = () => {
                       <h5>{event.name}</h5>
                       <p>{event.location}</p>
                     </div>
-                    
                   </IonCardContent>
                 </IonCard>
               ))}
