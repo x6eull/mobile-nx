@@ -28,13 +28,12 @@ const Grades: React.FC = () => {
 
   return (
     <IonPage className="grades-page">
-      <IonHeader>
-        <IonToolbar>
-          <div className="header-content">
-          <IonImg src={jdleft} alt="JD Left" slot="start" className="jdleft-img"/>
-          <IonLabel className="grades-title" >绩点</IonLabel>
-          </div>
-          <IonButtons slot="end">
+      <IonToolbar>
+        <div className="header-content">
+          <IonImg src={jdleft} alt="JD Left" slot="start" className="jdleft-img" />
+          <IonLabel className="grades-title">绩点</IonLabel>
+        </div>
+        <IonButtons slot="end">
             <IonRouterLink routerLink="/profile">
               <IonButton>
                 <IonIcon icon={close} size="large" />
@@ -42,22 +41,22 @@ const Grades: React.FC = () => {
             </IonRouterLink>
           </IonButtons>
         </IonToolbar>
-      </IonHeader>
+      
 
       <IonContent fullscreen className="grades-content" scrollY={true}>
         <div className="grades-container">
           <GradesSummary />
           <SemesterSummary />
           <CourseList />
-        </div>
-      </IonContent>
-
-      <IonFooter className="ion-no-border grades-footer">
-        <SemesterSelector
+          <SemesterSelector
           selected={selectedSemester}
           onChange={setSelectedSemester}
         />
-      </IonFooter>
+        </div>
+      </IonContent>
+
+              
+      
     </IonPage>
   )
 }

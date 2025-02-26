@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  IonHeader,
   IonImg,
   IonLabel,
   IonToolbar,
@@ -12,7 +11,7 @@ import weekschedule from '../../assets/week-schedule-switch.png'
 import jintext from '../../assets/jin-text.png'
 const ScheduleHeader: React.FC = () => {
   return (
-      <IonHeader>
+      
         <IonToolbar>
           <div className="header-content">
             <IonLabel className="schedule-title">
@@ -37,7 +36,7 @@ const ScheduleHeader: React.FC = () => {
           />
         </div>
         </IonToolbar>
-      </IonHeader>
+      
       
     
   )

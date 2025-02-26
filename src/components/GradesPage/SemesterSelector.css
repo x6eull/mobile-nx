@@ -1,30 +1,21 @@
 .semester-selector {
-  width: 100%;
-  background: white;
-  border-top: 1px solid var(--ion-color-light-shade);
+  .semester-selector-button {
+    --background: #586fc2;
+    --background-checked: #fff;
+    --background-focused: #fff;
+    --color: #fff;
+    --color-checked: #586fc2;
+    --indicator-color: transparent;
+    --border-radius: 0;
+    transition: transform 0.2s;
+    transition: border-radius 0.2s;
+    &::part(indicator) {
+      display: none;
+    }
+    &.segment-button-checked {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 rgba(88, 111, 194, 0.3);
+      --border-radius: 0 0 20px 20px;
+    }
+  }
 }
-
-ion-segment {
-  --background: white;
-  min-height: 48px;
-}
-
-ion-segment-button {
-  --color: var(--ion-color-medium);
-  --color-checked: #4C6FFF;
-  --indicator-color: #4C6FFF;
-  font-size: 0.85em;
-  --padding-start: 16px;
-  --padding-end: 16px;
-  min-width: auto;
-}
-
-/* 允许横向滚动 */
-ion-segment {
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-ion-segment::-webkit-scrollbar {
-  display: none;
-} 

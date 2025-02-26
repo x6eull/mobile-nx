@@ -24,7 +24,7 @@ const CourseSchedule: React.FC = () => {
 
   return (
     <IonPage className="schedule-page">
-      <IonHeader>
+          
         <IonToolbar>
           <div className="header-content">
             <IonImg
@@ -41,7 +41,7 @@ const CourseSchedule: React.FC = () => {
             </IonButton>
           </IonButtons>
         </IonToolbar>
-      </IonHeader>
+      
 
       <IonContent className="schedule-content" scrollY={true} fullscreen={true}>
         <IonSegmentView>
