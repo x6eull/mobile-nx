@@ -1,0 +1,54 @@
+/*创建点击待办的动画*/
+@keyframes bounce {
+  0%,
+  100%,
+  20%,
+  50%,
+  80% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(0.92);
+  }
+}
+
+.link {
+  --link-icon-background-color: #fff2ea;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3125rem;
+  width: 92.5vw;
+  background-color: var(--element-background-color);
+  padding-bottom: 0.625rem;
+  border-radius: 0.9375rem;
+  margin-left: 2.67vw;
+  padding-top: 2%;
+  margin-bottom: 2%;
+  padding-left: 0.625rem;
+  gap: 0.5rem;
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3125rem;
+    .logo-label {
+      background-color: var(--link-icon-background-color);
+      border-radius: 0.5rem;
+      padding: 0.1875rem;
+    }
+    span {
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+  }
+  .logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 92.23301vw;
+  }
+}

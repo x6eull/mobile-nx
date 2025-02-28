@@ -1,0 +1,81 @@
+@font-face {
+  /* 引入Rubik字体，给时间用*/
+  font-family: 'Rubik';
+  src: url('./Rubik/Rubik-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.main-wrap {
+  --main-font-color: black;
+  --main-time-color: #128f9d;
+  --main-header-color: #92dbd8;
+  display: flex;
+  flex-direction: column;
+  width: min(12.5rem, 48.543689vw);
+  height: 10.625rem;
+  justify-content: space-evenly;
+  background-color: var(--element-background-color);
+  color: var(--main-font-color);
+  margin-top: 0;
+  gap: 0.1875rem;
+  .main-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--main-header-color);
+    #time {
+      font-family: 'Rubik', sans-serif;
+      font-size: 2.1875rem;
+      font-weight: 700;
+      color: var(--main-time-color);
+      margin-top: 0.1875rem;
+      margin-bottom: 0.1875rem;
+    }
+    #main-coursename {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--main-font-color);
+    }
+  }
+
+  .main-body {
+    display: flex;
+    flex-direction: column;
+    height: 89.54px;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: justify;
+    div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      font-weight: 400;
+    }
+  }
+
+  .main-body-default {
+    display: flex;
+    flex-direction: column;
+    height: 61.05px;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: center;
+    div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      font-weight: bold;
+      font-size: min(16px, 4.383561644vw);
+    }
+  }
+}
+
+.main-wrap:hover {
+  text-decoration: none;
+}
