@@ -1,79 +1,96 @@
-import React, { useState, useEffect } from 'react'
-import { IonSegment, IonSegmentButton, IonLabel } from '@ionic/react'
+import React, { useState } from 'react'
+import { IonButton, IonIcon } from '@ionic/react'
+import { caretDown, caretUp } from 'ionicons/icons'
 import './DateSelector.css'
 
-interface DateInfo {
-  date: string
-  day: string
-  weekday: string
+interface DateSelectorProps {
+  selectedDate: Date
+  onDateChange: (date: Date) => void
 }
 
-interface Props {
-  selectedDate: string
-  onDateChange: (date: string) => void
-}
+type DisplayMode = 'week' | 'twoWeeks' | 'month'
 
-const DateSelector: React.FC<Props> = ({ selectedDate, onDateChange }) => {
-  const [dates, setDates] = useState<DateInfo[]>([])
+const DateSelector: React.FC<DateSelectorProps> = ({
+  selectedDate,
+  onDateChange,
+}) => {
+  const [displayMode, setDisplayMode] = useState<DisplayMode>('week')
 
-  const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  // 获取当前周的起始日期（周一）
+  const getWeekStart = (date: Date) => {
+    const d = new Date(date)
+    const day = d.getDay() || 7 // 将周日的0转换为7
+    d.setDate(d.getDate() - (day - 1))
+    return d
+  }
 
-  useEffect(() => {
-    const generateDates = () => {
-      const datesArray: DateInfo[] = []
-      const today = new Date()
+  // 生成要显示的日期数组
+  const generateDates = () => {
+    const weekStart = getWeekStart(selectedDate)
+    const dates: Date[] = []
+    let daysToShow =
+      displayMode === 'week'
+        ? 7
+        : displayMode === 'twoWeeks'
+          ? 14
+          : getWeekStart(selectedDate).getMonth() ===
+              new Date(
+                weekStart.getTime() + 27 * 24 * 60 * 60 * 1000,
+              ).getMonth()
+            ? 28
+            : 35
 
-      for (let i = -10; i <= 10; i++) {
-        const date = new Date(today)
-        date.setDate(today.getDate() + i)
-
-        datesArray.push({
-          date: date.toISOString().split('T')[0],
-          day: date.getDate().toString(),
-          weekday: weekdays[date.getDay()],
-        })
-      }
-
-      setDates(datesArray)
+    for (let i = 0; i < daysToShow; i++) {
+      dates.push(new Date(weekStart.getTime() + i * 24 * 60 * 60 * 1000))
     }
+    return dates
+  }
 
-    generateDates()
-  }, [])
-
-  useEffect(() => {
-    const selectedButton = document.querySelector(
-      `ion-segment-button[value="${selectedDate}"]`,
+  const toggleDisplayMode = () => {
+    setDisplayMode((prev) =>
+      prev === 'week' ? 'twoWeeks' : prev === 'twoWeeks' ? 'month' : 'week',
     )
-    if (selectedButton) {
-      selectedButton.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      })
-    }
-  }, [selectedDate])
+  }
 
   return (
     <div className="date-selector">
-      <IonSegment
-        value={selectedDate}
-        onIonChange={(e) => onDateChange(e.detail.value as string)}
-        scrollable={true}
-      >
-        {dates.map((dateInfo) => (
-          <IonSegmentButton key={dateInfo.date} value={dateInfo.date}>
-            <IonLabel>
-              <div className="date-display">
-                <span className="weekday">{dateInfo.weekday}</span>
-                <span className="day">{dateInfo.day}</span>
-              </div>
-            </IonLabel>
-          </IonSegmentButton>
-        ))}
-      </IonSegment>
+      <div className="date-header">
+        <IonButton
+          fill="clear"
+          className="toggle-button"
+          onClick={toggleDisplayMode}
+        >
+          <IonIcon icon={displayMode === 'month' ? caretUp : caretDown} />
+        </IonButton>
+      </div>
+
+      <div className="calendar-grid">
+        <div className="weekday-header">
+          {['一', '二', '三', '四', '五', '六', '日'].map((day) => (
+            <div key={day} className="weekday-cell">
+              {day}
+            </div>
+          ))}
+        </div>
+
+        <div className={`days-grid ${displayMode}`}>
+          {generateDates().map((date, index) => (
+            <div
+              key={index}
+              className={`day-cell ${
+                date.toDateString() === selectedDate.toDateString()
+                  ? 'selected'
+                  : ''
+              } ${date.getMonth() !== selectedDate.getMonth() ? 'other-month' : ''}`}
+              onClick={() => onDateChange(date)}
+            >
+              {date.getDate()}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
 
 export default DateSelector
-

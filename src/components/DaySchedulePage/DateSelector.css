@@ -1,8 +1,85 @@
 .date-selector {
-  padding: 10px 0;
-  background: #fff;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  background: white;
+  padding: 12px;
+}
+
+.date-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.date-title {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--ion-color-dark);
+}
+
+.toggle-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+.calendar-grid {
+  width: 100%;
+}
+
+.weekday-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.weekday-cell {
+  padding: 8px;
+  color: var(--ion-color-medium);
+  font-size: 0.9em;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  transition: all 0.3s ease;
+}
+
+.days-grid.week {
+  grid-template-rows: repeat(1, 1fr);
+}
+
+.days-grid.twoWeeks {
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.days-grid.month {
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9em;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.day-cell.selected {
+  background-color: var(--ion-color-primary);
+  color: white;
+}
+
+.day-cell.other-month {
+  color: var(--ion-color-medium-shade);
+}
+
+.day-cell:hover:not(.selected) {
+  background-color: var(--ion-color-light);
 }
 
 .date-display {
@@ -46,4 +123,3 @@ ion-segment-button::part(indicator) {
 .date-selector::-webkit-scrollbar {
   display: none;
 }
-
