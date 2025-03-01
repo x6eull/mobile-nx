@@ -19,24 +19,20 @@ export class GradeSpider {
   async getGrade() {
     const { username } = await requestCredential(null as any)
     const response = await this.zjuamService.nxFetch.postJson(
-      `http://zdbk.zju.edu.cn/jwglxt/cxdy/xscjcx_cxXscjIndex.html?doType=query&gnmkdm=N5083&${username}`,
+      `http://zdbk.zju.edu.cn/jwglxt/cxdy/xscjcx_cxXscjIndex.html?doType=query&gnmkdm=N508301&su=&${username}`,
       {
-        body: {
-          doType: 'query',
-          gnmkdm: 'N5083',
-          su: username,
-        },
+        body: { queryModel: { showCount: 5000 } },
       },
     )
     const data = await response.json()
     this.items = data.items
+    console.log(data)
   }
   // 解析课程信息并添加到 `grades` 列表
   private addItem(item: any) {
     let txkkh = item.xkkh
     let tYear = Number(txkkh.slice(1, 5))
     let tTerm = Number(txkkh.slice(11, 12))
-    let courseIdSuffix = txkkh.slice(14) // 取后半部分用于去重检查
     let isAborted = false
     // 检查是否已有相同后缀的课程，决定 `isAborted`
     if (item.cj === '弃修') isAborted = true
@@ -65,4 +61,5 @@ export class GradeSpider {
 
 // 创建 `GradeManager` 实例并处理数据
 const gradeSpider = new GradeSpider()
-console.log(await gradeSpider.processGrades())
+//console.log(await gradeSpider.processGrades())
+await gradeSpider.processGrades()
