@@ -11,9 +11,9 @@ function TodoList() {
   const handleDelete = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id))
   }
-
+  /**这里todoBody默认是没有待办时的情况 */
   let todoBody = <NoneTodo />
-  /**footer指的是拉到最下面时的提示 */
+  /**footer指的是拉到最下面时的提示，默认情况下无，只有在待办大于3个时会显示 */
   let footer: string = ''
   let todoClass: string = 'todolist-more'
   if (todos.length >= 1) {

@@ -74,25 +74,27 @@ function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
   /** 制作待办完成事件 */
   const [deletingTodoId, setDeletingTodoId] = useState<boolean>(false)
   const [deletingButton, setDeletingButton] = useState<boolean>(false)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // 保存定时器引用
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null) // 保存定时器引用
   const handleComplete = (event: any, id: number) => {
+    /**阻止a标签的默认跳转 */
     event.preventDefault()
-    /** 阻止事件冒泡到<a>标签 */
+    /** 阻止button上的点击事件冒泡到<a>标签 */
     event.stopPropagation()
-    setDeletingButton(deletingButton => !deletingButton)
+    setDeletingButton((deletingButton) => !deletingButton)
     /**  如果已经有定时器在运行，清除它*/
     if (timeoutRef.current !== null) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-      return; // 不再启动新的定时器
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+      /**不再启动新的定时器 */
+      return
     }
     /**点击删除待办按钮后等待3秒再删去待办 */
     timeoutRef.current = setTimeout(() => {
-      setDeletingTodoId(deletingTodoId => !deletingTodoId)
+      setDeletingTodoId((deletingTodoId) => !deletingTodoId)
       /**删除动画执行时间为1s，等动画执行完成后，会删除数组中的对应项 */
       setTimeout(() => {
         onDelete(id)
-        setDeletingTodoId(deletingTodoId => !deletingTodoId)
+        setDeletingTodoId((deletingTodoId) => !deletingTodoId)
       }, 1000)
     }, 3000)
   }

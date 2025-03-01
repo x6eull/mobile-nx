@@ -12,6 +12,8 @@
     flex-direction: column;
     height: 13.125rem;
     width: 96.5%;
+    position: relative;
+    left: 1.75%;
     overflow-y: scroll;
     align-items: center;
     justify-content: space-around;
