@@ -1,4 +1,3 @@
-import { config } from 'dotenv'
 import { ZjuamService } from './interop/zjuam'
 
 /** 学在浙大作业
