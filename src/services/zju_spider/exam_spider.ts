@@ -1,4 +1,8 @@
-import { Course, ExamArrangement } from '@/models/Course'
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { ExamArrangement } from '@/models/Course'
 import { Term, Semester } from '@/models/shared'
 // import store from '@/store/store.ts'
 import { ZjuamService } from '@/interop/zjuam'
@@ -167,12 +171,7 @@ export class ExamSpider {
   #service: ZjuamService
   // #_examData: fullExamDataItem[] = [];
   constructor(zjuam: ZjuamService) {
-    this.#service = new ZjuamService(
-      {
-        service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
-      },
-      60 * 30,
-    )
+    this.#service = zjuam
   }
   async getExamData(Semester: Semester): Promise<ExamArrangement[]> {
     const [xxq, xnxq] = prepareSemesterString(Semester)
@@ -181,7 +180,9 @@ export class ExamSpider {
     formdata.append('queryModel.currentPage', '1')
     formdata.append('queryModel.sortName', 'xxq')
     formdata.append('queryModel.sortOrder', 'asc')
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     xxq && formdata.append('xxq', xxq)
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     xnxq && formdata.append('xnxq', xnxq)
     const data = await this.#service
       .nxFetch(
@@ -193,6 +194,7 @@ export class ExamSpider {
       )
       .then((res) => res.json())
     const resx: fullExamDataItem[] = []
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.items.forEach((item: any) => {
       if (item.qzkssj /* 期中考试时间 */) {
         resx.push({
