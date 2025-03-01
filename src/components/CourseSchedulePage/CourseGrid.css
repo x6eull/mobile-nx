@@ -85,3 +85,19 @@
     text-overflow: ellipsis;
   }
 }
+
+.course-card.hide-text {
+  /* 保持背景色和其他样式，只隐藏文字 */
+  color: transparent;
+}
+
+.course-card.hide-text ion-card-content {
+  /* 确保卡片内容的文字也被隐藏 */
+  color: transparent;
+}
+
+.course-card.hide-text h5,
+.course-card.hide-text p {
+  /* 确保标题和段落文字也被隐藏 */
+  color: transparent;
+}

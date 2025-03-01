@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react'
 import './CourseGrid.css'
 import { Course } from '../../models/Course'
 import { Term } from '../../models/shared'
+import { courseTextVisibilityEvent } from './CourseScheduleHeader'
 
 const courses: Course[] = [
   {
@@ -117,10 +118,31 @@ const timeSlots = [
 const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
   const timeSlotHeight = 5
   const [year, term] = semesterKey.split('-')
-   const filteredCourses = courses.filter(
-     (course) =>
-       course.semester.year === Number(year) && Term[course.semester.term] === term,
-   )
+  const [isTextVisible, setIsTextVisible] = useState(true)
+
+  const filteredCourses = courses.filter(
+    (course) =>
+      course.semester.year === Number(year) && Term[course.semester.term] === term,
+  )
+
+  useEffect(() => {
+    const handleVisibilityChange = (event: Event) => {
+      const customEvent = event as CustomEvent
+      setIsTextVisible(customEvent.detail.isVisible)
+    }
+
+    courseTextVisibilityEvent.addEventListener(
+      'courseTextVisibilityChange',
+      handleVisibilityChange
+    )
+
+    return () => {
+      courseTextVisibilityEvent.removeEventListener(
+        'courseTextVisibilityChange',
+        handleVisibilityChange
+      )
+    }
+  }, [])
 
   return (
     <IonGrid className="course-grid">
@@ -157,7 +179,7 @@ const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
                 .map((classItem, classIdx) => (
                   <IonCard
                     key={`${idx}-${classIdx}`}
-                    className="course-card"
+                    className={`course-card ${isTextVisible ? '' : 'hide-text'}`}
                     style={{
                       position: 'absolute',
                       top: `${(classItem.startSection - 1) * timeSlotHeight}vh`,
