@@ -1,3 +1,6 @@
+/**学在浙大日程获取
+ * 只能获取未提交且为截止的作业
+ */
 import { ZjuamService } from './interop/zjuam'
 
 /** 学在浙大作业
