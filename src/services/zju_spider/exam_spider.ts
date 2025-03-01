@@ -1,20 +1,20 @@
-import { Course, ExamArrangement } from '@/models/Course';
-import { Term, Semester } from '@/models/enums';
-import store from '@/store/store.ts';
-import { ZjuamService } from '../base/zjuam';
-import 'dotenv/config';
-import { setUser } from '@/store/user';
+import { Course, ExamArrangement } from '@/models/Course'
+import { Term, Semester } from '@/models/enums'
+import store from '@/store/store.ts'
+import { ZjuamService } from '../base/zjuam'
+import 'dotenv/config'
+import { setUser } from '@/store/user'
 
 //TODO: Using another fetch type
 //      减少抽象层数
 
 interface fullExamDataItem {
-  courseId: string;
-  type: 'midterm' | 'final';
-  startAt: Date;
-  endAt: Date;
-  location: string;
-  seat: number;
+  courseId: string
+  type: 'midterm' | 'final'
+  startAt: Date
+  endAt: Date
+  location: string
+  seat: number
 }
 
 /**
@@ -25,7 +25,7 @@ const parseZDBKDate = (str: string) => {
   const slice = str
     .split(/年|月|日|\(|\)|:|-/)
     .filter((v: any) => v)
-    .map(Number);
+    .map(Number)
   return {
     startAt: new Date(
       slice[0],
@@ -37,69 +37,69 @@ const parseZDBKDate = (str: string) => {
       0,
     ),
     endAt: new Date(slice[0], slice[1] - 1, slice[2], slice[5], slice[6], 0, 0),
-  };
-};
+  }
+}
 
-/**
- * @param custom_fetch WIP, a fetch function that handles cookies automatically
- * @param xnxq xxq 学年学期 小学期. false means the param is not speciific, when we want to filter the both semester in a term
- */
-const implement = async (
-  custom_fetch: (url: string, options?: RequestInit) => Promise<Response>,
-  xnxq: string | false,
-  xxq: string | false,
-): Promise<fullExamDataItem[]> => {
-  const formdata = new FormData();
-  formdata.append('queryModel.showCount', '1024');
-  formdata.append('queryModel.currentPage', '1');
-  formdata.append('queryModel.sortName', 'xxq');
-  formdata.append('queryModel.sortOrder', 'asc');
-  xxq && formdata.append('xxq', xxq);
-  xnxq && formdata.append('xnxq', xnxq);
-  const data = await custom_fetch(
-    'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
-    {
-      body: formdata,
-      method: 'POST',
-    },
-  ).then((res) => res.json());
-  const resx: fullExamDataItem[] = [];
-  data.items.forEach((item: any) => {
-    if (item.qzkssj /* 期中考试时间 */) {
-      resx.push({
-        courseId: item.xkkh,
-        type: 'midterm',
-        ...parseZDBKDate(item.qzkssj),
-        location: item.qzjsmc || '',
-        seat: Number(item.qzzwxh || 0),
-      });
-    }
-    if (item.qmksrq /* 期末考试时间 */) {
-      resx.push({
-        courseId: item.xkkh,
-        type: 'final',
-        ...parseZDBKDate(item.qmksrq),
-        location: item.jsmc || '',
-        seat: Number(item.qzzwxh || 0),
-      });
-    }
-  });
-  return resx;
-};
+// /**
+//  * @param custom_fetch WIP, a fetch function that handles cookies automatically
+//  * @param xnxq xxq 学年学期 小学期. false means the param is not speciific, when we want to filter the both semester in a term
+//  */
+// const implement = async (
+//   custom_fetch: (url: string, options?: RequestInit) => Promise<Response>,
+//   xnxq: string | false,
+//   xxq: string | false,
+// ): Promise<fullExamDataItem[]> => {
+//   const formdata = new FormData()
+//   formdata.append('queryModel.showCount', '1024')
+//   formdata.append('queryModel.currentPage', '1')
+//   formdata.append('queryModel.sortName', 'xxq')
+//   formdata.append('queryModel.sortOrder', 'asc')
+//   xxq && formdata.append('xxq', xxq)
+//   xnxq && formdata.append('xnxq', xnxq)
+//   const data = await custom_fetch(
+//     'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
+//     {
+//       body: formdata,
+//       method: 'POST',
+//     },
+//   ).then((res) => res.json())
+//   const resx: fullExamDataItem[] = []
+//   data.items.forEach((item: any) => {
+//     if (item.qzkssj /* 期中考试时间 */) {
+//       resx.push({
+//         courseId: item.xkkh,
+//         type: 'midterm',
+//         ...parseZDBKDate(item.qzkssj),
+//         location: item.qzjsmc || '',
+//         seat: Number(item.qzzwxh || 0),
+//       })
+//     }
+//     if (item.qmksrq /* 期末考试时间 */) {
+//       resx.push({
+//         courseId: item.xkkh,
+//         type: 'final',
+//         ...parseZDBKDate(item.qmksrq),
+//         location: item.jsmc || '',
+//         seat: Number(item.qzzwxh || 0),
+//       })
+//     }
+//   })
+//   return resx
+// }
 
 const prepareSemesterString = (
   Semester: Semester,
 ): [string | false, string | false] => {
   if (Semester.term & 0b10000) {
-    return [`(${Semester.year}-${Semester.year + 1}-1)-`, '短'];
+    return [`(${Semester.year}-${Semester.year + 1}-1)-`, '短']
   }
-  const t = Semester.term & 0b1111;
+  const t = Semester.term & 0b1111
   return [
     `(${Semester.year}-${Semester.year + 1}-${
       // 愉快的位运算。
       (Number(!!(t & 12)) * 1 + Number(!!(t & 3)) * 2) % 3 ||
       (() => {
-        throw new Error('查询不能横跨多个半学年');
+        throw new Error('查询不能横跨多个半学年')
       })()
     })-`,
     ((m) => (m[1] ? false : m[0][1]))(
@@ -110,8 +110,8 @@ const prepareSemesterString = (
         [Term.Winter]: '冬',
       }).filter((a) => t & Number(a[0]))[0][1],
     ),
-  ];
-};
+  ]
+}
 
 /**
  * Fetch exam arrangements from zdbk.zju.edu.cn.
@@ -158,30 +158,69 @@ function trimExamDataItem(x: fullExamDataItem): ExamArrangement {
     endAt: x.endAt,
     location: x.location,
     seat: x.seat,
-  };
+  }
 }
 
 export class ExamSpider {
-  #_service: ZjuamService;
+  #service: ZjuamService
   // #_examData: fullExamDataItem[] = [];
   constructor(zjuam: ZjuamService) {
-    this.#_service = new ZjuamService(
+    this.#service = new ZjuamService(
       {
         service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
       },
       60 * 30,
-    );
+    )
   }
   async getExamData(Semester: Semester): Promise<ExamArrangement[]> {
-    return (
-      await implement(
-        this.#_service.nxFetch as (
-          arg0: string,
-          arg1?: RequestInit,
-        ) => Promise<Response>,
-        ...prepareSemesterString(Semester),
+    const [xxq, xnxq] = prepareSemesterString(Semester)
+    const formdata = new FormData()
+    formdata.append('queryModel.showCount', '1024')
+    formdata.append('queryModel.currentPage', '1')
+    formdata.append('queryModel.sortName', 'xxq')
+    formdata.append('queryModel.sortOrder', 'asc')
+    xxq && formdata.append('xxq', xxq)
+    xnxq && formdata.append('xnxq', xnxq)
+    const data = await this.#service
+      .nxFetch(
+        'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
+        {
+          body: formdata,
+          method: 'POST',
+        },
       )
-    ).map(trimExamDataItem);
+      .then((res) => res.json())
+    const resx: fullExamDataItem[] = []
+    data.items.forEach((item: any) => {
+      if (item.qzkssj /* 期中考试时间 */) {
+        resx.push({
+          courseId: item.xkkh,
+          type: 'midterm',
+          ...parseZDBKDate(item.qzkssj),
+          location: item.qzjsmc || '',
+          seat: Number(item.qzzwxh || 0),
+        })
+      }
+      if (item.qmksrq /* 期末考试时间 */) {
+        resx.push({
+          courseId: item.xkkh,
+          type: 'final',
+          ...parseZDBKDate(item.qmksrq),
+          location: item.jsmc || '',
+          seat: Number(item.qzzwxh || 0),
+        })
+      }
+    })
+    return resx.map(trimExamDataItem)
+    // return (
+    //   await #implement(
+    //     this.#service.nxFetch as (
+    //       arg0: string,
+    //       arg1?: RequestInit,
+    //     ) => Promise<Response>,
+    //     ...prepareSemesterString(Semester),
+    //   )
+    // ).map(trimExamDataItem)
   }
   // async getExamDataFromCourse(course: Course): Promise<ExamArrangement[]> {
   //   if (!this.#_examData.length) {
