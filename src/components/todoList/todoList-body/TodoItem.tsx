@@ -57,7 +57,7 @@ function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
     if (isAnimating && linkRef.current) {
       // 添加动画类
       linkRef.current.style.backgroundColor = '#F8F8F8'
-      linkRef.current.style.animation = 'bounce 0s ease-out'
+      linkRef.current.style.animation = 'bounce 0.1s ease-out'
 
       // 动画完成后跳转
       const timeoutId = setTimeout(() => {
@@ -65,30 +65,44 @@ function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
           window.location.href = linkRef.current.getAttribute('href') as string // 跳转到目标页面
         }
         setIsAnimating(false) // 重置动画状态
-      }, 0) // 动画持续时间（0.3s）
+      }, 100) // 动画持续时间（0.1s）
 
       // 清理定时器
       return () => clearTimeout(timeoutId)
     }
   }, [isAnimating])
   /** 制作待办完成事件 */
-  const [deletingTodoId, setDeletingTodoId] = useState<number | null>(null)
+  const [deletingTodoId, setDeletingTodoId] = useState<boolean>(false)
+  const [deletingButton, setDeletingButton] = useState<boolean>(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // 保存定时器引用
   const handleComplete = (event: any, id: number) => {
     event.preventDefault()
-    event.stopPropagation() // 阻止事件冒泡到<a>标签
-    setDeletingTodoId(id)
-    setTimeout(() => {
-      onDelete(id)
-      setDeletingTodoId(null)
-    }, 1000)
+    /** 阻止事件冒泡到<a>标签 */
+    event.stopPropagation()
+    setDeletingButton(deletingButton => !deletingButton)
+    /**  如果已经有定时器在运行，清除它*/
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+      return; // 不再启动新的定时器
+    }
+    /**点击删除待办按钮后等待3秒再删去待办 */
+    timeoutRef.current = setTimeout(() => {
+      setDeletingTodoId(deletingTodoId => !deletingTodoId)
+      /**删除动画执行时间为1s，等动画执行完成后，会删除数组中的对应项 */
+      setTimeout(() => {
+        onDelete(id)
+        setDeletingTodoId(deletingTodoId => !deletingTodoId)
+      }, 1000)
+    }, 3000)
   }
-  const isDeleting = deletingTodoId === id
+  /**点击按钮3s后，deletingTodoId变为true，则使得<a>标签的class改变，触发在这个class下的动画，deletingButton也是一样 */
   return (
     <a
       ref={linkRef}
       href="/todos"
       onClick={handleClick}
-      className={`todoItemWrap ${isDeleting ? 'deleting' : ''}`}
+      className={`todoItemWrap ${deletingTodoId ? 'deleting' : ''}`}
       style={{
         borderLeft: '13px solid ' + correspondence[type as Key],
       }}
@@ -101,7 +115,7 @@ function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
         <div>{dueTime}</div>
         <button
           onClick={(event) => handleComplete(event, id)}
-          className={isDeleting ? 'deleting-button' : ''}
+          className={deletingButton ? 'deleting-button' : 'normal-button'}
         ></button>
       </div>
     </a>

@@ -18,12 +18,12 @@
 /* 定义删除动画关键帧 */
 @keyframes slideRight {
   0% {
-    /* 动画开始时，左外边距为 0 */
+    /* 动画开始时，右外边距为 0 */
     margin-right: 0;
     opacity: 1;
   }
   100% {
-    /* 动画结束时，左外边距为元素宽度 */
+    /* 动画结束时，右外边距为元素宽度 */
     margin-right: 100%;
     opacity: 0;
   }
@@ -36,6 +36,7 @@
   --todoitem-note-color: rgb(91, 119, 86);
   --todoitem-button-color: #6bb9c1;
   --todoitem-button-background: white;
+  --todoitem-button-onclick: #d8d8d8;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -72,7 +73,7 @@
       font-weight: 400;
       color: var(--todoitem-button-color);
     }
-    button {
+    .normal-button {
       width: 1.875rem;
       height: 1.875rem;
       border-radius: 50%;
@@ -80,16 +81,21 @@
       border: 0.125rem solid var(--todoitem-button-color);
       background-color: var(--todoitem-button-background);
     }
+    .deleting-button {
+      width: 1.875rem;
+      height: 1.875rem;
+      border-radius: 50%;
+      padding: 0;
+      border: 0.125rem solid var(--todoitem-button-color);
+      background-color: var(--todoitem-button-onclick);
+    }
+  }
+
+  &.deleting {
+    /* 应用 slideRight 动画，持续时间 3 秒，动画结束后保持最后状态，使用 ease-out 时间函数 */
+    animation: slideRight 1s ease-out;
+    /* 防止删除过程中元素仍可交互 */
+    pointer-events: none;
   }
 }
 
-.deleting {
-  /* 应用 slideRight 动画，持续时间 3 秒，动画结束后保持最后状态，使用 ease-out 时间函数 */
-  animation: slideRight 1s ease-out;
-  /* 防止删除过程中元素仍可交互 */
-  pointer-events: none;
-}
-.deleting-button {
-  background-color: red;
-  color: white;
-}
