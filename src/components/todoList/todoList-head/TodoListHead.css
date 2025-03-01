@@ -1,5 +1,5 @@
 .todo-head {
-  --todo-icon-background: #e7f4f5;
+  --todo-icon-background: #ffe0e0;
   --todo-all-color: #6bb9c1;
   display: flex;
   flex-direction: row;
@@ -8,12 +8,10 @@
   padding-top: 2%;
   margin-bottom: 2%;
   padding-left: 0.625rem;
-  .img {
+  img { 
     background-color: var(--todo-icon-background);
     border-radius: 0.5rem;
     padding: 0.1875rem;
-    color: black;
-    fill: black;
   }
   .todo-head-head {
     height: 1.375rem;
