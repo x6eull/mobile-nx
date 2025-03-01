@@ -23,7 +23,7 @@
     opacity: 1;
   }
   100% {
-    /* 动画结束时，左外边距为元素宽度，这里假设元素宽度足够，可按需调整 */
+    /* 动画结束时，左外边距为元素宽度 */
     margin-right: 100%;
     opacity: 0;
   }
@@ -44,7 +44,7 @@
   border-radius: 0.625rem;
   padding-left: 1.25rem;
   padding-right: 0.9375rem;
-  box-shadow: 0.1875rem 0.1875rem 0.3125rem 0 var(--todoitem-shadow-color);
+  box-shadow: 0.1rem 0.1rem 0 var(--todoitem-shadow-color);
   background-color: var(--todoitem-background);
   color: var(--todoitem-font-color);
   .todoItemElement {
@@ -52,13 +52,13 @@
     flex-direction: column;
     justify-content: center;
     span {
-      font-size: min(1.125rem, 4.368932vw);
+      font-size: 1.125rem;
       font-weight: 400;
     }
     div {
       color: var(--todoitem-note-color);
       font-weight: 400;
-      font-size: min(0.8125rem, 3.15534vw);
+      font-size: 0.8125rem;
     }
   }
   .todoItemOther {
@@ -68,7 +68,7 @@
     justify-content: center;
     gap: 0.9375rem;
     div {
-      font-size: min(0.9375rem, 3.64078vw);
+      font-size: 0.9375rem;
       font-weight: 400;
       color: var(--todoitem-button-color);
     }

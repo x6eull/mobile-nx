@@ -21,8 +21,8 @@ function Main({ course, flag }: { course: courseMain; flag: boolean }) {
     <a className="main-wrap" href="/schedule">
       <div className="main-head">
         <div>距上课</div>
-        <div id="time">{course.startTime}</div>
-        <div id="main-coursename">{course.name}</div>
+        <div className="time">{course.startTime}</div>
+        <div className="main-coursename">{course.name}</div>
       </div>
       <div className={className}>
         <div>

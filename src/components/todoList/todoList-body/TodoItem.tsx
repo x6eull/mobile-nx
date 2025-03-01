@@ -57,7 +57,7 @@ function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
     if (isAnimating && linkRef.current) {
       // 添加动画类
       linkRef.current.style.backgroundColor = '#F8F8F8'
-      linkRef.current.style.animation = 'bounce 0.3s ease-out'
+      linkRef.current.style.animation = 'bounce 0s ease-out'
 
       // 动画完成后跳转
       const timeoutId = setTimeout(() => {
@@ -65,7 +65,7 @@ function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
           window.location.href = linkRef.current.getAttribute('href') as string // 跳转到目标页面
         }
         setIsAnimating(false) // 重置动画状态
-      }, 300) // 动画持续时间（0.3s）
+      }, 0) // 动画持续时间（0.3s）
 
       // 清理定时器
       return () => clearTimeout(timeoutId)

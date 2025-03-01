@@ -1,5 +1,5 @@
 .min-wrap {
-  --min-shadow-color: #c0c0c0;
+  --min-shadow-color: #cacaca;
   --min-background-color: #fff6f2;
   --min-font-color: #ee9e87;
   display: flex;
@@ -8,7 +8,7 @@
   justify-content: space-between;
   width: min(8.6875rem, 39.714286vw);
   min-height: 3.75rem;
-  box-shadow: 0px 0.3125rem 0.3125rem 0 var(--min-shadow-color);
+  box-shadow: 0.1rem 0.1rem 0 var(--min-shadow-color);
   background-color: var(--min-background-color);
   border-radius: 0.625rem;
   color: var(--min-font-color);
@@ -20,7 +20,7 @@
     height: 3.4375rem;
     .min-head {
       font-size: 0.8125rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-left: 0.9375rem;
       padding-top: 0.125rem;
     }
@@ -39,7 +39,7 @@
         gap: 0.125rem;
         margin-left: 0.625rem;
         font-size: 0.5625rem;
-        font-weight: 50;
+        font-weight: 500;
       }
     }
   }
