@@ -5,7 +5,7 @@
 export const parseZDBKDate = (str: string) => {
   const slice = str
     .split(/年|月|日|\(|\)|:|-/)
-    .filter((v: any) => v)
+    .filter((v: unknown) => v)
     .map(Number)
   return {
     startAt: new Date(
