@@ -18,4 +18,6 @@ tsconfig.*
 *.md
 *.bat
 *.sh
+
 .*
+!.github/

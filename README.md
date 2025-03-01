@@ -9,7 +9,7 @@
 ```sh
 npm i
 ```
-请在vscode中安装`Prettier - Code formatter`扩展。
+请在vscode中安装`Prettier - Code formatter`、`ESLint`扩展。
 
 ### 调试
 使用`npm run dev`启动vite热重载服务器。

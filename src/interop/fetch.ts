@@ -111,7 +111,7 @@ async function nxFetchBase(
     return await globalThis.fetch(input, init)
   }
 
-  let b: Parameters<(typeof CapacitorHttp)['request']>[0]['data'] = body
+  let b: unknown = body
   if (body instanceof URLSearchParams) {
     h.set('content-type', 'application/x-www-form-urlencoded')
     b = toLiteral(body)
@@ -125,9 +125,8 @@ async function nxFetchBase(
     //capacitor仅支持一种特殊格式的数组
     b = [...body.entries()].map(([key, value]) => {
       if (typeof value === 'string') return { type: 'string', key, value }
-      console.error('Unsupported field in FormData', key, value)
       //TODO 支持File (type: 'base64File')
-      throw new TypeError('Unsupported field  in FormData')
+      throw new TypeError(`Unsupported field ${key} in FormData`)
     })
   } else if (typeof body !== 'string' && body !== undefined)
     throw new TypeError('Unsupported body type')
@@ -137,7 +136,7 @@ async function nxFetchBase(
     data: respData,
     status,
     headers: respHeaders,
-  } = await CapacitorHttp.request({
+  } = (await CapacitorHttp.request({
     url: input,
     method,
     headers: toLiteral(h),
@@ -145,7 +144,9 @@ async function nxFetchBase(
     data: b,
     dataType: body instanceof FormData ? 'formData' : undefined,
     disableRedirects: true, // 即使设为false也无法自动重定向
-  })
+  })) as Omit<Awaited<ReturnType<typeof CapacitorHttp.request>>, 'data'> & {
+    data: unknown
+  }
 
   const r = checkRedirect(new Response(null, { headers: respHeaders, status }))
   if (r) return await r //重定向
@@ -153,7 +154,7 @@ async function nxFetchBase(
   let result: Response
   if (typeof respData === 'string')
     result = new Response(respData, { headers: respHeaders, status })
-  else if (Reflect.getPrototypeOf(respData) === Object.prototype)
+  else if (respData && Reflect.getPrototypeOf(respData) === Object.prototype)
     // json字面量
     result = Response.json(respData, { headers: respHeaders, status })
   else throw new TypeError('Unsupported response data type')
@@ -167,13 +168,13 @@ async function nxFetchBase(
   return result
 }
 const nxFetchExtend = {
-  request: CapacitorHttp.request,
+  request: CapacitorHttp.request.bind(CapacitorHttp),
   get(url: string, init?: Omit<NxFetchInit, 'method' | 'body'>) {
     return this(url, init)
   },
   postJson(
     url: string,
-    init: Omit<NxFetchInit, 'body'> & { body: Record<string, any> },
+    init: Omit<NxFetchInit, 'body'> & { body: Record<string, unknown> },
   ) {
     const { body, headers, ...otherProps } = init
     const h = new Headers(headers)
