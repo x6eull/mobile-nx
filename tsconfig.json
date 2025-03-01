@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": [
@@ -20,23 +25,19 @@
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    },
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src",
-    "local.*.ts"
+    "**/*"
+  ],
+  "exclude": [
+    "vite.config.ts",
+    "dist/**",
+    "node_modules/**"
   ],
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
-  ],
+  ]
 }

@@ -12,6 +12,7 @@ node_modules/
 
 # build files
 dist/
+.tsbuildinfo
 
 # keystore files
 *.jks
@@ -38,5 +39,3 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-*.tsbuildinfo

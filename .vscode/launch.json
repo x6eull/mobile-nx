@@ -5,15 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run tests",
+      "name": "Launch Current File via tsx",
       "request": "launch",
       "runtimeArgs": [
-        "--import",
-        "tsx/esm",
-        "--test",
-        "${workspaceFolder}/src/test/node/*.ts"
+        "tsx",
+        "${file}",
+        "--inspect-brk"
       ],
-      "runtimeExecutable": "node",
+      "runtimeExecutable": "npx",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "type": "node"
     }
   ]
