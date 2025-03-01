@@ -17,7 +17,26 @@ import kbleft from '../assets/schedule-left.png'
 import CourseScheduleHeader from '../components/CourseSchedulePage/CourseScheduleHeader'
 import CourseGrid from '../components/CourseSchedulePage/CourseGrid'
 import SemesterSelector from '../components/CourseSchedulePage/SemesterSelector'
+import { Course } from '../models/Course'
+import { Term } from '../models/shared'
 import './CourseSchedule.css'
+
+const courses: Course[] = [
+  {
+    semester: { year: 2023, term: Term.Autumn },
+    name: '微积分（甲）II',
+    classes: [
+      {
+        weekType: 'every',
+        dayOfWeek: 1,
+        startSection: 1,
+        sectionCount: 2,
+        location: '紫金港东 2-201',
+      },
+    ],
+  },
+  // ... 其他课程数据 ...
+]
 
 const CourseSchedule: React.FC = () => {
   const [selectedSemester, setSelectedSemester] = useState('2023-fall')
@@ -47,7 +66,10 @@ const CourseSchedule: React.FC = () => {
         <IonSegmentView>
           <IonSegmentContent id="semesterKey" className="schedule-content">
             <CourseScheduleHeader />
-            <CourseGrid semesterKey={selectedSemester} />
+            <CourseGrid 
+              courses={courses} 
+              selectedSemester={selectedSemester}
+            />
           </IonSegmentContent>
         </IonSegmentView>
         <SemesterSelector

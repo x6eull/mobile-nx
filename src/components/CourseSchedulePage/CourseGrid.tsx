@@ -5,99 +5,10 @@ import { Course } from '../../models/Course'
 import { Term } from '../../models/shared'
 import { courseTextVisibilityEvent } from './CourseScheduleHeader'
 
-const courses: Course[] = [
-  {
-    semester: { year: 2023, term: Term.Autumn },
-    name: '微积分（甲）II',
-    classes: [
-      {
-        weekType: 'every',
-        dayOfWeek: 1,
-        startSection: 1,
-        sectionCount: 2,
-        location: '紫金港东 2-201',
-      },
-    ],
-  },
-  {
-    semester: { year: 2024, term: Term.Autumn },
-    name: '大学物理（甲）I',
-    classes: [
-      {
-        weekType: 'every',
-        dayOfWeek: 2,
-        startSection: 1,
-        sectionCount: 2,
-        location: '紫金港东 1B-306',
-      },
-    ],
-  },
-  {
-    semester: { year: 2024, term: Term.Autumn },
-    name: '信息与电子工程导论',
-    classes: [
-      {
-        weekType: 'every',
-        dayOfWeek: 3,
-        startSection: 1,
-        sectionCount: 2,
-        location: '紫金港东 1A-214',
-      },
-    ],
-  },
-  {
-    semester: { year: 2024, term: Term.Autumn },
-    name: '常微分方程',
-    classes: [
-      {
-        weekType: 'every',
-        dayOfWeek: 5,
-        startSection: 3,
-        sectionCount: 2,
-        location: '紫金港东 2-201',
-      },
-    ],
-  },
-  {
-    semester: { year: 2024, term: Term.Autumn },
-    name: '工程训练',
-    classes: [
-      {
-        weekType: 'every',
-        dayOfWeek: 5,
-        startSection: 8,
-        sectionCount: 2,
-        location: '紫金港东 工实习中心-208',
-      },
-    ],
-  },
-  {
-    semester: { year: 2024, term: Term.Autumn },
-    name: '大脑与社会',
-    classes: [
-      {
-        weekType: 'every',
-        dayOfWeek: 6,
-        startSection: 11,
-        sectionCount: 2,
-        location: '紫金港东 6-208',
-      },
-    ],
-  },
-  {
-    semester: { year: 2024, term: Term.Autumn },
-    name: '形势与政策',
-    classes: [
-      {
-        weekType: 'every',
-        dayOfWeek: 7,
-        startSection: 12,
-        sectionCount: 2,
-        location: '紫金港东 1A-207',
-      },
-    ],
-  },
-]
+interface CourseGridProps {
+  courses: Course[]
+  selectedSemester: string
+}
 
 const timeSlots = [
   { start: '08:00', index: 1 },
@@ -115,14 +26,18 @@ const timeSlots = [
   { start: '20:30', index: 13 },
 ]
 
-const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
+const CourseGrid: React.FC<CourseGridProps> = ({
+  courses,
+  selectedSemester,
+}) => {
   const timeSlotHeight = 5
-  const [year, term] = semesterKey.split('-')
+  const [year, term] = selectedSemester.split('-')
   const [isTextVisible, setIsTextVisible] = useState(true)
 
   const filteredCourses = courses.filter(
     (course) =>
-      course.semester.year === Number(year) && Term[course.semester.term] === term,
+      course.semester.year === Number(year) &&
+      Term[course.semester.term] === term,
   )
 
   useEffect(() => {
@@ -133,13 +48,13 @@ const CourseGrid: React.FC<{ semesterKey: string }> = ({ semesterKey }) => {
 
     courseTextVisibilityEvent.addEventListener(
       'courseTextVisibilityChange',
-      handleVisibilityChange
+      handleVisibilityChange,
     )
 
     return () => {
       courseTextVisibilityEvent.removeEventListener(
         'courseTextVisibilityChange',
-        handleVisibilityChange
+        handleVisibilityChange,
       )
     }
   }, [])
