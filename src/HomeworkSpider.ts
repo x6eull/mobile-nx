@@ -4,12 +4,14 @@
 import { ZjuamService } from './interop/zjuam'
 
 /** 学在浙大作业
-    courseId:课程id
+ *  courseCode:课程代码
+    courseId:学在浙大特色课程id
     deadline:截止日期
     title:作业名字
     type:类型homework/exam/questionnaire
  */
 interface Schedule {
+  courseCode: string
   courseId: number
   deadline: string
   title: string
@@ -46,6 +48,7 @@ export class HomeworkSpider {
   /**获取所有作业
    @return Promise<Schedule[]>
    {
+      courseCode: string
       courseId: number
       deadline: string
       title: string
@@ -60,6 +63,7 @@ export class HomeworkSpider {
     for (let i = 0; i < data.todo_list.length; i++) {
       const value = data.todo_list[i]
       this.homework.push({
+        courseCode: value.course_code,
         courseId: value.course_id,
         deadline: value.end_time,
         title: value.title,
