@@ -189,6 +189,14 @@ export default function Daily() {
               <IonSelect
                 className="flip"
                 interface="popover"
+                interfaceOptions={{
+                  cssClass: 'Daily-select-interface',
+                  showBackdrop: false,
+                  size: 'auto',
+                  mode: 'ios',
+                  dismissOnSelect: true,
+                  alignment: 'center',
+                }}
                 toggleIcon={chevronDownOutline}
                 value="Unclassified"
                 slot="end"
@@ -256,4 +264,21 @@ export default function Daily() {
     </>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

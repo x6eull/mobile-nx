@@ -91,3 +91,31 @@
   }
 }
 
+.Daily-select-interface {
+  --width: 150px;
+  background: rgba(1,1,1,0);
+  ion-list {
+    ion-item {
+      --border-radius: 10px;
+      margin-bottom: 5px;
+      --inner-border-width: 0px;
+      --border-width: 0px;  
+    }
+    ion-item:nth-child(1) {
+      --background: #EAEAEA;
+      --color: #808080;
+    }
+    ion-item:nth-child(2) {
+      --background: #EDF2FF;
+      --color: #4874FA;
+    }
+    ion-item:nth-child(3) {
+      --background: #FFEFF1;
+      --color: #FF5E72;
+    }
+    ion-item:nth-child(4) {
+      --background: #FFF8E6;
+      margin-bottom: 0px;
+    }
+  }
+}
