@@ -223,9 +223,9 @@ class GetCourse {
           )
         }
 
-        const responseData = await response.json()
+        const responseData: ApiResponse = await response.json()
 
-        const classInfo = this.extractClassInfo(responseData as ApiResponse)
+        const classInfo = this.extractClassInfo(responseData)
         const uniqueClassInfo = this.removeDuplicates(classInfo)
 
         // 合并课程信息
