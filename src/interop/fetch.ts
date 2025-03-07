@@ -28,6 +28,13 @@ interface NxFetchInit {
   body?: string | FormData | URLSearchParams
   /**若发生重定向，是否保留请求方法和正文。根据标准除了303外，都应保留；但登录重定向实践中均转为GET */
   preserveMethodInRedirects?: boolean
+  /**即将重定向时，将调用该函数，返回false则不跟随。
+   *
+   * 如果不提供此参数则默认跟随。重定向次数判定优先于此参数。
+   *
+   * 仅在capacitor/node上支持。
+   */
+  redirectChecker?: (resp: Response) => boolean
 }
 async function nxFetchBase(
   input: string,
@@ -55,6 +62,7 @@ async function nxFetchBase(
 
   function checkRedirect(resp: Response): Promise<Response> | null {
     if ([301, 302, 303, 307, 308].includes(resp.status) && redirectLeft > 0) {
+      if (init?.redirectChecker?.(resp) === false) return null
       redirectLeft--
       const location = resp.headers.get('location')
       if (!location) throw new Error('Redirect without location header')
@@ -103,7 +111,7 @@ async function nxFetchBase(
     return await globalThis.fetch(input, init)
   }
 
-  let b: Parameters<(typeof CapacitorHttp)['request']>[0]['data'] = body
+  let b: unknown = body
   if (body instanceof URLSearchParams) {
     h.set('content-type', 'application/x-www-form-urlencoded')
     b = toLiteral(body)
@@ -117,9 +125,8 @@ async function nxFetchBase(
     //capacitor仅支持一种特殊格式的数组
     b = [...body.entries()].map(([key, value]) => {
       if (typeof value === 'string') return { type: 'string', key, value }
-      console.error('Unsupported field in FormData', key, value)
       //TODO 支持File (type: 'base64File')
-      throw new TypeError('Unsupported field  in FormData')
+      throw new TypeError(`Unsupported field ${key} in FormData`)
     })
   } else if (typeof body !== 'string' && body !== undefined)
     throw new TypeError('Unsupported body type')
@@ -129,7 +136,7 @@ async function nxFetchBase(
     data: respData,
     status,
     headers: respHeaders,
-  } = await CapacitorHttp.request({
+  } = (await CapacitorHttp.request({
     url: input,
     method,
     headers: toLiteral(h),
@@ -137,7 +144,9 @@ async function nxFetchBase(
     data: b,
     dataType: body instanceof FormData ? 'formData' : undefined,
     disableRedirects: true, // 即使设为false也无法自动重定向
-  })
+  })) as Omit<Awaited<ReturnType<typeof CapacitorHttp.request>>, 'data'> & {
+    data: unknown
+  }
 
   const r = checkRedirect(new Response(null, { headers: respHeaders, status }))
   if (r) return await r //重定向
@@ -145,7 +154,12 @@ async function nxFetchBase(
   let result: Response
   if (typeof respData === 'string')
     result = new Response(respData, { headers: respHeaders, status })
-  else if (Reflect.getPrototypeOf(respData) === Object.prototype)
+  else if (respData === null)
+    result = new Response(null, { headers: respHeaders, status })
+  else if (
+    typeof respData === 'object' &&
+    Reflect.getPrototypeOf(respData) === Object.prototype
+  )
     // json字面量
     result = Response.json(respData, { headers: respHeaders, status })
   else throw new TypeError('Unsupported response data type')
@@ -159,13 +173,14 @@ async function nxFetchBase(
   return result
 }
 const nxFetchExtend = {
-  request: CapacitorHttp.request,
+  // 目前不再暴露CapacitorHttp.request
+  // request: CapacitorHttp.request.bind(CapacitorHttp),
   get(url: string, init?: Omit<NxFetchInit, 'method' | 'body'>) {
     return this(url, init)
   },
   postJson(
     url: string,
-    init: Omit<NxFetchInit, 'body'> & { body: Record<string, any> },
+    init: Omit<NxFetchInit, 'body'> & { body: Record<string, unknown> },
   ) {
     const { body, headers, ...otherProps } = init
     const h = new Headers(headers)
@@ -210,6 +225,7 @@ export const nxFetch: typeof nxFetchBase & typeof nxFetchExtend = Object.assign(
   nxFetchExtend,
 )
 
+/**TODO 此函数或将弃用 */
 export function getRawUrl(interceptedUrl: string) {
   //解析http://192.168.0.100:8100/_capacitor_http_interceptor_?u=https%3A%2F%2Fzjuam.zju.edu.cn%2Fcas%2Flogin%3Fservice%3Dhttp%253A%252F%252Fzdbk.zju.edu.cn%252Fjwglxt%252Fxtgl%252Flogin_ssologin.html
   const url = new URL(interceptedUrl)
@@ -233,4 +249,4 @@ if (import.meta.env?.DEV) {
   }
   Object.defineProperties(globalThis, exposedProperties)
   console.warn('DEV mode: properties exposed', exposedProperties)
-} else console.log('PROD mode: no properties exposed')
+}

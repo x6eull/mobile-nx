@@ -12,8 +12,7 @@ export enum Term {
   Autumn = 0b100,
   Winter = 0b1000,
   Short = 0b10000, // 短学期
-  Long = 0b100000, // 长学期
-  Vacation = 0b1000000, // 暑学期
+
   SpringSummer = Spring | Summer, // 0b11
   AutumnWinter = Autumn | Winter, // 0b1100
 }

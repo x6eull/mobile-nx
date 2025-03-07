@@ -8,10 +8,14 @@ export interface Course {
   id: string
   /**课程名称（中文） */
   name: string
+  /**学分 */
+  credit: number
   /**教师姓名 */
   teacherName: string
   /**上课时间地点 */
   classes: ClassArrangement[]
+  /**考试 */
+  exams: ExamArrangement[]
 }
 
 /**相对于学期的上课时间、地点 */

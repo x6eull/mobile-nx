@@ -5,6 +5,7 @@ export type Credential = {
   username: string
   password: string
 }
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function requestCredential(
   service: ZjuamService,
 ): Promise<Credential> {

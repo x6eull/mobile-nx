@@ -2,6 +2,7 @@
 import * as bigintModArith from 'bigint-mod-arith'
 import { getRawUrl, nxFetch } from './fetch'
 import { requestCredential } from './credential'
+import { z } from 'zod'
 
 /**将字符串用utf-8编码，再将字节序列转为bigint，越靠前的字符处于越高位 */
 function encodeAsBigInt(s: string) {
@@ -40,9 +41,7 @@ function getEntryUrl(params: SupportedParams) {
     return `https://zjuam.zju.edu.cn/cas/login?${new URLSearchParams(params)}`
   else if ('client_id' in params)
     //oauth2会被重定向到https://zjuam.zju.edu.cn/cas/login?service=http%3A%2F%2Fzjuam.zju.edu.cn%2Fcas%2Foauth2.0%2FcallbackAuthorize
-    return `https://zjuam.zju.edu.cn/cas/oauth2.0/authorize?${new URLSearchParams(
-      params,
-    )}`
+    return `https://zjuam.zju.edu.cn/cas/oauth2.0/authorize?${new URLSearchParams(params)}`
   else if ('follow' in params) return params.follow
 
   throw new Error('不支持的zjuam入口参数')
@@ -53,43 +52,70 @@ function getEntryUrl(params: SupportedParams) {
  * 由于原生层会自动保存cookie，登录一旦完成，对应用的所有HTTP请求都有效。
  */
 export class ZjuamService {
+  public static readonly ctorSchema = (() => {
+    const paramsSchema = z.union([
+      z.object({ service: z.string() }),
+      z.object({
+        client_id: z.string(),
+        redirect_uri: z.string(),
+        response_type: z.literal('code'),
+      }),
+      z.object({ follow: z.string() }),
+    ])
+    return z.union([
+      z.tuple([paramsSchema]),
+      z.tuple([paramsSchema, z.number()]),
+      z.tuple([paramsSchema, z.number(), z.boolean()]),
+    ])
+  })()
   /**
-   * 初始化一个服务，设置参数。调用构造方法不会进行登录。
-   * @param params
-   * @param refreshInSeconds
+   * 初始化一个服务，设置参数。调用此构造方法不会进行登录。
+   *
+   * 如果`refreshInSeconds`不为-1，调用`nxFetch`的方法时，若登录已过期或从未登录，则自动调用`login`登录。这可能导致突发的耗时增加。
+   * @param params 服务识别参数
+   * @param refreshInSeconds 登录成功后，多久后重新登录。若为-1则始终不会自动登录，需自行调用`login`方法
+   * @param preserveTicket 如果为true，则不跟随zjuam登录成功的重定向（即包含ticket的重定向），需自行处理ticket
    */
   public constructor(
     public readonly params: SupportedParams,
     public readonly refreshInSeconds = 60 * 30,
+    public readonly preserveTicket = false,
   ) {
     const rawNxFetch = nxFetch
-    const extendMethods: Record<string, any> = {}
+    const extendMethods: Record<string, unknown> = {}
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const thisService = this
     for (const [key, rawMethod] of Object.entries(nxFetch))
-      extendMethods[key] = async function (...args: any[]) {
+      extendMethods[key] = async function (...args: unknown[]) {
         await thisService.loginIfExpired()
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         return rawMethod.apply(this, args)
       }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.nxFetch = Object.assign(
-      async (
-        input: Parameters<typeof nxFetch>[0],
-        init: Parameters<typeof nxFetch>[1],
-      ) => {
+      async (...args: Parameters<typeof nxFetch>) => {
         await this.loginIfExpired()
-        return await rawNxFetch(input, init)
+        return await rawNxFetch(...args)
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       extendMethods as any,
     )
   }
   /**上次登录成功时间 */
   protected lastLoginTime?: Date
+  /**由ZjuamService修改的nxFetch，所有方法签名和原始nxFetch一致。
+   *
+   * 每次发送请求前，如果登录过期（根据`refreshInSeconds`）则重新登录。
+   */
   public nxFetch: typeof nxFetch
 
   public async loginIfExpired(): Promise<string | null> {
     if (
-      !this.lastLoginTime ||
-      Date.now() - this.lastLoginTime.valueOf() >= this.refreshInSeconds * 1000
+      this.refreshInSeconds !== -1 &&
+      (!this.lastLoginTime ||
+        Date.now() - this.lastLoginTime.valueOf() >=
+          this.refreshInSeconds * 1000)
     )
       return await this.login()
     return null
@@ -97,15 +123,27 @@ export class ZjuamService {
 
   public static readonly loginUrlRegex = /https?:\/\/zjuam\.zju\.edu\.cn/
 
-  /**立即重新登录。成功返回最终服务重定向地址（跟随zjuam登录成功302），失败异步抛出错误。 */
+  /**立即重新登录。成功返回最终服务重定向结果url（跟随zjuam登录成功的302），失败异步抛出错误。
+   *
+   * 如果`preserveTicket`为true，则返回包含ticket的url。
+   */
   public async login(): Promise<string> {
     console.log('尝试登录服务', this)
-    const entryResp = await nxFetch.get(getEntryUrl(this.params))
+    const entryResp = await nxFetch.get(getEntryUrl(this.params), {
+      redirectChecker: (resp) => {
+        if (this.preserveTicket)
+          // 停在最后包含ticket的重定向前
+          return resp.headers.get('location')?.match(/[?&]ticket=/) === null
+        else return true
+      },
+    })
     /**打开登录页面，zjuam重定向得到的最终地址 */
     const postUrl = getRawUrl(entryResp.url)
-    if (!postUrl.match(ZjuamService.loginUrlRegex)) {
+    if (
+      !postUrl.match(ZjuamService.loginUrlRegex) ||
+      postUrl.match(/[?&]ticket=/)
+    ) {
       console.log('记住登录生效', this)
-      // “记住我”生效，直接登录成功
       this.lastLoginTime = new Date()
       return postUrl
     }
@@ -141,6 +179,13 @@ export class ZjuamService {
         rememberMe: 'false',
       }),
       preserveMethodInRedirects: false, // 登录后若重定向则不再次发送凭据
+      redirectChecker: (resp) => {
+        if (this.preserveTicket)
+          return Boolean(
+            resp.headers.get('location')?.match(ZjuamService.loginUrlRegex),
+          )
+        else return true
+      },
     })
     const loginUrl = getRawUrl(loginResp.url)
     if (!loginUrl.match(ZjuamService.loginUrlRegex)) {
@@ -165,4 +210,3 @@ export class ZjuamService {
     throw new Error('登录失败: ' + error)
   }
 }
-
