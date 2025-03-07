@@ -2,6 +2,11 @@ import { DayOfWeek, Semester, Term } from './models/shared'
 import { Course, ClassArrangement } from './models/Course'
 import { ZjuamService } from './interop/zjuam'
 
+type CourseSp = Pick<
+  Course,
+  'id' | 'name' | 'teacherName' | 'classes' | 'semester'
+>
+
 /*课表相关，请调用getTimetable方法获取课程表信息*/
 class GetCourse {
   private zjuamService: ZjuamService
@@ -13,11 +18,11 @@ class GetCourse {
     )
   }
   /** 合并连续且重名课程的函数
-   * 返回内容按照course的定义进行
+   * 返回内容按照coursesp的定义进行
    * 合并原则1：当且仅当两课程ID相同且时间连续的情况下会进行合并，否则会保留ID相同的可成
    * 合并原则2：对于内容完全相同的两个COURSE仅会保留一个
    */
-  private mergeCourses(courseList: Course[]): Course[] {
+  private mergeCourses(courseList: CourseSp[]): CourseSp[] {
     // 使用稳定的比较函数
     courseList.sort((a, b) => {
       // 按照课程ID排序
@@ -32,7 +37,7 @@ class GetCourse {
       return a.classes[0].startSection - b.classes[0].startSection
     })
 
-    const mergedCourses: Course[] = []
+    const mergedCourses: CourseSp[] = []
     const seenCourses = new Set<string>() // 用于存储已经处理过的课程的唯一标识
 
     for (let i = 0; i < courseList.length; i++) {
@@ -70,12 +75,13 @@ class GetCourse {
   }
 
   // 去重函数
-  private removeDuplicates(courseList: Course[]): Course[] {
-    const uniqueCourses: Course[] = []
+  private removeDuplicates(courseList: CourseSp[]): CourseSp[] {
+    const uniqueCourses: CourseSp[] = []
     const seenCourses = new Set<string>()
 
     courseList.forEach((course) => {
-      const courseKey = `${course.id}-${course.classes[0].dayOfWeek}-${course.classes[0].startSection}-${course.classes[0].location}-${course.classes[0].weekType}-${course.classes[0].sectionCount}`
+      const course0 = course.classes[0]
+      const courseKey = `${course.id}-${course0.dayOfWeek}-${course0.startSection}-${course0.location}-${course0.weekType}-${course0.sectionCount}`
       if (!seenCourses.has(courseKey)) {
         seenCourses.add(courseKey)
         uniqueCourses.push(course)
@@ -97,8 +103,8 @@ class GetCourse {
       skcd: string
     }[]
     xnm: string
-  }): Course[] {
-    const classInfo: Course[] = []
+  }): CourseSp[] {
+    const classInfo: CourseSp[] = []
 
     if (!data || !data.kbList || !Array.isArray(data.kbList)) {
       console.error('Invalid data format or missing kbList:', data)
@@ -128,9 +134,7 @@ class GetCourse {
         夏: Term.Summer,
         秋: Term.Autumn,
         冬: Term.Winter,
-        长: Term.Long,
         短: Term.Short,
-        暑: Term.Vacation,
       }
       let termId = 0
       for (let j = 0; j < xxq.length; j++) {
@@ -157,7 +161,7 @@ class GetCourse {
         location: classLocation,
       }
 
-      const course: Course = {
+      const course: CourseSp = {
         semester,
         id: xkkh,
         name: className,
@@ -179,7 +183,7 @@ class GetCourse {
     xnmStart: string,
     /** 结束学年（靠前的，如2024-2025请传2024） 请传字符串！！！*/
     xnmEnd: string,
-  ): Promise<Course[]> {
+  ): Promise<CourseSp[]> {
     const url = `http://zdbk.zju.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdm=N253508&su=${userid}`
 
     // 定义所有学期的映射关系
@@ -193,7 +197,7 @@ class GetCourse {
       { xqm: '1|暑', xqmmc: '暑' },
     ]
 
-    let allCourses: Course[] = []
+    let allCourses: CourseSp[] = []
 
     // 遍历学年范围
     for (let xnm = parseInt(xnmStart); xnm <= parseInt(xnmEnd); xnm++) {
