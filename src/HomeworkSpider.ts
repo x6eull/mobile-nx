@@ -2,13 +2,6 @@
  * 只能获取未提交且为截止的作业
  */
 import { ZjuamService } from './interop/zjuam'
-/** 学在浙大作业
- *  courseCode:课程代码
-    courseId:学在浙大特色课程id
-    deadline:截止日期
-    title:作业名字
-    type:类型homework/exam/questionnaire
-*/
 interface Schedule {
   courseCode: string
   courseId: number
@@ -52,11 +45,11 @@ export class HomeworkSpider {
   /**获取所有作业
    @return Promise<Schedule[]>
     {
-      courseCode: string
-      courseId: number
-      deadline: string
-      title: string
-      type: string
+      courseCode: string课程代码
+      courseId: number在浙大特色课程id
+      deadline: string截止日期
+      title: string作业名字
+      type: string类型homework/exam/questionnaire
   }[]
   */
   async fetchHomework(): Promise<Schedule[] | undefined> {
