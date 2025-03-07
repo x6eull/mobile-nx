@@ -107,8 +107,7 @@ class GetCourse {
     const classInfo: CourseSp[] = []
 
     if (!data || !data.kbList || !Array.isArray(data.kbList)) {
-      console.error('Invalid data format or missing kbList:', data)
-      return classInfo
+      throw new Error('Invalid data format or missing kbList:')
     }
 
     const kbList = data.kbList
@@ -118,8 +117,7 @@ class GetCourse {
       const { kcb, dsz, djj, xqj, xxq, xkkh, skcd } = item
 
       if (!kcb) {
-        console.error('kcb field is missing in one of the items:', item)
-        continue
+        throw new Error('kcb field is missing in one of the items')
       }
 
       const kcbItem = kcb.split('<br>')
@@ -218,10 +216,9 @@ class GetCourse {
         })
 
         if (!response.ok) {
-          console.warn(
+          throw new Error(
             `Failed to fetch data for ${yearCode} ${xqmmc}. Status: ${response.status}`,
           )
-          continue
         }
 
         const responseData = await response.json()
