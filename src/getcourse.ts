@@ -223,7 +223,7 @@ class GetCourse {
           )
         }
 
-        const responseData: ApiResponse = await response.json()
+        const responseData = (await response.json()) as ApiResponse
 
         const classInfo = this.extractClassInfo(responseData)
         const uniqueClassInfo = this.removeDuplicates(classInfo)
