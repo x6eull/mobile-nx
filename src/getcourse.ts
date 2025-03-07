@@ -7,6 +7,19 @@ type CourseSp = Pick<
   'id' | 'name' | 'teacherName' | 'classes' | 'semester'
 >
 
+interface ApiResponse {
+  kbList: {
+    kcb: string
+    dsz: string
+    djj: string
+    xqj: number
+    xxq: string
+    xkkh: string
+    skcd: string
+  }[]
+  xnm: string
+}
+
 /*课表相关，请调用getTimetable方法获取课程表信息*/
 class GetCourse {
   private zjuamService: ZjuamService
@@ -92,18 +105,7 @@ class GetCourse {
   }
 
   /** 提取课程信息的函数，主要作用是对返回的数据进行处理，并转换成我们需要的course格式  */
-  private extractClassInfo(data: {
-    kbList: {
-      kcb: string
-      dsz: string
-      djj: string
-      xqj: number
-      xxq: string
-      xkkh: string
-      skcd: string
-    }[]
-    xnm: string
-  }): CourseSp[] {
+  private extractClassInfo(data: ApiResponse): CourseSp[] {
     const classInfo: CourseSp[] = []
 
     if (!data || !data.kbList || !Array.isArray(data.kbList)) {
@@ -222,7 +224,8 @@ class GetCourse {
         }
 
         const responseData = await response.json()
-        const classInfo = await this.extractClassInfo(responseData)
+
+        const classInfo = this.extractClassInfo(responseData as ApiResponse)
         const uniqueClassInfo = this.removeDuplicates(classInfo)
 
         // 合并课程信息
