@@ -3,20 +3,28 @@
  * @param str looks like '2025年01月04日(14:00-16:00)'
  */
 export const parseZDBKDate = (str: string) => {
-  const slice = str
-    .split(/年|月|日|\(|\)|:|-/)
-    .filter((v: unknown) => v)
-    .map(Number)
+  // 使用正则命名捕获处理形如 ''2025年01月04日(14:00-16:00)'' 的字符串
+  const { groups } = str.match(
+    /(?<year>\d+)年(?<month>\d+)月(?<day>\d+)日\((?<startHour>\d+):(?<startMinute>\d+)-(?<endHour>\d+):(?<endMinute>\d+)\)/,
+  ) as { groups: { [key: string]: string } }
   return {
     startAt: new Date(
-      slice[0],
-      slice[1] - 1,
-      slice[2],
-      slice[3],
-      slice[4],
+      Number(groups.year),
+      Number(groups.month) - 1,
+      Number(groups.day),
+      Number(groups.startHour),
+      Number(groups.startMinute),
       0,
       0,
     ),
-    endAt: new Date(slice[0], slice[1] - 1, slice[2], slice[5], slice[6], 0, 0),
+    endAt: new Date(
+      Number(groups.year),
+      Number(groups.month) - 1,
+      Number(groups.day),
+      Number(groups.endHour),
+      Number(groups.endMinute),
+      0,
+      0,
+    ),
   }
 }
