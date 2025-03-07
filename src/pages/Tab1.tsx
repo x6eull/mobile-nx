@@ -7,7 +7,7 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import './Tab1.css'
-import Daily from '../components/calendar/Calendar'
+import Calendar from '../components/calendar/Calendar'
 
 const Tab1: React.FC = () => {
   return (
@@ -23,7 +23,7 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Daily />
+        <Calendar />
       </IonContent>
     </IonPage>
   )
