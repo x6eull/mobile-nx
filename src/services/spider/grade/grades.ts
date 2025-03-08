@@ -1,6 +1,4 @@
 import type { Grade } from '@/models/Grade'
-import { config } from 'dotenv'
-config({ path: '.env.local' })
 
 import { requestCredential } from '@/interop/credential'
 import { ZjuamService } from '@/interop/zjuam'
@@ -30,7 +28,7 @@ export class GradeSpider {
   // 接收成绩数据，使用其他数据源时使用相同接口
   public async GetGrade(): Promise<Grade[]> {
     const items = await this.GetGradeFromZdbk()
-    return Promise.all(items.map((item) => this.processGrade(item)))
+    return items.map((item) => this.processGrade(item))
   }
 
   // 从浙江大学教务系统获取成绩数据
@@ -44,8 +42,8 @@ export class GradeSpider {
         body: params,
       },
     )
-    const data = (await response.json()) as Array<RawGrade>
-    return data
+    const data = (await response.json()) as { items: RawGrade[] }
+    return data.items
   }
 
   // 处理单个成绩数据
