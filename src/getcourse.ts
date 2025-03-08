@@ -7,7 +7,7 @@ type CourseSp = Pick<
   'id' | 'name' | 'teacherName' | 'classes' | 'semester'
 >
 
-interface ApiResponse {
+interface ApiRe_Course {
   kbList: {
     kcb: string
     dsz: string
@@ -105,7 +105,7 @@ class GetCourse {
   }
 
   /** 提取课程信息的函数，主要作用是对返回的数据进行处理，并转换成我们需要的course格式  */
-  private extractClassInfo(data: ApiResponse): CourseSp[] {
+  private extractClassInfo(data: ApiRe_Course): CourseSp[] {
     const classInfo: CourseSp[] = []
 
     if (!data || !data.kbList || !Array.isArray(data.kbList)) {
@@ -192,9 +192,7 @@ class GetCourse {
       { xqm: '1|冬', xqmmc: '冬' },
       { xqm: '2|春', xqmmc: '春' },
       { xqm: '2|夏', xqmmc: '夏' },
-      { xqm: '2|短', xqmmc: '长' }, //教务网有两个短，现在将秋冬学期的称为短学期，春夏学期的称为长学期
-      { xqm: '1|短', xqmmc: '短' },
-      { xqm: '1|暑', xqmmc: '暑' },
+      { xqm: '2|短', xqmmc: '短' },
     ]
 
     let allCourses: CourseSp[] = []
@@ -223,7 +221,7 @@ class GetCourse {
           )
         }
 
-        const responseData = (await response.json()) as ApiResponse
+        const responseData = (await response.json()) as ApiRe_Course
 
         const classInfo = this.extractClassInfo(responseData)
         const uniqueClassInfo = this.removeDuplicates(classInfo)
