@@ -4,7 +4,7 @@ config({ path: '.env.local' })
 
 import { requestCredential } from '@/interop/credential'
 import { ZjuamService } from '@/interop/zjuam'
-import { Term, type Semester } from '@/models/shared'
+import { Term } from '@/models/shared'
 
 interface RawGrade {
   cj: string              // 成绩，如'93'
@@ -30,7 +30,7 @@ export class GradeSpider {
   // 接收成绩数据，使用其他数据源时使用相同接口
   public async GetGrade(): Promise<Grade[]> {
     const items = await this.GetGradeFromZdbk()
-    return Promise.all(items.map(this.processGrade))
+    return Promise.all(items.map((item) => this.processGrade(item)))
   }
 
   // 从浙江大学教务系统获取成绩数据
@@ -44,13 +44,12 @@ export class GradeSpider {
         body: params,
       },
     )
-    const data = await response.json()
-    console.log(data.items)
-    return data.items as Array<RawGrade>
+    const data = (await response.json()) as Array<RawGrade>
+    return data
   }
 
   // 处理单个成绩数据
-  private async processGrade(rawGrade: RawGrade): Promise<Grade> {
+  private processGrade(rawGrade: RawGrade): Grade {
     return {
       course: {
         semester: { year: Number(rawGrade.xkkh.slice(1, 5)),
@@ -65,4 +64,3 @@ export class GradeSpider {
     }
   }
 }
-
