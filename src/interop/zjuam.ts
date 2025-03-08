@@ -2,6 +2,7 @@
 import * as bigintModArith from 'bigint-mod-arith'
 import { getRawUrl, nxFetch } from './fetch'
 import { requestCredential } from './credential'
+import { z } from 'zod'
 
 /**将字符串用utf-8编码，再将字节序列转为bigint，越靠前的字符处于越高位 */
 function encodeAsBigInt(s: string) {
@@ -40,9 +41,7 @@ function getEntryUrl(params: SupportedParams) {
     return `https://zjuam.zju.edu.cn/cas/login?${new URLSearchParams(params)}`
   else if ('client_id' in params)
     //oauth2会被重定向到https://zjuam.zju.edu.cn/cas/login?service=http%3A%2F%2Fzjuam.zju.edu.cn%2Fcas%2Foauth2.0%2FcallbackAuthorize
-    return `https://zjuam.zju.edu.cn/cas/oauth2.0/authorize?${new URLSearchParams(
-      params,
-    )}`
+    return `https://zjuam.zju.edu.cn/cas/oauth2.0/authorize?${new URLSearchParams(params)}`
   else if ('follow' in params) return params.follow
 
   throw new Error('不支持的zjuam入口参数')
@@ -53,6 +52,22 @@ function getEntryUrl(params: SupportedParams) {
  * 由于原生层会自动保存cookie，登录一旦完成，对应用的所有HTTP请求都有效。
  */
 export class ZjuamService {
+  public static readonly ctorSchema = (() => {
+    const paramsSchema = z.union([
+      z.object({ service: z.string() }),
+      z.object({
+        client_id: z.string(),
+        redirect_uri: z.string(),
+        response_type: z.literal('code'),
+      }),
+      z.object({ follow: z.string() }),
+    ])
+    return z.union([
+      z.tuple([paramsSchema]),
+      z.tuple([paramsSchema, z.number()]),
+      z.tuple([paramsSchema, z.number(), z.boolean()]),
+    ])
+  })()
   /**
    * 初始化一个服务，设置参数。调用此构造方法不会进行登录。
    *
@@ -67,19 +82,23 @@ export class ZjuamService {
     public readonly preserveTicket = false,
   ) {
     const rawNxFetch = nxFetch
-    const extendMethods: Record<string, any> = {}
+    const extendMethods: Record<string, unknown> = {}
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const thisService = this
     for (const [key, rawMethod] of Object.entries(nxFetch))
-      extendMethods[key] = async function (...args: any[]) {
+      extendMethods[key] = async function (...args: unknown[]) {
         await thisService.loginIfExpired()
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         return rawMethod.apply(this, args)
       }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.nxFetch = Object.assign(
       async (...args: Parameters<typeof nxFetch>) => {
         await this.loginIfExpired()
         return await rawNxFetch(...args)
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       extendMethods as any,
     )
   }
@@ -191,4 +210,3 @@ export class ZjuamService {
     throw new Error('登录失败: ' + error)
   }
 }
-

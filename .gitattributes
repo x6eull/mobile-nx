@@ -1,0 +1,15 @@
+*.html text eol=lf diff=html
+*.css text eol=lf diff=css
+*.js text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+
+*.md text diff=markdown
+
+package.json text eol=lf
+package-lock.json text eol=lf
+.prettierrc text eol=lf
+tsconfig.* text eol=lf
+
+.vscode/*.json text eol=lf
+.github/workflows/*.yml text eol=lf

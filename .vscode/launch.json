@@ -7,15 +7,9 @@
     {
       "name": "Launch Current File via tsx",
       "request": "launch",
-      "runtimeArgs": [
-        "tsx",
-        "${file}",
-        "--inspect-brk"
-      ],
+      "runtimeArgs": ["tsx", "${file}", "--inspect-brk"],
       "runtimeExecutable": "npx",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "type": "node"
     }
   ]
