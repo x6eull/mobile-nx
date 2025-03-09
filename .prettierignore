@@ -13,11 +13,10 @@ ios
 package.json
 package-lock.json
 
-tsconfig.*
-
 *.md
 *.bat
 *.sh
 
 .*
 !.github/
+!.vscode/

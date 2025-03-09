@@ -1,5 +1,5 @@
-import { newWidgetExtension } from '@/extension/Extension'
-import { ExtensionWidget } from '@/extension/ExtensionWidgetCapability'
+import { newWidgetExtension } from '../src/extension/Extension'
+import { ExtensionWidget } from '../src/extension/ExtensionWidgetCapability'
 
 /**渲染一系列内置小组件。
  *

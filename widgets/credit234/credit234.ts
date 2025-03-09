@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import nx from '@/../extensionHelper'
+import nx from '../../extHelper'
 
 // 避免vite热重载后widget高度归零
 self.addEventListener('message', ({ data }) => {

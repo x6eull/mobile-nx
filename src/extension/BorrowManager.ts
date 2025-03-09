@@ -3,7 +3,6 @@
  *
  * 注：不能读取属性，只能调用方法。也可以调用对象本身（如果对象是函数）。
  */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
