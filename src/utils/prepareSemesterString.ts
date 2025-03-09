@@ -1,7 +1,7 @@
 // 既然用0b了为什么不干脆把位运算也整上捏
 import { Semester, Term } from '@/models/shared'
 
-const stupidMap = {
+const goodMap = {
   [Term.Spring]: [2, '春'],
   [Term.Summer]: [2, '夏'],
   [Term.Autumn]: [1, '秋'],
@@ -13,7 +13,7 @@ const stupidMap = {
 
 export const prepareSemesterString = (Semester: Semester): [string, string] => {
   return [
-    `${Semester.year}-${Semester.year + 1}-${stupidMap[Semester.term][0]}-`,
-    stupidMap[Semester.term][1] as string,
+    `${Semester.year}-${Semester.year + 1}-${goodMap[Semester.term][0]}-`,
+    goodMap[Semester.term][1] as string,
   ]
 }
