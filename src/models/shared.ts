@@ -4,6 +4,10 @@ export type DayOfWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7
 export type WeekOfSemester =
   | (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8)
   | (9 | 10 | 11 | 12 | 13 | 14 | 15 | 16)
+/**使用位域表示长学期中的多个周，第n周为2^n，最低位保留。如1、4周表示为0b10010 */
+export type MultipleWeeksOfSemester = number
+/**表示单双周/每周/学期中特定的几周。 */
+export type WeekType = 'odd' | 'even' | 'every' | MultipleWeeksOfSemester
 
 /**学期，支持：春/夏/秋/冬/短/春夏/秋冬 */
 export enum Term {
