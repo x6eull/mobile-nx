@@ -94,11 +94,12 @@ export class ExamSpider {
     const response: Response = await this.#service.nxFetch(
       'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
       {
-        body: body,
+        body: body.toString(),
         method: 'POST',
       },
     )
     const data = (await response.json())! as { items: UpstreamType_examData[] }
+
     const resx: fullExamDataItem[] = []
 
     data.items.forEach((item) => {
