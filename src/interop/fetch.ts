@@ -1,7 +1,6 @@
 import { CapacitorCookies, CapacitorHttp } from '@capacitor/core'
 import { appPlatform } from '.'
 import { isNode } from './env'
-import '../utils/extendHeaders'
 
 let cookieJar: import('tough-cookie').CookieJar | null = null
 // node环境不会自动保存cookie，手动跟踪

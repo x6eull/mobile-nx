@@ -1,9 +1,12 @@
+import '../utils'
+
 export const isNode = !import.meta.env
 if (isNode)
   // 当且仅当node环境下，手动加载环境变量
   await import('dotenv').then(({ config }) => {
-    ;([] as string[])
-      .concat(...['.env', '.env.development'].map((f) => [f, f + '.local']))
+    ;['.env', '.env.development']
+      .map((f) => [f, f + '.local'])
+      .flat(1)
       .forEach((file) => {
         const err = config({ path: file }).error as
           | (Error & { code?: string })
