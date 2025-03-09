@@ -5,39 +5,38 @@ import { ZjuamService } from '@/interop/zjuam'
 import { Term } from '@/models/shared'
 
 interface RawGrade {
-  cj: string              // 成绩，如'93'
-  jd: string              // 绩点，如'4.0'
-  kcmc: string            // 课程名称，如'高等数学'
-  xf: string              // 学分，如'3.0'
-  xkkh: string            // 选课号，如'(2023-2024-2)-031E0011-0017170-2'
+  /** 成绩，如'93' */
+  cj: string
+  /** 绩点，如'4.0' */
+  jd: string
+  /** 课程名称，如'高等数学' */
+  kcmc: string
+  /** 学分，如'3.0' */
+  xf: string
+  /** 选课号，如'(2023-2024-2)-031E0011-0017170-2' */
+  xkkh: string
 }
 
 export class GradeSpider {
-
-  private zdbkGradeUrl = `http://zdbk.zju.edu.cn/jwglxt/cxdy/xscjcx_cxXscjIndex.html?doType=query&gnmkdm=N508301`
-  private grades: Grade[] = [] // 存储处理后的成绩信息
   private zjuamService = new ZjuamService(
-    {
-      service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html',
-    },
+    { service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html' },
     60 * 30,
   )
-  constructor() {
-  }
+  public constructor() {}
 
   // 接收成绩数据，使用其他数据源时使用相同接口
-  public async GetGrade(): Promise<Grade[]> {
-    const items = await this.GetGradeFromZdbk()
+  public async getGrade() {
+    const items = await this.fetchGrades()
     return items.map((item) => this.processGrade(item))
   }
 
   // 从浙江大学教务系统获取成绩数据
-  private async GetGradeFromZdbk(): Promise<RawGrade[]> {
+  private async fetchGrades() {
     const { username } = await requestCredential(this.zjuamService)
-    const params = new URLSearchParams()
-    params.append('queryModel.showCount', '5000')
+    const params = new URLSearchParams({ 'queryModel.showCount': '5000' })
+    //TODO username转学号
     const response = await this.zjuamService.nxFetch.postUrlEncoded(
-      `${this.zdbkGradeUrl}&su=${username}`,
+      `http://zdbk.zju.edu.cn/jwglxt/cxdy/xscjcx_cxXscjIndex.html?doType=query&gnmkdm=N508301&su=${username}`,
       {
         body: params,
       },
@@ -50,8 +49,14 @@ export class GradeSpider {
   private processGrade(rawGrade: RawGrade): Grade {
     return {
       course: {
-        semester: { year: Number(rawGrade.xkkh.slice(1, 5)),
-                    term: rawGrade.xkkh.slice(11, 12) === '1' ? Term.AutumnWinter : Term.SpringSummer },
+        semester: {
+          year: Number(rawGrade.xkkh.slice(1, 5)),
+          term:
+            //TODO 获得短学期课程实际学期
+            rawGrade.xkkh.slice(11, 12) === '1'
+              ? Term.AutumnWinter
+              : Term.SpringSummer,
+        },
         id: rawGrade.xkkh,
         name: rawGrade.kcmc,
         credit: Number(rawGrade.xf),
