@@ -33,23 +33,23 @@ export class ExamSpider {
   }
   async getExamData(Semester: Semester): Promise<ExamArrangement[]> {
     const [xxq, xnxq] = prepareSemesterString(Semester)
-    const formdata = new FormData()
-    formdata.append('queryModel.showCount', '1024')
-    formdata.append('queryModel.currentPage', '1')
-    formdata.append('queryModel.sortName', 'xxq')
-    formdata.append('queryModel.sortOrder', 'asc')
-    formdata.append('xxq', xxq)
-    formdata.append('xnxq', xnxq)
+    const body = new URLSearchParams()
+    body.append('queryModel.showCount', '1024')
+    body.append('queryModel.currentPage', '1')
+    body.append('queryModel.sortName', 'xxq')
+    body.append('queryModel.sortOrder', 'asc')
+    body.append('xxq', xxq)
+    body.append('xnxq', xnxq)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const data = await this.#service
       .nxFetch(
         'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
         {
-          body: formdata,
+          body: body,
           method: 'POST',
         },
       )
-      .then((res) => res.json())
+      .then((v) => v.json())
     const resx: fullExamDataItem[] = []
 
     /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -64,13 +64,13 @@ export class ExamSpider {
           seat: Number(item.qzzwxh || 0),
         })
       }
-      if (item.qmksrq /* 期末考试时间 */) {
+      if (item.ksrq /* 期末考试时间 */) {
         resx.push({
           courseId: item.xkkh,
           type: 'final',
-          ...parseZDBKDate(item.qmksrq),
+          ...parseZDBKDate(item.ksrq),
           location: item.jsmc || '',
-          seat: Number(item.qzzwxh || 0),
+          seat: Number(item.zwxh || 0),
         })
       }
     })
