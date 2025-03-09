@@ -4,7 +4,7 @@
 *.ts text eol=lf
 *.tsx text eol=lf
 
-*.md text diff=markdown
+*.md text eol=lf diff=markdown
 
 package.json text eol=lf
 package-lock.json text eol=lf
