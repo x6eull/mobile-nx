@@ -23,12 +23,6 @@ export default [
     },
   },
   {
-    ignores: [
-      'node_modules/**',
-      'dist/**',
-      'android/**',
-      'capacitor.config.ts',
-      'eslint.config.js',
-    ],
+    ignores: ['dist/', 'android/', 'eslint.config.js'],
   },
 ]

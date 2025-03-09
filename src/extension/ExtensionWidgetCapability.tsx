@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -6,9 +5,9 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { WidgetExtension } from './Extension'
 import { z } from 'zod'
-import { afterDone, PromiseAwaited } from '@/utils/functions'
+import { afterDone, PromiseAwaited } from '../utils/functions'
 import { BorrowedHandle, BorrowManager } from './BorrowManager'
-import { ZjuamService } from '@/interop/zjuam'
+import { ZjuamService } from '../interop/zjuam'
 import { encodeReturn } from './ExtensionIO'
 
 type ResolveHandle<H> = H extends BorrowedHandle<infer O> ? O : H
@@ -29,7 +28,7 @@ export type ExtensionAPIs = {
 
 /**小组件插件的管理类。允许插件添加一个通过iframe加载的小组件。 */
 export class WidgetExtensionRuntime {
-  constructor(public readonly extension: WidgetExtension) {}
+  constructor(readonly extension: WidgetExtension) {}
 
   /**与此能力实例关联的iframe元素。仅该iframe发送的message会被处理 */
   #iframeEle: HTMLIFrameElement | null = null

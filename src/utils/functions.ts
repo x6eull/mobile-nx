@@ -16,3 +16,8 @@ export function afterDone<T>(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   else f(result as any)
 }
+
+/**新建一个函数，该函数始终返回调用ret时的参数 */
+export function constF<R>(arg: R): () => R {
+  return () => arg
+}

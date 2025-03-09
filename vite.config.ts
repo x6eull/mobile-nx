@@ -24,6 +24,7 @@ readdirSync(resolve(__dirname, 'widgets'), {
 const rollupInput = {
   ...widgetEntries,
   main: resolve(__dirname, 'index.html'),
+  __extHelper: resolve(__dirname, 'extHelper.ts'),
 }
 
 // https://vitejs.dev/config/
@@ -37,6 +38,13 @@ export default defineConfig({
     target: 'esnext',
     rollupOptions: {
       input: rollupInput,
+      output: {
+        entryFileNames({ name }) {
+          if (name === '__extHelper') return 'extHelper.js'
+          if (name === 'main') return 'assets/[name]-[hash:8].js'
+          return 'widgets/[name]/[name]-[hash:8].js'
+        },
+      },
       external: ['dotenv'],
     },
   },

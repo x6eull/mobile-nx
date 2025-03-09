@@ -1,4 +1,4 @@
-import { ExtNxType } from '../../extensionHelper'
+import type { ExtNxType } from '../../extHelper'
 import { BorrowedHandle } from './BorrowManager'
 
 type PackagedResponse = {

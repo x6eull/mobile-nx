@@ -1,4 +1,4 @@
-import { DayOfWeek, Semester, WeekOfSemester } from './shared'
+import { DayOfWeek, Semester, WeekType } from './shared'
 
 /**课程信息，对于同一课程代码，多次选课（弃修、重修）为不同的实例。 */
 export interface Course {
@@ -20,9 +20,8 @@ export interface Course {
 
 /**相对于学期的上课时间、地点 */
 export interface ClassArrangement {
-  /**单双周，或表示学期中第n周 */
-  weekType: 'odd' | 'even' | 'every' | WeekOfSemester
-  /**星期几 */
+  /**上课周次 */
+  weekType: WeekType
   dayOfWeek: DayOfWeek
   /**从第几节开始 =djj */
   startSection: number
