@@ -2,6 +2,9 @@ import { DayOfWeek, Semester, Term } from './models/shared'
 import { Course, ClassArrangement } from './models/Course'
 import { ZjuamService } from './interop/zjuam'
 
+/**
+ * 只需要部分的course中的内容
+ */
 type CourseSp = Pick<
   Course,
   'id' | 'name' | 'teacherName' | 'classes' | 'semester'
@@ -20,7 +23,42 @@ interface ApiRe_Course {
   xnm: string
 }
 
-/*课表相关，请调用getTimetable方法获取课程表信息*/
+// 比较两个 ClassArrangement 是否完全相同
+function isClassSame(a: ClassArrangement, b: ClassArrangement) {
+  return (
+    a.dayOfWeek === b.dayOfWeek &&
+    a.startSection === b.startSection &&
+    a.sectionCount === b.sectionCount &&
+    a.location === b.location &&
+    a.weekType === b.weekType
+  )
+}
+
+// 合并连续的 ClassArrangement
+function mergeContinuousClasses(classes: ClassArrangement[]) {
+  const result: ClassArrangement[] = []
+  for (const currentClass of classes) {
+    let merged = false
+    for (const mergedClass of result) {
+      if (
+        mergedClass.dayOfWeek === currentClass.dayOfWeek &&
+        mergedClass.weekType === currentClass.weekType &&
+        mergedClass.location === currentClass.location &&
+        mergedClass.startSection + mergedClass.sectionCount ===
+          currentClass.startSection
+      ) {
+        mergedClass.sectionCount += currentClass.sectionCount
+        merged = true
+        break
+      }
+    }
+    if (!merged) {
+      result.push({ ...currentClass })
+    }
+  }
+  return result
+}
+
 class GetCourse {
   private zjuamService: ZjuamService
 
@@ -30,81 +68,52 @@ class GetCourse {
       60 * 30,
     )
   }
-  /** 合并连续且重名课程的函数
-   * 返回内容按照coursesp的定义进行
-   * 合并原则1：当且仅当两课程ID相同且时间连续的情况下会进行合并，否则会保留ID相同的可成
-   * 合并原则2：对于内容完全相同的两个COURSE仅会保留一个
+
+  /**
+   * 合并课程并去重的函数
+   * 合并原则：
+   * 1. 当且仅当两课程ID相同且时间连续时，会进行合并。
+   * 2. 对于内容完全相同的课程，仅保留一个。
+   * 3. 对于ID相同但时间不连续或地点不同的课程，将它们合并到同一个课程对象的classes数组中。
    */
-  private mergeCourses(courseList: CourseSp[]): CourseSp[] {
-    // 使用稳定的比较函数
-    courseList.sort((a, b) => {
-      // 按照课程ID排序
-      if (a.id < b.id) return -1
-      if (a.id > b.id) return 1
+  private mergeAndDeduplicateCourses(courseList: CourseSp[]): CourseSp[] {
+    const courseMap = new Map<string, CourseSp>()
 
-      // 如果ID相同，按照星期几排序
-      if (a.classes[0].dayOfWeek < b.classes[0].dayOfWeek) return -1
-      if (a.classes[0].dayOfWeek > b.classes[0].dayOfWeek) return 1
-
-      // 如果星期几相同，按照开始节次排序
-      return a.classes[0].startSection - b.classes[0].startSection
-    })
+    // 统一去重和收集课程安排
+    for (const currentCourse of courseList) {
+      const courseId = currentCourse.id
+      if (!courseMap.has(courseId)) {
+        courseMap.set(courseId, { ...currentCourse, classes: [] })
+      }
+      const existingCourse = courseMap.get(courseId)!
+      for (const currentClass of currentCourse.classes) {
+        let isDuplicate = false
+        for (const existingClass of existingCourse.classes) {
+          if (isClassSame(currentClass, existingClass)) {
+            isDuplicate = true
+            break
+          }
+        }
+        if (!isDuplicate) {
+          existingCourse.classes.push({ ...currentClass })
+        }
+      }
+    }
 
     const mergedCourses: CourseSp[] = []
-    const seenCourses = new Set<string>() // 用于存储已经处理过的课程的唯一标识
-
-    for (let i = 0; i < courseList.length; i++) {
-      const currentCourse = courseList[i]
-      const currentCourseInfo = currentCourse.classes[0]
-
-      // 检查是否与下一个课程完全相同
-      while (
-        i + 1 < courseList.length &&
-        currentCourse.id === courseList[i + 1].id &&
-        currentCourseInfo.location === courseList[i + 1].classes[0].location &&
-        currentCourseInfo.dayOfWeek ===
-          courseList[i + 1].classes[0].dayOfWeek &&
-        currentCourseInfo.weekType === courseList[i + 1].classes[0].weekType &&
-        currentCourseInfo.startSection + currentCourseInfo.sectionCount ===
-          courseList[i + 1].classes[0].startSection
-      ) {
-        // 合并连续的课程
-        currentCourseInfo.sectionCount +=
-          courseList[i + 1].classes[0].sectionCount
-        i++
-      }
-
-      // 生成课程的唯一标识
-      const courseKey = `${currentCourse.id}-${currentCourseInfo.dayOfWeek}-${currentCourseInfo.startSection}-${currentCourseInfo.location}-${currentCourseInfo.weekType}-${currentCourseInfo.sectionCount}`
-
-      // 如果这个课程还没有被处理过，则加入到结果中
-      if (!seenCourses.has(courseKey)) {
-        seenCourses.add(courseKey)
-        mergedCourses.push(currentCourse)
-      }
+    for (const course of courseMap.values()) {
+      // 对每个课程的 classes 按 startSection 排序
+      course.classes.sort((a, b) => a.startSection - b.startSection)
+      course.classes = mergeContinuousClasses(course.classes)
+      mergedCourses.push(course)
     }
 
     return mergedCourses
   }
 
-  // 去重函数
-  private removeDuplicates(courseList: CourseSp[]): CourseSp[] {
-    const uniqueCourses: CourseSp[] = []
-    const seenCourses = new Set<string>()
-
-    courseList.forEach((course) => {
-      const course0 = course.classes[0]
-      const courseKey = `${course.id}-${course0.dayOfWeek}-${course0.startSection}-${course0.location}-${course0.weekType}-${course0.sectionCount}`
-      if (!seenCourses.has(courseKey)) {
-        seenCourses.add(courseKey)
-        uniqueCourses.push(course)
-      }
-    })
-
-    return uniqueCourses
-  }
-
-  /** 提取课程信息的函数，主要作用是对返回的数据进行处理，并转换成我们需要的course格式  */
+  /**
+   * 提取课程信息的函数，主要作用是对返回的数据进行处理，并转换成我们需要的 course 格式
+   */
   private extractClassInfo(data: ApiRe_Course): CourseSp[] {
     const classInfo: CourseSp[] = []
 
@@ -175,18 +184,19 @@ class GetCourse {
     return classInfo
   }
 
-  /**获取指定学号在指定学年范围内的所有课程表信息*/
+  /**
+   * 获取指定学号在指定学年范围内的所有课程表信息
+   */
   async getTimetable(
     /** 学号  */
     userid: string,
-    /** 起始学年（靠前的，如2024-2025请传2024）请传字符串！！！ */
-    xnmStart: string,
-    /** 结束学年（靠前的，如2024-2025请传2024） 请传字符串！！！*/
-    xnmEnd: string,
+    /** 起始学年（靠前的，如2024 - 2025请传2024） */
+    xnmStart: number,
+    /** 结束学年（靠前的，如2024 - 2025请传2024）*/
+    xnmEnd: number,
   ): Promise<CourseSp[]> {
-    const url = `http://zdbk.zju.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdm=N253508&su=${userid}`
+    const url = `http://zdbk.zju.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdm=N253508&su= ${userid}`
 
-    // 定义所有学期的映射关系
     const semesters = [
       { xqm: '1|秋', xqmmc: '秋' },
       { xqm: '1|冬', xqmmc: '冬' },
@@ -197,11 +207,9 @@ class GetCourse {
 
     let allCourses: CourseSp[] = []
 
-    // 遍历学年范围
-    for (let xnm = parseInt(xnmStart); xnm <= parseInt(xnmEnd); xnm++) {
-      const yearCode = `${xnm}-${xnm + 1}` // 构造学年码，如2024-2025
+    for (let xnm = xnmStart; xnm <= xnmEnd; xnm++) {
+      const yearCode = `${xnm}-${xnm + 1}`
 
-      // 遍历所有学期
       for (const { xqm, xqmmc } of semesters) {
         const params = new URLSearchParams({
           xnm: yearCode,
@@ -224,14 +232,12 @@ class GetCourse {
         const responseData = (await response.json()) as ApiRe_Course
 
         const classInfo = this.extractClassInfo(responseData)
-        const uniqueClassInfo = this.removeDuplicates(classInfo)
-
-        // 合并课程信息
-        allCourses = this.mergeCourses([...allCourses, ...uniqueClassInfo])
+        allCourses = allCourses.concat(classInfo) // 收集所有课程
       }
     }
 
-    return allCourses
+    // 在所有课程收集完成后，统一进行去重和合并
+    return this.mergeAndDeduplicateCourses(allCourses)
   }
 }
 
