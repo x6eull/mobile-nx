@@ -1,6 +1,6 @@
-import { DayOfWeek, Semester, Term } from './models/shared'
-import { Course, ClassArrangement } from './models/Course'
-import { ZjuamService } from './interop/zjuam'
+import { DayOfWeek, Semester, Term } from '../models/shared'
+import { Course, ClassArrangement } from '../models/Course'
+import { ZjuamService } from '../interop/zjuam'
 
 /**
  * 只需要部分的course中的内容
@@ -59,7 +59,7 @@ function mergeContinuousClasses(classes: ClassArrangement[]) {
   return result
 }
 
-class GetCourse {
+export class CourseSpider {
   private zjuamService: ZjuamService
 
   constructor() {
@@ -240,5 +240,3 @@ class GetCourse {
     return this.mergeAndDeduplicateCourses(allCourses)
   }
 }
-
-export { GetCourse }
