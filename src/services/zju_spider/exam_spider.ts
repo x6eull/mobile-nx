@@ -1,79 +1,75 @@
-import { ExamArrangement } from '@/models/Course'
-import { Semester } from '@/models/shared'
+import { Course } from '@/models/Course'
 import { ZjuamService } from '@/interop/zjuam'
-import 'dotenv/config'
-
-export interface fullExamDataItem {
-  courseId: string
-  type: 'midterm' | 'final'
-  startAt: Date
-  endAt: Date
-  location: string
-  seat: number
-}
-
-import { parseZDBKDate } from '@/utils/parseZDBKDate'
-import { prepareSemesterString } from '@/utils/prepareSemesterString'
-
-function trimExamDataItem(x: fullExamDataItem): ExamArrangement {
-  return {
-    type: x.type,
-    startAt: x.startAt,
-    endAt: x.endAt,
-    location: x.location,
-    seat: x.seat,
-  }
-}
+import { parseZdbkDate } from '@/utils/stringUtils'
+import { Maybe } from '@/utils/type'
 
 export class ExamSpider {
-  #service: ZjuamService
-  // #_examData: fullExamDataItem[] = [];
-  constructor(zjuam: ZjuamService) {
-    this.#service = zjuam
-  }
-  async getExamData(Semester: Semester): Promise<ExamArrangement[]> {
-    const [xxq, xnxq] = prepareSemesterString(Semester)
-    const formdata = new FormData()
-    formdata.append('queryModel.showCount', '1024')
-    formdata.append('queryModel.currentPage', '1')
-    formdata.append('queryModel.sortName', 'xxq')
-    formdata.append('queryModel.sortOrder', 'asc')
-    formdata.append('xxq', xxq)
-    formdata.append('xnxq', xnxq)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const data = await this.#service
-      .nxFetch(
+  private zjuamService = new ZjuamService(
+    { service: 'http://zdbk.zju.edu.cn/jwglxt/xtgl/login_ssologin.html' },
+    60 * 10,
+  )
+
+  /**一次性获取全部考试信息。 */
+  async getExams(): Promise<Pick<Course, 'id' | 'name' | 'exams'>[]> {
+    const { items } = (await (
+      await this.zjuamService.nxFetch.postUrlEncoded(
         'http://zdbk.zju.edu.cn/jwglxt/xskscx/kscx_cxXsgrksIndex.html?doType=query&gnmkdm=N509070',
         {
-          body: formdata,
-          method: 'POST',
+          body: new URLSearchParams({
+            _search: 'false',
+            nd: String(Date.now()),
+            'queryModel.showCount': '5000',
+            'queryModel.currentPage': '1',
+            'queryModel.sortName': 'xkkh',
+            'queryModel.sortOrder': 'asc',
+            time: '0',
+          }),
         },
       )
-      .then((res) => res.json())
-    const resx: fullExamDataItem[] = []
+    ).json()) as {
+      items: ({
+        /**选课号 */
+        xkkh: string
+        /**课程名称 */
+        kcmc: string
+        /**期末考试时间，如2024年01月11日(08:00-10:00) */
+        kssj: string
+        /**期末考试教室，如紫金港西2-217(录播研)# */
+        jsmc?: string
+        /**期末考试座位号，座位号是string */
+        zwxh?: string
+      } & Maybe<{
+        /**期中考试时间 */
+        qzkssj: string
+        /**期中考试教室 */
+        qzjsmc?: string
+        /**期中考试座位号 */
+        qzzwxh?: string
+      }>)[]
+    }
 
-    /* eslint-disable @typescript-eslint/no-unsafe-call */
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    data.items.forEach((item: { [key: string]: string }) => {
-      if (item.qzkssj /* 期中考试时间 */) {
-        resx.push({
-          courseId: item.xkkh,
+    return items.map((item) => {
+      const course = {
+        id: item.xkkh,
+        name: item.kcmc,
+        exams: [],
+      } as Pick<Course, 'id' | 'name' | 'exams'>
+      if ('qzkssj' in item)
+        course.exams.push({
           type: 'midterm',
-          ...parseZDBKDate(item.qzkssj),
-          location: item.qzjsmc || '',
-          seat: Number(item.qzzwxh || 0),
+          ...parseZdbkDate(item.qzkssj),
+          location: item.qzjsmc,
+          seat: item.qzzwxh,
         })
-      }
-      if (item.qmksrq /* 期末考试时间 */) {
-        resx.push({
-          courseId: item.xkkh,
+      if ('kssj' in item)
+        //有时候期末考试也不存在
+        course.exams.push({
           type: 'final',
-          ...parseZDBKDate(item.qmksrq),
-          location: item.jsmc || '',
-          seat: Number(item.qzzwxh || 0),
+          ...parseZdbkDate(item.kssj),
+          location: item.jsmc,
+          seat: item.zwxh,
         })
-      }
+      return course
     })
-    return resx.map(trimExamDataItem)
   }
 }

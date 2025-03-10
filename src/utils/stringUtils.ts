@@ -28,3 +28,27 @@ export function parseCourseSelectionId(from: string): CourseSelectionIdFields {
     subId,
   }
 }
+
+/**解析部分日期，如2025年01月04日(14:00-16:00) */
+export function parseZdbkDate(from: string) {
+  const { day, year, month, startHour, startMinute, endHour, endMinute } =
+    from.match(
+      /(?<year>\d+)年(?<month>\d+)月(?<day>\d+)日\((?<startHour>\d+):(?<startMinute>\d+)-(?<endHour>\d+):(?<endMinute>\d+)\)/,
+    )!.groups!
+  return {
+    startAt: new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(startHour),
+      Number(startMinute),
+    ),
+    endAt: new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(endHour),
+      Number(endMinute),
+    ),
+  }
+}
