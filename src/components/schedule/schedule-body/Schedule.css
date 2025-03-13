@@ -11,15 +11,15 @@ a {
 
   display: flex;
   flex-direction: column;
-  width: 94.660194vw;
-  margin-left: 2.67vw;
+  width: 24.375rem;
+  margin-left: 0.6875rem;
   border-radius: 0.9375rem;
   padding-bottom: 1.25rem;
   background-color: var(--element-background-color);
   .schedule-head {
     display: flex;
     flex-direction: row;
-    height: 8.6vw;
+    height: 2.2145rem;
     align-items: center;
     justify-content: space-evenly;
     align-items: center;
@@ -33,7 +33,7 @@ a {
     }
     .schedule-head-head {
       height: 1.375rem;
-      flex-basis: 58vw;
+      flex-basis: 14.935rem;
       font-size: 1.25rem;
       font-weight: bold;
     }
@@ -41,7 +41,7 @@ a {
       height: 1.0625rem;
       color: var(--schedule-all-color);
       font-weight: 500;
-      flex-basis: 19.656vw;
+      flex-basis: 5.06142rem;
       font-size: 1rem;
     }
   }

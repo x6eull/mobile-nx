@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect, ReactElement } from 'react'
 
-interface Link {
+const LinkAnimation = ({
+  href,
+  children,
+}: {
   href: string
   children: ReactElement
-}
-
-const LinkAnimation: React.FC<Link> = ({ href, children }) => {
+}) => {
   /**制作一个点击回弹效果，并保证动画结束后再跳转 */
   const [isAnimating, setIsAnimating] = useState(false) // 控制动画状态
   const linkRef = useRef<HTMLAnchorElement>(null) // 使用ref来引用DOM元素

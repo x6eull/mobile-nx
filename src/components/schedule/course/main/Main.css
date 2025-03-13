@@ -12,7 +12,7 @@
   --main-header-color: #92dbd8;
   display: flex;
   flex-direction: column;
-  width: min(12.5rem, 48.543689vw);
+  width: 12.5rem;
   height: 10.625rem;
   justify-content: space-evenly;
   background-color: var(--element-background-color);
@@ -45,7 +45,7 @@
   .main-body {
     display: flex;
     flex-direction: column;
-    height: 89.54px;
+    height: 5.6rem;
     justify-content: space-between;
     align-items: flex-start;
     text-align: justify;
@@ -53,7 +53,7 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: 6px;
+      gap: 0.375rem;
       font-weight: 400;
     }
   }
@@ -61,7 +61,7 @@
   .main-body-default {
     display: flex;
     flex-direction: column;
-    height: 61.05px;
+    height: 3.8156rem;
     justify-content: space-between;
     align-items: flex-start;
     text-align: center;
@@ -69,9 +69,9 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: 6px;
+      gap: 0.375rem;
       font-weight: bold;
-      font-size: min(16px, 4.383561644vw);
+      font-size: 1rem;
     }
   }
 }

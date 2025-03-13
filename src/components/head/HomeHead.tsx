@@ -7,7 +7,7 @@ function Head() {
     weather: string
     tip: string
   }
-  let tips: Tips[] = [
+  const tips: Tips[] = [
     { weather: '下雨', tip: '今日有雨，记得带伞哦！' },
     { weather: '', tip: '今日气温较低，注意穿衣保暖~' },
     { weather: '多云', tip: '今日天气舒服，适合出门走走哟~' },

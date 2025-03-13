@@ -75,7 +75,10 @@ function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
   const [deletingTodoId, setDeletingTodoId] = useState<boolean>(false)
   const [deletingButton, setDeletingButton] = useState<boolean>(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null) // 保存定时器引用
-  const handleComplete = (event: any, id: number) => {
+  const handleComplete = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: number,
+  ) => {
     /**阻止a标签的默认跳转 */
     event.preventDefault()
     /** 阻止button上的点击事件冒泡到<a>标签 */

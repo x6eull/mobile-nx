@@ -1,8 +1,8 @@
 .todowrapper {
   --todo-footer-color: grey;
   background-color: var(--element-background-color);
-  width: 94.660194vw;
-  margin-left: 2.67vw;
+  width: 24.375rem;
+  margin-left: 0.6875rem;
   margin-top: 0.625rem;
   margin-bottom: 0.625rem;
   border-radius: 0.9375rem;

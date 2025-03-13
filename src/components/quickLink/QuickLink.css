@@ -20,11 +20,11 @@
   display: flex;
   flex-direction: column;
   font-size: 1.3125rem;
-  width: 94.660194vw;
+  width: 24.375rem;
   background-color: var(--element-background-color);
   padding-bottom: 0.625rem;
   border-radius: 0.9375rem;
-  margin-left: 2.67vw;
+  margin-left: 0.6875rem;
   padding-top: 2%;
   margin-bottom: 2%;
   padding-left: 0.625rem;
@@ -49,6 +49,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 92.23301vw;
+    width: 23.75rem;
   }
 }

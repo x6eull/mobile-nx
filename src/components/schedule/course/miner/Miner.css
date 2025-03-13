@@ -6,7 +6,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: min(8.6875rem, 39.714286vw);
+  width: 8.6875rem;
   min-height: 3.75rem;
   box-shadow: 0.1rem 0.1rem 0 var(--min-shadow-color);
   background-color: var(--min-background-color);

@@ -65,7 +65,7 @@ function Schedule() {
   )
   if (events.length >= 1) {
     /** flag表示用户是否设置备注 */
-    let flag = true
+    const flag = true
     /** 把数组中第一项去掉，用于传入Min组件*/
     const min = events.filter((item) => events.indexOf(item) >= 1)
     let minAssemblage = min.map((item) => <Min key={item.id} item={item} />)
