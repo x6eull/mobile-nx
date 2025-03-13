@@ -11,42 +11,37 @@ function TodoList() {
   const handleDelete = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id))
   }
-  /**这里todoBody默认是没有待办时的情况 */
-  let todoBody = <NoneTodo />
-  /**footer指的是拉到最下面时的提示，默认情况下无，只有在待办大于3个时会显示 */
-  let footer: string = ''
-  let todoClass: string = 'todolist-more'
-  if (todos.length >= 1) {
-    const todo = todos
-      .slice(0, 10)
-      .map((item) => (
-        <TodoItem
-          key={item.id}
-          id={item.id}
-          name={item.name}
-          dueTime={item.dueTime}
-          type={item.type}
-          onDelete={handleDelete}
-        />
-      ))
-    if (todos.length > 3) {
-      /**只有在待办事项大于3个时,TodoItem才会超出组件高度，显示提示词 */
-      footer = '别拉啦,最多显示最近10条待办哦'
-    } else {
-      /**待办事项不大于3个时，组件从头开始摆放 */
-      todoClass = 'todolist-less'
-    }
-    todoBody = (
-      <div className={todoClass}>
-        {todo}
-        <span id="footer">{footer}</span>
-      </div>
-    )
-  }
+
+  const todo = todos
+    .slice(0, 10)
+    .map((item) => (
+      <TodoItem
+        key={item.id}
+        id={item.id}
+        name={item.name}
+        dueTime={item.dueTime}
+        type={item.type}
+        onDelete={handleDelete}
+      />
+    ))
+
   return (
     <div className="todowrapper">
       <TodoHead />
-      {todoBody}
+      {todos.length >= 1 ? (
+        /**待办事项不大于3个时，组件从头开始摆放 */
+        <div className={todos.length > 3 ? 'todolist-more' : 'todolist-less'}>
+          {todo}
+          <span id="footer">
+            {todos.length > 3 ? '别拉啦,最多显示最近10条待办哦' : ''}
+          </span>
+        </div>
+      ) : (
+        /**footer指的是拉到最下面时的提示，默认情况下无，只有在待办大于3个时会显示 */
+        /**只有在待办事项大于3个时,TodoItem才会超出组件高度，显示提示词 */
+        <NoneTodo />
+        /**这里todoBody默认是没有待办时的情况 */
+      )}
     </div>
   )
 }
