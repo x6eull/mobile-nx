@@ -5,11 +5,19 @@
 *.tsx text eol=lf
 
 *.md text eol=lf diff=markdown
+LICENSE text eol=lf
 
+.npmrc text eol=lf
 package.json text eol=lf
 package-lock.json text eol=lf
-.prettierrc text eol=lf
-tsconfig.* text eol=lf
 
-.vscode/*.json text eol=lf
+tsconfig*.json text eol=lf linguist-language=jsonc
+
+ionic.config.json text eol=lf
+
+.prettierrc text eol=lf
+.prettierignore text eol=lf
+
 .github/workflows/*.yml text eol=lf
+
+.vscode/*.json text eol=lf linguist-language=jsonc
