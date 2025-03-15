@@ -6,7 +6,7 @@
   & .time-column {
     display: flex;
     flex-direction: column;
-    padding-left: 2vw;
+    padding-left: 1em;
 
     & .time-slot-label {
       display: flex;
@@ -15,8 +15,8 @@
       justify-content: center;
       border: none;
       height: 100%;
-      margin-left: 1vw;
-      margin-right: 1vw;
+      margin-left: 1em;
+      margin-right: 1em;
       font-size: 0.75em;
       color: var(--ion-color-medium);
       white-space: nowrap;

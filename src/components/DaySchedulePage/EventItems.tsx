@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react'
 import {
   IonCard,
   IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
 } from '@ionic/react'
 import './EventItems.css'
 import { Event } from '../WeekSchedulePage/EventGrid'

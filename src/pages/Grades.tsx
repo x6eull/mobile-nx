@@ -2,15 +2,11 @@
 import React, { useState } from 'react'
 import {
   IonPage,
-  IonHeader,
   IonToolbar,
-  IonTitle,
   IonButtons,
   IonButton,
   IonIcon,
   IonContent,
-  IonFooter,
-  IonItem,
   IonRouterLink,
   IonImg,
   IonLabel,

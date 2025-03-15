@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {
   IonPage,
-  IonHeader,
   IonToolbar,
   IonButtons,
   IonButton,
@@ -35,7 +34,7 @@ const courses: Course[] = [
       },
     ],
   },
-  // ... 其他课程数据 ...
+
 ]
 
 const CourseSchedule: React.FC = () => {

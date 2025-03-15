@@ -1,5 +1,4 @@
 import React from 'react'
-import { IonCard, IonCardContent, IonGrid, IonRow, IonCol } from '@ionic/react'
 import './GradesSummary.css'
 
 const GradesSummary: React.FC = () => {

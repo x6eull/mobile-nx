@@ -4,7 +4,6 @@ import eye from '../../assets/kbheader-eye.png'
 import out from '../../assets/kbheader-out.png'
 import './CourseScheduleHeader.css'
 
-// 创建一个全局事件总线来传递显示状态
 export const courseTextVisibilityEvent = new EventTarget()
 
 const CourseScheduleHeader: React.FC = () => {
@@ -14,7 +13,7 @@ const CourseScheduleHeader: React.FC = () => {
     const newVisibility = !isTextVisible
     setIsTextVisible(newVisibility)
 
-    // 发送自定义事件通知其他组件
+    
     const event = new CustomEvent('courseTextVisibilityChange', {
       detail: { isVisible: newVisibility },
     })

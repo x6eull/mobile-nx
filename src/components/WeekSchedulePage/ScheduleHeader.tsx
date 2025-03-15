@@ -12,7 +12,7 @@ import jintext from '../../assets/jin-text.png'
 
 const ScheduleHeader: React.FC = () => {
   const formatYearMonth = () => {
-    const selectedDate = new Date() // 这里可以根据需要传入具体日期
+    const selectedDate = new Date()
     const year = selectedDate.getFullYear()
     const month = selectedDate.getMonth() + 1
     const weekNumber = Math.ceil(selectedDate.getDate() / 7)

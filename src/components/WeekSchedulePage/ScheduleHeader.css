@@ -8,28 +8,29 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  margin-left: 4vw;
-  margin-bottom: 2vh;
+  margin-left: 4em;
+  margin-bottom: 2em;
+  margin-right: 1em;
   .schedule-title {
      font-family: 'Inter', sans-serif;
      font-size: 1.3em;
      font-weight: bold;
-     margin-right: 16vw;
+     margin-right: 3em;
   }
   .week-schedule-img {
-    width: 9vw;
-    height: 9vw;
-    margin-left: 10vw;
-    margin-right: 0vw;
-    margin-top: 2vh;
+    width: 2em;
+    height: 2.5em;
+    margin-left: 4em;
+    margin-right: 0em;
+    margin-top: 1em;
   }
   .jin-text-img {
-    width: 8vw;
-    height: 8vw;
-    margin-left: 1vw;
-    margin-right: 0vw;
-    margin-top: 2vh;
-    margin-bottom: 0.6vh;
+    width: 2em;
+    height: 2em;
+    margin-left: 1em;
+    margin-right: 0em;
+    margin-top: 1em;
+    margin-bottom: 0.4em;
   }
 }
 
