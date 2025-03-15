@@ -25,7 +25,7 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
   }
 
   const handleSaveClick = async () => {
-    try {
+    try {//保存图片AI写了一段，具体的url应该要之后再修改
       // 获取要截图的元素
       const element = document.getElementById('semesterKey')
       if (!element) {
@@ -41,7 +41,7 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
 
       // 设置 canvas 尺寸
       const { width, height } = element.getBoundingClientRect()
-      canvas.width = width * 2 // 乘以2提高清晰度
+      canvas.width = width * 2 
       canvas.height = height * 2
 
       // 设置缩放以提高清晰度

@@ -3,7 +3,6 @@ import { IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react'
 import './CourseGrid.css'
 import { Course } from '../../models/Course'
 import { Term } from '../../models/shared'
-import courseTextVisibilityEvent from './CourseScheduleHeader'
 
 interface CourseGridProps {
   courses: Course[]
