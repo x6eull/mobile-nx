@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
-import { TodoElement } from '../Todos'
 import './TodoItem.css'
-interface Correspondence {
-  1: string
-  2: string
-  3: string
+
+interface TodoElement {
+  id: number
+  name: string
+  dueTime: string
+  remark: string
+  type: number
 }
-type Key = 1 | 2 | 3
+
 interface TodoItemProps extends TodoElement {
   onDelete: (id: number) => void
 }
@@ -15,31 +17,42 @@ export const todoList: TodoElement[] = [
     id: 1,
     name: '不定积分作业',
     dueTime: '今天  25:00',
+    remark: '微积分',
     type: 1,
   },
   {
     id: 2,
     name: '买桶装水',
     dueTime: '后天21:00截止',
+    remark: '寝室',
     type: 2,
   },
   {
     id: 3,
     name: 'mobile高保真绘制',
     dueTime: '01.15 21:00截止',
+    remark: '求是潮',
     type: 3,
   },
   {
     id: 4,
     name: '不定积分作业',
     dueTime: '今天  25:00',
+    remark: 'calculus',
     type: 1,
   },
 ]
 
-function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
+function TodoItem({
+  id,
+  name,
+  dueTime,
+  remark,
+  type,
+  onDelete,
+}: TodoItemProps) {
   /**处理类型与颜色的对应 */
-  const correspondence: Correspondence = {
+  const correspondence: Record<number, string> = {
     1: '#FF5E72',
     2: '#FFCB5E',
     3: '#6A8FFF',
@@ -109,12 +122,12 @@ function TodoItem({ id, name, dueTime, type, onDelete }: TodoItemProps) {
       onClick={handleClick}
       className={`todoItemWrap ${deletingTodoId ? 'deleting' : ''}`}
       style={{
-        borderLeft: '13px solid ' + correspondence[type as Key],
+        borderLeft: '13px solid ' + correspondence[type],
       }}
     >
       <div className="todoItemElement">
         <span>{name}</span>
-        <div>求是潮</div>
+        <div>{remark}</div>
       </div>
       <div className="todoItemOther">
         <div>{dueTime}</div>

@@ -20,6 +20,7 @@ function TodoList() {
         id={item.id}
         name={item.name}
         dueTime={item.dueTime}
+        remark={item.remark}
         type={item.type}
         onDelete={handleDelete}
       />
