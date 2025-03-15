@@ -1,30 +1,29 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { IonButton, IonImg } from '@ionic/react'
 import eye from '../../assets/kbheader-eye.png'
 import out from '../../assets/kbheader-out.png'
 import './CourseScheduleHeader.css'
 
-export const courseTextVisibilityEvent = new EventTarget()
+interface CourseScheduleHeaderProps {
+  creditHours: number
+  isTextVisible: boolean
+  onTextVisibilityChange: (visible: boolean) => void
+}
 
-const CourseScheduleHeader: React.FC = () => {
-  const [isTextVisible, setIsTextVisible] = useState(true)
-
+const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
+  creditHours,
+  isTextVisible,
+  onTextVisibilityChange,
+}) => {
   const handleEyeClick = () => {
-    const newVisibility = !isTextVisible
-    setIsTextVisible(newVisibility)
-
-    
-    const event = new CustomEvent('courseTextVisibilityChange', {
-      detail: { isVisible: newVisibility },
-    })
-    courseTextVisibilityEvent.dispatchEvent(event)
+    onTextVisibilityChange(!isTextVisible)
   }
 
   return (
     <div className="schedule-header">
       <div className="credit-info">
         <span className="credit-label">学期学时</span>
-        <span className="credit-value">43.0</span>
+        <span className="credit-value">{creditHours}</span>
       </div>
       <div className="action-buttons">
         <IonButton fill="clear" size="small" onClick={handleEyeClick}>

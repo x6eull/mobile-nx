@@ -87,17 +87,15 @@
 }
 
 .course-card.hide-text {
- 
-  color: transparent;
+  background-color:#586fc2;
 }
 
 .course-card.hide-text ion-card-content {
-
-  color: transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.course-card.hide-text h5,
-.course-card.hide-text p {
- 
-  color: transparent;
+.course-card ion-card-content {
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
