@@ -1,8 +1,6 @@
 .schedule-page {
-  height: 100%;
   display: flex;
   flex-direction: column;
-
 }
 .schedule-content {
   flex: 1;
