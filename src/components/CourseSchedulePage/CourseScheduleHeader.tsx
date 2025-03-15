@@ -1,5 +1,5 @@
-import React from 'react'
-import { IonButton, IonImg, useIonToast } from '@ionic/react'
+import React, { useState } from 'react'
+import { IonButton, IonImg, IonToast } from '@ionic/react'
 import eye from '../../assets/kbheader-eye.png'
 import out from '../../assets/kbheader-out.png'
 import toast from '../../assets/toast.jpg'
@@ -17,20 +17,11 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
   isTextVisible,
   onTextVisibilityChange,
 }) => {
-  const [present] = useIonToast()
+  const [showToast, setShowToast] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(true)
 
   const handleEyeClick = () => {
     onTextVisibilityChange(!isTextVisible)
-  }
-
-  const showToast = (success: boolean) => {
-    present({
-      message: success ? '保存图片成功！' : '保存图片失败！',
-      duration: 2000,
-      position: 'top',
-      cssClass: 'custom-toast',
-      image: toast,
-    })
   }
 
   const handleSaveClick = () => {
@@ -39,9 +30,11 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
       // ...
 
       // 成功后显示成功提示
-      showToast(true)
+      setIsSuccess(true)
+      setShowToast(true)
     } catch (error) {
-      showToast(false)
+      setIsSuccess(false)
+      setShowToast(true)
       console.error('保存失败:', error)
     }
   }
@@ -60,6 +53,16 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
           <IonImg src={out} alt="Out" />
         </IonButton>
       </div>
+
+      <IonToast
+        isOpen={showToast}
+        onDidDismiss={() => setShowToast(false)}
+        message={isSuccess ? '保存图片成功！' : '保存图片失败！'}
+        duration={2000}
+        position="top"
+        cssClass="custom-toast"
+        icon={toast}//似乎没有image属性，图片插入无法显示
+      />
     </div>
   )
 }

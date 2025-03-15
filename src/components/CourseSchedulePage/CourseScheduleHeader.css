@@ -1,6 +1,6 @@
-*{
-  padding:0;
-  margin:0;
+* {
+  padding: 0;
+  margin: 0;
 }
 
 .schedule-header {
@@ -24,7 +24,7 @@
 .credit-value {
   font-size: 2.5em;
   font-weight: bolder;
-  color:#586FC2;
+  color: #586fc2;
 }
 
 .action-buttons {
@@ -35,13 +35,12 @@
 
 .action-buttons ion-button {
   --color: var(--ion-color-medium);
-} 
+}
 
 .action-buttons ion-img {
   width: 4em;
   height: 4em;
 }
-
 
 .custom-toast {
   --background: rgba(255, 255, 255, 0.95);
@@ -49,7 +48,8 @@
   --box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   --color: #333;
   --min-height: 48px;
-  --min-width: 100px;
+  --width: fit-content;
+  --max-width: 200px;
   text-align: center;
   padding: 10px;
 }
@@ -60,5 +60,3 @@
   margin-right: 8px;
   vertical-align: middle;
 }
-
-
