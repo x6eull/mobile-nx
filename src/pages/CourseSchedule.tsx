@@ -71,7 +71,10 @@ const semesterList: Semester[] = [
 ]
 
 const CourseSchedule: React.FC = () => {
-  const [selectedSemester, setSelectedSemester] = useState('2023-fall')
+  const firstSemester = semesterList[0]
+  const defaultSemester = `${firstSemester.year}-${Term[firstSemester.term]}`
+
+  const [selectedSemester, setSelectedSemester] = useState(defaultSemester)
   const [isTextVisible, setIsTextVisible] = useState(true)
   const [creditHours, setCreditHours] = useState(43.0)
 
