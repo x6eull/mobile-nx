@@ -1,47 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import './TodoItem.css'
-
-interface TodoElement {
-  id: number
-  name: string
-  dueTime: string
-  remark: string
-  type: number
-}
+import { TodoElement } from '../TodoList'
 
 interface TodoItemProps extends TodoElement {
   onDelete: (id: number) => void
 }
-export const todoList: TodoElement[] = [
-  {
-    id: 1,
-    name: '不定积分作业',
-    dueTime: '今天  25:00',
-    remark: '微积分',
-    type: 1,
-  },
-  {
-    id: 2,
-    name: '买桶装水',
-    dueTime: '后天21:00截止',
-    remark: '寝室',
-    type: 2,
-  },
-  {
-    id: 3,
-    name: 'mobile高保真绘制',
-    dueTime: '01.15 21:00截止',
-    remark: '求是潮',
-    type: 3,
-  },
-  {
-    id: 4,
-    name: '不定积分作业',
-    dueTime: '今天  25:00',
-    remark: 'calculus',
-    type: 1,
-  },
-]
 
 function TodoItem({
   id,

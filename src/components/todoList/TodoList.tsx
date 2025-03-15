@@ -3,7 +3,46 @@ import TodoItem from './todoList-body/TodoItem'
 import TodoHead from './todoList-head/TodoListHead'
 import './TodoList.css'
 import NoneTodo from './NoneTodo/NoneTodo'
-import { todoList as initialTodos } from './todoList-body/TodoItem'
+
+export interface TodoElement {
+  id: number
+  name: string
+  dueTime: string
+  remark: string
+  type: number
+}
+
+const initialTodos: TodoElement[] = [
+  {
+    id: 1,
+    name: '不定积分作业',
+    dueTime: '今天  25:00',
+    remark: '微积分',
+    type: 1,
+  },
+  {
+    id: 2,
+    name: '买桶装水',
+    dueTime: '后天21:00截止',
+    remark: '寝室',
+    type: 2,
+  },
+  {
+    id: 3,
+    name: 'mobile高保真绘制',
+    dueTime: '01.15 21:00截止',
+    remark: '求是潮',
+    type: 3,
+  },
+  {
+    id: 4,
+    name: '不定积分作业',
+    dueTime: '今天  25:00',
+    remark: 'calculus',
+    type: 1,
+  },
+]
+
 /**将TodoItem组件在此拼装为整体 */
 function TodoList() {
   const [todos, setTodos] = useState(initialTodos)
