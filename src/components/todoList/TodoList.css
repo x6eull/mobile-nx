@@ -5,12 +5,11 @@
   --todo-footer-color: grey;
   border-radius: 0.9375rem;
   .todolist-more {
+    margin-left: 3px;
+    margin-right: 3px;
     display: flex;
     flex-direction: column;
     height: 13rem;
-    width: 96.5%;
-    position: relative;
-    left: 1.75%;
     overflow-y: scroll;
     align-items: center;
     justify-content: space-around;
