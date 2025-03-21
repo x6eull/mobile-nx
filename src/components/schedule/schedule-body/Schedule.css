@@ -2,54 +2,17 @@ a {
   text-decoration: none;
 }
 
-.schedule-container {
-  --schedule-icon-background: #e7f4f5;
-  --schedule-all-color: #6bb9c1;
-  --schedule-fighting-color: grey;
-  --schedule-emoji-color: #808080;
-  --schedule-none-color: #fdab76;
-
-  display: flex;
-  flex-direction: column;
-  width: 24.375rem;
-  margin-left: 0.6875rem;
-  border-radius: 0.9375rem;
-  padding-bottom: 1.25rem;
-  background-color: var(--element-background-color);
-  .schedule-head {
-    display: flex;
-    flex-direction: row;
-    height: 2.2145rem;
-    align-items: center;
-    justify-content: space-evenly;
-    align-items: center;
-    padding-top: 2%;
-    margin-bottom: 2%;
-    padding-left: 0.625rem;
-    img {
+.container {
+  .head {
+    .schedule {
       background-color: var(--schedule-icon-background);
-      border-radius: 0.5rem;
-      padding: 0.1875rem;
-    }
-    .schedule-head-head {
-      height: 1.375rem;
-      flex-basis: 14.935rem;
-      font-size: 1.25rem;
-      font-weight: bold;
-    }
-    .schedule-head-all {
-      height: 1.0625rem;
-      color: var(--schedule-all-color);
-      font-weight: 500;
-      flex-basis: 5.06142rem;
-      font-size: 1rem;
     }
   }
-
   .schedule-body {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-bottom: 0.5rem;
     .schedule-body-body {
       display: flex;
       flex-direction: column;

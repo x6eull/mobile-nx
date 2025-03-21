@@ -1,16 +1,13 @@
+.todo {
+  background-color: var(--todo-icon-background);
+}
 .todowrapper {
   --todo-footer-color: grey;
-  background-color: var(--element-background-color);
-  width: 24.375rem;
-  margin-left: 0.6875rem;
-  margin-top: 0.625rem;
-  margin-bottom: 0.625rem;
   border-radius: 0.9375rem;
-  padding-bottom: 0.3125rem;
   .todolist-more {
     display: flex;
     flex-direction: column;
-    height: 13.125rem;
+    height: 13rem;
     width: 96.5%;
     position: relative;
     left: 1.75%;

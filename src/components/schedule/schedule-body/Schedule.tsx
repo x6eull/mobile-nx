@@ -2,6 +2,7 @@ import logo from './schedule.svg'
 import './Schedule.css'
 import Main from '../course/main/Main'
 import Min from '../course/miner/Miner'
+import Card from '@/components/Card'
 
 /**第一项中传递的接口 */
 export interface courseMain {
@@ -89,16 +90,15 @@ function Schedule() {
     )
   }
   return (
-    <div className="schedule-container">
-      <div className="schedule-head">
-        <img src={logo} alt="404" />
-        <span className="schedule-head-head">今日日程</span>
-        <a href="/schedule" className="schedule-head-all">
-          查看全部 {'>'}
-        </a>
-      </div>
+    <Card
+      logo={logo}
+      title={'今日日程'}
+      cardHref="/schedule"
+      all="查看全部>"
+      name="schedule"
+    >
       {scheduleBody}
-    </div>
+    </Card>
   )
 }
 

@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+  margin: 0.625rem 0.6875rem;
+  border-radius: 0.9375rem;
+  padding-bottom: 0.875rem;
+  background-color: var(--element-background-color);
+  .head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 2%;
+    margin-bottom: 2%;
+    padding-left: 0.625rem;
+    img {
+      border-radius: 0.5rem;
+      padding: 0.1875rem;
+    }
+    .title {
+      height: 1.375rem;
+      flex-basis: 58vw;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .all {
+      height: 1.0625rem;
+      font-weight: 500;
+      flex-basis: 19.656vw;
+      font-size: 1rem;
+      color: var(--schedule-all-color);
+    }
+  }
+}
+
