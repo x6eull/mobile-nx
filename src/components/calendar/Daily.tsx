@@ -17,6 +17,7 @@ import {
   IonDatetimeButton,
   IonIcon,
 } from '@ionic/react'
+import dailyIcon from '../../svg/Daily.svg'
 import { closeOutline, chevronDownOutline } from 'ionicons/icons'
 
 export default function Daily() {
@@ -27,49 +28,13 @@ export default function Daily() {
   return (
     <>
       <IonButton
-        className="fab-buttun-daily"
+        className="fab-button-daily"
         shape="round"
         id="open-modal-daily"
         expand="block"
         size="small"
       >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            x="3"
-            y="6"
-            width="18"
-            height="15"
-            rx="2"
-            stroke="#128F9D"
-            stroke-width="2"
-          />
-          <path
-            d="M3 10C3 8.11438 3 7.17157 3.58579 6.58579C4.17157 6 5.11438 6 7 6H17C18.8856 6 19.8284 6 20.4142 6.58579C21 7.17157 21 8.11438 21 10H3Z"
-            fill="#128F9D"
-          />
-          <path
-            d="M7 3L7 6"
-            stroke="#128F9D"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <path
-            d="M17 3L17 6"
-            stroke="#128F9D"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <rect x="7" y="12" width="4" height="2" rx="0.5" fill="#128F9D" />
-          <rect x="7" y="16" width="4" height="2" rx="0.5" fill="#128F9D" />
-          <rect x="13" y="12" width="4" height="2" rx="0.5" fill="#128F9D" />
-          <rect x="13" y="16" width="4" height="2" rx="0.5" fill="#128F9D" />
-        </svg>
+        <img src={dailyIcon} alt="Daily" />
       </IonButton>
 
       <IonModal
@@ -84,78 +49,7 @@ export default function Daily() {
             <div className="bar">
               <div className="title">
                 <div className="icon-calendar">
-                  <svg
-                    width="33"
-                    height="33"
-                    viewBox="0 0 33 33"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      width="33"
-                      height="33"
-                      rx="10"
-                      fill="#92DBD8"
-                      fill-opacity="0.21"
-                    />
-                    <rect
-                      x="8"
-                      y="10"
-                      width="18"
-                      height="15"
-                      rx="2"
-                      stroke="#128F9D"
-                      stroke-width="2"
-                    />
-                    <path
-                      d="M8 14C8 12.1144 8 11.1716 8.58579 10.5858C9.17157 10 10.1144 10 12 10H22C23.8856 10 24.8284 10 25.4142 10.5858C26 11.1716 26 12.1144 26 14H8Z"
-                      fill="#128F9D"
-                    />
-                    <path
-                      d="M12 7L12 10"
-                      stroke="#128F9D"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M22 7L22 10"
-                      stroke="#128F9D"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                    />
-                    <rect
-                      x="12"
-                      y="16"
-                      width="4"
-                      height="2"
-                      rx="0.5"
-                      fill="#128F9D"
-                    />
-                    <rect
-                      x="12"
-                      y="20"
-                      width="4"
-                      height="2"
-                      rx="0.5"
-                      fill="#128F9D"
-                    />
-                    <rect
-                      x="18"
-                      y="16"
-                      width="4"
-                      height="2"
-                      rx="0.5"
-                      fill="#128F9D"
-                    />
-                    <rect
-                      x="18"
-                      y="20"
-                      width="4"
-                      height="2"
-                      rx="0.5"
-                      fill="#128F9D"
-                    />
-                  </svg>
+                  <img src={dailyIcon} alt="Daily" />
                 </div>
                 <div className="icon-label">
                   <IonLabel>日程</IonLabel>
@@ -264,6 +158,19 @@ export default function Daily() {
     </>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
