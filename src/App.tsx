@@ -10,7 +10,7 @@ import {
   setupIonicReact,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import Home from './pages/Home'
+import Home from './pages/Index/Index'
 import Tab2 from './pages/Schedule'
 import Tab3 from './pages/Todos'
 import home from './footerLogo/home.svg'
