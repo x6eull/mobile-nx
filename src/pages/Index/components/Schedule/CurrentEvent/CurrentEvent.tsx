@@ -1,40 +1,40 @@
 import spot from '@/pages/Index/assets/svg/Schedule/Current/spot.svg'
 import time from '@/pages/Index/assets/svg/Schedule/Current/time.svg'
 import remarks from '@/pages/Index/assets/svg/Schedule/Current/remarks.svg'
-import './CurrentCourse.css'
-import { CourseMain } from '../Schedule'
+import './CurrentEvent.css'
+import { EventDetail } from '../Schedule'
 
-export default function CurrentCourse(props: {
-  course: CourseMain
+export default function CurrentEvent(props: {
+  event: EventDetail
   flag: boolean
 }) {
   let remark = <></>
-  let className: string = 'main-body-default'
+  let className: string = 'current-event-body-default'
   //如果props.flag为true，则说明用户做了备注，那么remark会变成显示备注的标签
   if (props.flag) {
-    className = 'main-body'
+    className = 'current-event-body'
     remark = (
       <div>
         <img src={remarks} alt="404" />
-        <span>{props.course.description}</span>
+        <span>{props.event.description}</span>
       </div>
     )
   }
   return (
-    <a className="main-wrap" href="/schedule">
-      <div className="main-head">
+    <a className="current-event-wrap" href="/schedule">
+      <div className="current-event-head">
         <div>距上课</div>
-        <div className="time">{props.course.startTime}</div>
-        <div className="main-coursename">{props.course.name}</div>
+        <div className="time">{props.event.startTime}</div>
+        <div className="current-event-name">{props.event.name}</div>
       </div>
       <div className={className}>
         <div>
           <img src={spot} alt="404" />
-          <span>{props.course.location}</span>
+          <span>{props.event.location}</span>
         </div>
         <div>
           <img src={time} alt="404" />
-          <span>{props.course.duration}</span>
+          <span>{props.event.duration}</span>
         </div>
         {remark}
       </div>

@@ -12,7 +12,7 @@ import Schedule from './components/Schedule/Schedule'
 import TodoList from './components/TodoList/TodoList'
 import QuickLink from './components/QuickLink/QuickLink'
 
-export default function Home() {
+export default function Index() {
   return (
     <IonPage>
       <IonHeader collapse="condense">

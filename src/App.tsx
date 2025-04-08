@@ -3,6 +3,7 @@ import {
   IonApp,
   IonIcon,
   IonLabel,
+  IonPage,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -10,14 +11,10 @@ import {
   setupIonicReact,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import Home from './pages/Index/Index'
-import Tab2 from './pages/Index/components/OtherPages/Schedule'
-import Tab3 from './pages/Index/components/OtherPages/Todos'
-import home from './navLogo/home.svg'
-import schedule from './navLogo/schedule.svg'
-import todo from './navLogo/todos.svg'
-import functions from './navLogo/functions.svg'
-import mine from './navLogo/mine.svg'
+import Index from './pages/Index/Index'
+import home from './navIcon/home.svg'
+import schedule from './navIcon/schedule.svg'
+import mine from './navIcon/mine.svg'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -57,17 +54,17 @@ export default function App() {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/home">
-              <Home />
-            </Route>
-            <Route exact path="/schedule">
-              <Tab2 />
-            </Route>
-            <Route path="/todos">
-              <Tab3 />
-            </Route>
             <Route exact path="/">
               <Redirect to="/home" />
+            </Route>
+            <Route exact path="/home">
+              <Index />
+            </Route>
+            <Route exact path="/schedule">
+              <IonPage>todo</IonPage>
+            </Route>
+            <Route exact path="/mine">
+              <IonPage>todo</IonPage>
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
@@ -78,14 +75,6 @@ export default function App() {
             <IonTabButton tab="tab2" href="/schedule">
               <IonIcon aria-hidden="true" icon={schedule} />
               <IonLabel>日程</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab3" href="/todos">
-              <IonIcon aria-hidden="true" icon={todo} />
-              <IonLabel>待办</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab4" href="/functions">
-              <IonIcon aria-hidden="true" icon={functions} />
-              <IonLabel>功能</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab5" href="/mine">
               <IonIcon aria-hidden="true" icon={mine} />

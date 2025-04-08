@@ -1,15 +1,15 @@
 @font-face {
   /* 引入Rubik字体，给时间用*/
   font-family: 'Rubik';
-  src: url('../../../../assets/ttf/Rubik/Rubik-Bold.ttf') format('truetype');
+  src: url('../../../assets/ttf/Rubik/Rubik-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 
-.main-wrap {
-  --main-font-color: black;
-  --main-time-color: #128f9d;
-  --main-header-color: #92dbd8;
+.current-event-wrap {
+  --current-event-font-color: black;
+  --current-event-time-color: #128f9d;
+  --current-event-header-color: #92dbd8;
   overflow: hidden;
   /* 隐藏溢出的文本 */
   white-space: nowrap;
@@ -22,38 +22,42 @@
   height: 10.625rem;
   justify-content: space-evenly;
   background-color: var(--element-background-color);
-  color: var(--main-font-color);
+  color: var(--current-event-font-color);
   margin: 0 0.89583rem;
   gap: 0.1875rem;
-  .main-head {
+
+  .current-event-head {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--main-header-color);
+    color: var(--current-event-header-color);
+
     .time {
       font-family: 'Rubik', sans-serif;
       font-size: 2.1875rem;
       font-weight: 700;
-      color: var(--main-time-color);
+      color: var(--current-event-time-color);
       margin: 0.1875rem 0;
     }
-    .main-coursename {
+
+    .current-event-name {
       font-size: 1.5rem;
       font-weight: 500;
-      color: var(--main-font-color);
+      color: var(--current-event-font-color);
     }
   }
 
-  .main-body {
+  .current-event-body {
     display: flex;
     flex-direction: column;
     height: 5.6rem;
     justify-content: space-between;
     align-items: flex-start;
     text-align: justify;
+
     div {
       display: flex;
       flex-direction: row;
@@ -64,13 +68,14 @@
     }
   }
 
-  .main-body-default {
+  .current-event-body-default {
     display: flex;
     flex-direction: column;
     height: 3.8156rem;
     justify-content: space-between;
     align-items: flex-start;
     text-align: center;
+
     div {
       display: flex;
       flex-direction: row;
@@ -82,6 +87,6 @@
   }
 }
 
-.main-wrap:hover {
+.current-event-wrap:hover {
   text-decoration: none;
 }
