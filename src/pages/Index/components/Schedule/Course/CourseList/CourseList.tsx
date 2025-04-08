@@ -1,9 +1,9 @@
-import spot from './miner-logo/spot.svg'
-import time from './miner-logo/time.svg'
-import './Miner.css'
-import { EventBrief } from '../../schedule-body/Schedule'
+import spot from '@/pages/Index/assets/svg/Schedule/List/spot.svg'
+import time from '@/pages/Index/assets/svg/Schedule/List/time.svg'
+import './CourseList.css'
+import { EventBrief } from '../../Schedule'
 
-export default function Min(props: { item: EventBrief }) {
+export default function CourseList(props: { item: EventBrief }) {
   return (
     <>
       <a className="min-wrap" href="/schedule">

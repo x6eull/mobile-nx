@@ -1,14 +1,14 @@
-import logo from './link.svg'
-import logo1 from './quickLinkLogo/1.svg'
-import logo2 from './quickLinkLogo/2.svg'
-import logo3 from './quickLinkLogo/3.svg'
-import logo4 from './quickLinkLogo/4.svg'
-import logo5 from './quickLinkLogo/5.svg'
-import logo6 from './quickLinkLogo/6.svg'
-import logo7 from './quickLinkLogo/7.svg'
+import logo from '../../assets/svg/QuickLink/Link/link.svg'
+import logo1 from '../../assets/svg/QuickLink/Logo/1.svg'
+import logo2 from '../../assets/svg/QuickLink/Logo/2.svg'
+import logo3 from '../../assets/svg/QuickLink/Logo/3.svg'
+import logo4 from '../../assets/svg/QuickLink/Logo/4.svg'
+import logo5 from '../../assets/svg/QuickLink/Logo/5.svg'
+import logo6 from '../../assets/svg/QuickLink/Logo/6.svg'
+import logo7 from '../../assets/svg/QuickLink/Logo/7.svg'
 import './QuickLink.css'
 import LinkAnimation from './LinkAnimation'
-import Card, { IconImg } from '../Card'
+import Card, { IconImg } from '../Card/Card'
 
 export default function QuickLink() {
   return (

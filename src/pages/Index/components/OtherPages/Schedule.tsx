@@ -5,15 +5,14 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react'
-import './Todos.css'
 
-export default function Tab3() {
+export default function Tab2() {
   return (
     <IonPage>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Tab 3</IonTitle>
+            <IonTitle size="large">Tab 2</IonTitle>
           </IonToolbar>
         </IonHeader>
       </IonContent>

@@ -1,10 +1,13 @@
-import spot from './main-logo/spot.svg'
-import time from './main-logo/time.svg'
-import remarks from './main-logo/remarks.svg'
-import './Main.css'
-import { CourseMain } from '../../schedule-body/Schedule'
+import spot from '../../../../assets/svg/Schedule/Current/spot.svg'
+import time from '../../../../assets/svg/Schedule/Current/time.svg'
+import remarks from '../../../../assets/svg/Schedule/Current/remarks.svg'
+import './CurrentCourse.css'
+import { CourseMain } from '../../Schedule'
 
-export default function Main(props: { course: CourseMain; flag: boolean }) {
+export default function CurrentCourse(props: {
+  course: CourseMain
+  flag: boolean
+}) {
   let remark = <></>
   let className: string = 'main-body-default'
   //如果props.flag为true，则说明用户做了备注，那么remark会变成显示备注的标签

@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import TodoItem from './todoList-body/TodoItem'
-import logo from './todoList-head.svg'
-import Card, { IconImg } from '../Card'
+import TodoItem from '@/pages/Index/components/TodoList/TodoItem/TodoItem'
+import logo from '@/pages/Index/assets/svg/TodoList/todoList-head.svg'
+import Card, { IconImg } from '../Card/Card'
 import './TodoList.css'
 import NoneTodo from './NoneTodo/NoneTodo'
 

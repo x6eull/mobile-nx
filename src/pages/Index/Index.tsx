@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   IonContent,
   IonHeader,
@@ -6,10 +7,10 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import './Index.css'
-import Head from './head/HomeHead'
-import Schedule from './schedule/schedule-body/Schedule'
-import TodoList from './todoList/TodoList'
-import QuickLink from './quickLink/QuickLink'
+import Header from './components/Header/Header'
+import Schedule from './components/Schedule/Schedule'
+import TodoList from './components/TodoList/TodoList'
+import QuickLink from './components/QuickLink/QuickLink'
 
 export default function Home() {
   return (
@@ -20,7 +21,7 @@ export default function Home() {
         </IonToolbar>
       </IonHeader>
       <IonContent className="homepage-content">
-        <Head />
+        <Header />
         <Schedule />
         <TodoList />
         <QuickLink />

@@ -1,7 +1,7 @@
 @font-face {
   /* 引入Rubik字体，给时间用*/
   font-family: 'Rubik';
-  src: url('./Rubik/Rubik-Bold.ttf') format('truetype');
+  src: url('../../../../assets/ttf/Rubik/Rubik-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }

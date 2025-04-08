@@ -1,7 +1,7 @@
 import Calendar from './Calendar/Calendar'
-import Weather from './weather/Weather'
+import Weather from './Weather/Weather'
 
-export default function Head() {
+export default function Header() {
   interface Tips {
     //天气与温馨提示的对象数组
     weather: string

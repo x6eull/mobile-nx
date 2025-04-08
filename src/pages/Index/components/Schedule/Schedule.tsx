@@ -1,8 +1,8 @@
-import logo from './schedule.svg'
+import logo from '@/pages/Index/assets/svg/Schedule/schedule.svg'
 import './Schedule.css'
-import Main from '../course/main/Main'
-import Min from '../course/miner/Miner'
-import Card, { IconImg } from '@/pages/Index/Card'
+import Main from './Course/CurrentCourse/CurrentCourse'
+import Min from './Course/CourseList/CourseList'
+import Card, { IconImg } from '@/pages/Index/components/Card/Card'
 
 /**第一项中传递的接口 */
 export interface CourseMain {
