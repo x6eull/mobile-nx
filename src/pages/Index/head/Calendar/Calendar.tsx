@@ -1,13 +1,6 @@
 import './Calendar.css'
 
-function Calendar({
-  year,
-  month,
-  day,
-  season,
-  number,
-  num,
-}: {
+export default function Calendar(props: {
   year: number
   month: number
   day: number
@@ -18,17 +11,15 @@ function Calendar({
   return (
     <div className="calendar-container">
       <div className="calendar-date">
-        {year}年{month}月{day}日
+        {props.year}年{props.month}月{props.day}日
       </div>
       <div className="calendar-week">
         <div>
-          {season}
-          {number}周
+          {props.season}
+          {props.number}周
         </div>
-        <div>星期{num}</div>
+        <div>星期{props.num}</div>
       </div>
     </div>
   )
 }
-
-export default Calendar

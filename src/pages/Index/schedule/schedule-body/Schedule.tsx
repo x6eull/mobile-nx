@@ -22,7 +22,8 @@ export interface EventBrief {
   duration: string
   description?: string
 }
-function Schedule() {
+
+export default function Schedule() {
   const events: EventBrief[] = [
     {
       id: 1,
@@ -100,5 +101,3 @@ function Schedule() {
     </Card>
   )
 }
-
-export default Schedule

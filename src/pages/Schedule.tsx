@@ -7,7 +7,7 @@ import {
 } from '@ionic/react'
 import './Schedule.css'
 
-const Tab2: React.FC = () => {
+export default function Tab2() {
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -20,5 +20,3 @@ const Tab2: React.FC = () => {
     </IonPage>
   )
 }
-
-export default Tab2

@@ -3,22 +3,22 @@ import time from './miner-logo/time.svg'
 import './Miner.css'
 import { EventBrief } from '../../schedule-body/Schedule'
 
-function Min({ item }: { item: EventBrief }) {
+export default function Min(props: { item: EventBrief }) {
   return (
     <>
       <a className="min-wrap" href="/schedule">
         <div className="min-wrapper">
           <div className="min-head">
-            <div>{item.name}</div>
+            <div>{props.item.name}</div>
           </div>
           <div className="min-body">
             <div>
               <img src={spot} alt="404" />
-              <span>{item.location}</span>
+              <span>{props.item.location}</span>
             </div>
             <div>
               <img src={time} alt="404" />
-              <span>{item.duration}</span>
+              <span>{props.item.duration}</span>
             </div>
           </div>
         </div>
@@ -27,5 +27,3 @@ function Min({ item }: { item: EventBrief }) {
     </>
   )
 }
-
-export default Min

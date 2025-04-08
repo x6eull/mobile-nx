@@ -7,7 +7,7 @@ import {
 } from '@ionic/react'
 import './Todos.css'
 
-const Tab3: React.FC = () => {
+export default function Tab3() {
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -20,5 +20,3 @@ const Tab3: React.FC = () => {
     </IonPage>
   )
 }
-
-export default Tab3

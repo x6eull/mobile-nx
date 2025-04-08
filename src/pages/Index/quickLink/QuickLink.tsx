@@ -10,7 +10,7 @@ import './QuickLink.css'
 import LinkAnimation from './LinkAnimation'
 import Card, { IconImg } from '../Card'
 
-const QuickLink: React.FC = () => {
+export default function QuickLink() {
   return (
     <Card
       logo={<IconImg bgColor="var(--link-icon-background-color)" src={logo} />}
@@ -49,5 +49,3 @@ const QuickLink: React.FC = () => {
     </Card>
   )
 }
-
-export default QuickLink

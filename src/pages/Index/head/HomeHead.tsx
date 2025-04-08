@@ -1,7 +1,7 @@
 import Calendar from './Calendar/Calendar'
 import Weather from './weather/Weather'
 
-function Head() {
+export default function Head() {
   interface Tips {
     //天气与温馨提示的对象数组
     weather: string
@@ -64,4 +64,3 @@ function Head() {
     </>
   )
 }
-export default Head

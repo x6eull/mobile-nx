@@ -11,7 +11,7 @@ import Schedule from './schedule/schedule-body/Schedule'
 import TodoList from './todoList/TodoList'
 import QuickLink from './quickLink/QuickLink'
 
-const Home: React.FC = () => {
+export default function Home() {
   return (
     <IonPage>
       <IonHeader collapse="condense">
@@ -28,5 +28,3 @@ const Home: React.FC = () => {
     </IonPage>
   )
 }
-
-export default Home

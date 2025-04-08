@@ -1,9 +1,9 @@
 import './ExploreContainer.css'
 
-export default function ExploreContainer({ name }: { name: string }) {
+export default function ExploreContainer(props: { name: string }) {
   return (
     <div className="container">
-      <strong>{name}</strong>
+      <strong>{props.name}</strong>
       <p>
         Explore{' '}
         <a

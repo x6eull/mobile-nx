@@ -1,12 +1,9 @@
 import { useState, useRef, useEffect, ReactElement } from 'react'
 
-const LinkAnimation = ({
-  href,
-  children,
-}: {
+export default function LinkAnimation(props: {
   href: string
   children: ReactElement
-}) => {
+}) {
   /**制作一个点击回弹效果，并保证动画结束后再跳转 */
   const [isAnimating, setIsAnimating] = useState(false) // 控制动画状态
   const linkRef = useRef<HTMLAnchorElement>(null) // 使用ref来引用DOM元素
@@ -35,10 +32,8 @@ const LinkAnimation = ({
   }, [isAnimating])
 
   return (
-    <a ref={linkRef} onClick={handleClick} href={href}>
-      {children}
+    <a ref={linkRef} onClick={handleClick} href={props.href}>
+      {props.children}
     </a>
   )
 }
-
-export default LinkAnimation
