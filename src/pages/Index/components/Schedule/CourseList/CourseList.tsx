@@ -1,7 +1,7 @@
 import spot from '@/pages/Index/assets/svg/Schedule/List/spot.svg'
 import time from '@/pages/Index/assets/svg/Schedule/List/time.svg'
 import './CourseList.css'
-import { EventBrief } from '../../Schedule'
+import { EventBrief } from '../Schedule'
 
 export default function CourseList(props: { item: EventBrief }) {
   return (

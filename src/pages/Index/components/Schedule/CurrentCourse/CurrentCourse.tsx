@@ -1,8 +1,8 @@
-import spot from '../../../../assets/svg/Schedule/Current/spot.svg'
-import time from '../../../../assets/svg/Schedule/Current/time.svg'
-import remarks from '../../../../assets/svg/Schedule/Current/remarks.svg'
+import spot from '@/pages/Index/assets/svg/Schedule/Current/spot.svg'
+import time from '@/pages/Index/assets/svg/Schedule/Current/time.svg'
+import remarks from '@/pages/Index/assets/svg/Schedule/Current/remarks.svg'
 import './CurrentCourse.css'
-import { CourseMain } from '../../Schedule'
+import { CourseMain } from '../Schedule'
 
 export default function CurrentCourse(props: {
   course: CourseMain
