@@ -1,0 +1,15 @@
+.homepage-content {
+  --ion-background-color: #f8f8f8;
+  --ion-font-family: 'OPPO Sans';
+  --element-background-color: white;
+
+  --schedule-icon-background: #e7f4f5;
+  --schedule-all-color: #6bb9c1;
+  --schedule-fighting-color: grey;
+  --schedule-emoji-color: #808080;
+  --schedule-none-color: #fdab76;
+
+  --todo-icon-background: #ffe0e0;
+
+  --link-icon-background-color: #fff2ea;
+}
