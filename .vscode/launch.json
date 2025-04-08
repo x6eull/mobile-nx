@@ -5,17 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch vite",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "dev"],
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
       "name": "Launch Current File via tsx",
       "request": "launch",
-      "runtimeArgs": [
-        "tsx",
-        "${file}",
-        "--inspect-brk"
-      ],
+      "runtimeArgs": ["tsx", "${file}", "--inspect-brk"],
       "runtimeExecutable": "npx",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "type": "node"
     }
   ]

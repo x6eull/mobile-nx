@@ -1,13 +1,21 @@
-import { config } from 'dotenv'
-export const isNode = typeof globalThis.process === 'object'
+import '../utils' //加载扩展原型方法
+import './index' //平台相关初始化
+
+export const isNode = !import.meta.env
 if (isNode)
-  ['.env', '.env.local'].forEach((file) => {
-    const err = config({ path: file }).error as
-      | (Error & { code?: string })
-      | null
-    if (err?.code === 'ENOENT') console.warn(`${file} 不存在`)
-    else if (err) console.error(err)
-    else console.log(`已加载 ${file}`)
+  // 当且仅当node环境下，手动加载环境变量
+  await import('dotenv').then(({ config }) => {
+    ;['.env', '.env.development']
+      .map((f) => [f, f + '.local'])
+      .flat(1)
+      .forEach((file) => {
+        const err = config({ path: file }).error as
+          | (Error & { code?: string })
+          | null
+        if (err?.code === 'ENOENT') console.warn(`${file} 不存在`)
+        else if (err) console.error(err)
+        else console.log(`已加载 ${file}`)
+      })
   })
 
 /**获取环境变量，支持VITE和node环境，包括vite编译后。请注意，vite只暴露VITE_开头的环境变量。 */

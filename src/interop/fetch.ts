@@ -1,14 +1,14 @@
 import { CapacitorCookies, CapacitorHttp } from '@capacitor/core'
 import { appPlatform } from '.'
 import { isNode } from './env'
-import '../utils/extendHeaders'
 
 let cookieJar: import('tough-cookie').CookieJar | null = null
 // node环境不会自动保存cookie，手动跟踪
 if (isNode) {
   console.warn('检测到node环境，导入tough-cookie')
   cookieJar = new (await import('tough-cookie')).CookieJar()
-}
+} else if (import.meta.env?.DEV)
+  console.warn('vite开发环境下，由vite开发服务器代理跨域请求')
 
 /**将Headers或URLSearchParams转换为对象字面量。注意：同名header将被覆盖 */
 function toLiteral(from: Headers | URLSearchParams) {
@@ -32,7 +32,7 @@ interface NxFetchInit {
    *
    * 如果不提供此参数则默认跟随。重定向次数判定优先于此参数。
    *
-   * 仅在capacitor/node上支持。
+   * 仅在capacitor环境上(android/ios)支持。
    */
   redirectChecker?: (resp: Response) => boolean
 }
@@ -41,7 +41,7 @@ async function nxFetchBase(
   init?: NxFetchInit,
   /**剩余允许的重定向次数。0表示不允许重定向。
    *
-   * **此参数仅在capacitor/node上支持**，若超过重定向次数返回最后一次响应，不报错。
+   * **仅在capacitor环境上(android/ios)支持。** 若超过重定向次数返回最后一次响应，不报错。
    */
   redirectLeft = 10,
 ): Promise<Response> {
@@ -107,8 +107,20 @@ async function nxFetchBase(
     if (r) return await r
     return resp
   } else if (appPlatform === 'web') {
-    //TODO 用本地开发服务器代理请求
-    return await globalThis.fetch(input, init)
+    if (import.meta.env?.DEV) {
+      const response = await globalThis.fetch(
+        `${location.origin}/__vite_dev_proxy__?url=${encodeURIComponent(input)}`,
+        { ...init, cache: 'no-store' },
+      )
+
+      Reflect.defineProperty(response, 'url', {
+        configurable: true,
+        enumerable: true,
+        value: new URL(response.url).searchParams.get('url'),
+        writable: false,
+      })
+      return response
+    } else return await globalThis.fetch(input, init)
   }
 
   let b: unknown = body
@@ -154,7 +166,12 @@ async function nxFetchBase(
   let result: Response
   if (typeof respData === 'string')
     result = new Response(respData, { headers: respHeaders, status })
-  else if (respData && Reflect.getPrototypeOf(respData) === Object.prototype)
+  else if (respData === null)
+    result = new Response(null, { headers: respHeaders, status })
+  else if (
+    typeof respData === 'object' &&
+    Reflect.getPrototypeOf(respData) === Object.prototype
+  )
     // json字面量
     result = Response.json(respData, { headers: respHeaders, status })
   else throw new TypeError('Unsupported response data type')
@@ -168,7 +185,8 @@ async function nxFetchBase(
   return result
 }
 const nxFetchExtend = {
-  request: CapacitorHttp.request.bind(CapacitorHttp),
+  // 目前不再暴露CapacitorHttp.request
+  // request: CapacitorHttp.request.bind(CapacitorHttp),
   get(url: string, init?: Omit<NxFetchInit, 'method' | 'body'>) {
     return this(url, init)
   },
@@ -219,15 +237,6 @@ export const nxFetch: typeof nxFetchBase & typeof nxFetchExtend = Object.assign(
   nxFetchExtend,
 )
 
-/**TODO 此函数或将弃用 */
-export function getRawUrl(interceptedUrl: string) {
-  //解析http://192.168.0.100:8100/_capacitor_http_interceptor_?u=https%3A%2F%2Fzjuam.zju.edu.cn%2Fcas%2Flogin%3Fservice%3Dhttp%253A%252F%252Fzdbk.zju.edu.cn%252Fjwglxt%252Fxtgl%252Flogin_ssologin.html
-  const url = new URL(interceptedUrl)
-  if (url.pathname === '/_capacitor_http_interceptor_')
-    return url.searchParams.get('u')!
-  return interceptedUrl
-}
-
 if (import.meta.env?.DEV) {
   // vite开发环境下，把nxFetch等暴露到全局对象上以便调试
   function getPropertyDescriptor<T>(value: T): PropertyDescriptor {
@@ -243,4 +252,4 @@ if (import.meta.env?.DEV) {
   }
   Object.defineProperties(globalThis, exposedProperties)
   console.warn('DEV mode: properties exposed', exposedProperties)
-} else console.log('PROD mode: no properties exposed')
+}

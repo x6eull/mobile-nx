@@ -6,13 +6,27 @@ import pluginReactHooks from 'eslint-plugin-react-hooks'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  pluginReact.configs.flat.recommended,
-  pluginReact.configs.flat['jsx-runtime'],
-  { plugins: { 'react-hooks': pluginReactHooks } },
-  { rules: pluginReactHooks.configs.recommended.rules },
   {
+    name: 'globalIgnore',
+    ignores: ['dist/', 'ship/', 'android/', 'eslint.config.js'],
+  },
+  { name: 'pluginJs.configs.recommended', ...pluginJs.configs.recommended },
+  ...tseslint.configs.recommendedTypeChecked,
+  {
+    name: 'pluginReact.configs.flat.recommended',
+    ...pluginReact.configs.flat.recommended,
+  },
+  {
+    name: "pluginReact.configs.flat['jsx-runtime']",
+    ...pluginReact.configs.flat['jsx-runtime'],
+  },
+  {
+    name: 'pluginReactHooks',
+    plugins: { 'react-hooks': pluginReactHooks },
+    rules: pluginReactHooks.configs.recommended.rules,
+  },
+  {
+    name: 'customConfig',
     settings: { react: { version: 'detect' } },
     languageOptions: {
       globals: globals.browser,
@@ -21,14 +35,6 @@ export default [
         tsconfigRootDir: import.meta.dirname,
       },
     },
-  },
-  {
-    ignores: [
-      'node_modules/**',
-      'dist/**',
-      'android/**',
-      'capacitor.config.ts',
-      'eslint.config.js',
-    ],
+    rules: { eqeqeq: ['error', 'always'] },
   },
 ]

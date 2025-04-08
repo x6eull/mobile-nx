@@ -1,5 +1,5 @@
 import { env } from './env'
-import { ZjuamService } from './zjuam'
+import { ZjuamService } from '../services/ZjuamService'
 
 export type Credential = {
   username: string

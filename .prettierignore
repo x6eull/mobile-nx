@@ -1,9 +1,10 @@
 # dependencies
-node_modules
+node_modules/
 
 # build output
-dist
 .tsbuildinfo
+dist/
+ship/
 
 # native folders
 android
@@ -13,11 +14,10 @@ ios
 package.json
 package-lock.json
 
-tsconfig.*
-
 *.md
 *.bat
 *.sh
 
 .*
 !.github/
+!.vscode/
