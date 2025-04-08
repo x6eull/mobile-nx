@@ -1,0 +1,103 @@
+.scroll-calendar {
+  .container {
+    padding: 0 1.5rem;
+    margin: 1rem 0 0 0;
+
+    .title {
+      padding: 2rem 0 0 0;
+
+      ion-title {
+        text-align: left;
+        padding: 0;
+        margin: 0;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      ion-buttons {
+        margin: 0;
+        ion-button {
+          margin: 0;
+          padding: 0;
+
+          button {
+            padding: 0;
+          }
+        }
+      }
+    }
+
+    .calendar {
+      flex-flow: column;
+      height: 10rem;
+
+      i {
+        font-style: normal;
+      }
+
+      .wrap {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .col {
+        width: 14.285714%;
+        padding: 10px 10px;
+        box-sizing: border-box;
+        border-left: 1px solid rgba(255, 255, 255, 0.2);
+
+        &:nth-child(7n + 1),
+        &:first-child {
+          border-left: 0;
+        }
+
+        &:nth-child(7n - 1),
+        &:nth-child(7n) {
+          color: #000;
+        }
+      }
+
+      .week {
+        z-index: 1;
+
+        .col {
+          font-size: 14px;
+          padding: 10px 10px;
+          background-color: #c6c0ba;
+          border-bottom: 1px solid #fff;
+        }
+      }
+    }
+  }
+}
+
+.dates {
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .col {
+    min-height: 15rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .num {
+    font-size: 1rem;
+    font-weight: 900;
+    transition: opacity 0.3s;
+    opacity: 0.1;
+  }
+
+  .cur {
+    opacity: 1;
+  }
+}
+
