@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect, useRef } from 'react'
 
 import {
@@ -34,6 +35,9 @@ const ScrollCalendar: React.FC = () => {
   const [datesList, setDatesList] = useState<DateItem[]>([])
   const [showYear, setShowYear] = useState(now.getFullYear())
   const [showMonth, setShowMonth] = useState(now.getMonth())
+  const [displayMode, setDisplayMode] = useState<
+    'week' | 'two-weeks' | 'month'
+  >('week')
 
   // Constants
   const monthZh = [
@@ -52,65 +56,43 @@ const ScrollCalendar: React.FC = () => {
   ]
   const weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-  // 日历初始化
-  useEffect(() => {
-    setCurrentDate({
-      year: now.getFullYear(),
-      month: now.getMonth(),
-      date: now.getDate(),
-    })
-    setShowMonth(now.getMonth())
-    getCoolDatesList(now.getFullYear(), now.getMonth(), false)
-  }, [])
-
-  // 滚动监听
-  useEffect(() => {
-    const calContent = calContentRef.current
-    if (calContent) {
-      calContent.addEventListener('scroll', handleScroll)
-      return () => calContent.removeEventListener('scroll', handleScroll)
-    }
-  }, [currentDate])
-
-  const getCoolDatesList = (year: number, month: number, next: boolean) => {
-    setCurrentDate((prev) => ({ ...prev, year, month }))
-
+  // 生成日期数据
+  const generateDates = (
+    year: number,
+    month: number,
+    mode: typeof displayMode,
+  ) => {
     const monthFirstDate = new Date(year, month, 1)
     const monthLastDate = new Date(year, month + 1, 0)
-    const currentMonthDates = new Date(year, month + 1, 0).getDate()
-
-    // First week dates
     const firstDateDay =
       monthFirstDate.getDay() === 0 ? 7 : monthFirstDate.getDay()
-    let initFirstWeekDate = new Date(year, month, 2 - firstDateDay)
 
-    // Last week dates
-    const lastWeekOverDates =
-      7 - monthLastDate.getDay() === 7 ? 0 : 7 - monthLastDate.getDay()
+    let startDate: Date
+    let totalDates: number
 
-    // Calculate total dates
-    let totalDates
-    if (next) {
-      let newNextFirst
-      if (monthFirstDate.getDay() === 1) {
-        newNextFirst = 0
-      } else {
-        newNextFirst =
-          monthFirstDate.getDay() === 0 ? 7 : monthFirstDate.getDay()
-        newNextFirst = 7 - newNextFirst + 1
-        initFirstWeekDate = new Date(year, month, newNextFirst + 1)
-      }
-      totalDates = currentMonthDates - newNextFirst + lastWeekOverDates
+    if (mode === 'week') {
+      // 仅显示当前周
+      startDate = new Date(year, month, currentDate.date - now.getDay() + 1)
+      totalDates = 7
+    } else if (mode === 'two-weeks') {
+      // 显示两周
+      startDate = new Date(year, month, currentDate.date - now.getDay() + 1)
+      totalDates = 14
     } else {
-      totalDates = firstDateDay - 1 + currentMonthDates + lastWeekOverDates
+      // 显示完整月份
+      startDate = new Date(year, month, 2 - firstDateDay)
+      const lastWeekOverDates =
+        7 - monthLastDate.getDay() === 7 ? 0 : 7 - monthLastDate.getDay()
+      totalDates =
+        firstDateDay - 1 + monthLastDate.getDate() + lastWeekOverDates
     }
 
     const newDates: DateItem[] = []
     for (let i = 0; i < totalDates; i++) {
       const dateObj = new Date(
-        initFirstWeekDate.getFullYear(),
-        initFirstWeekDate.getMonth(),
-        initFirstWeekDate.getDate() + i,
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() + i,
       )
       newDates.push({
         year: dateObj.getFullYear(),
@@ -122,27 +104,45 @@ const ScrollCalendar: React.FC = () => {
       })
     }
 
-    setDatesList((prev) => [...prev, ...newDates])
+    setDatesList(newDates)
   }
 
-  const handleScroll = (event: Event) => {
-    const target = event.target as HTMLDivElement
-    const height = target.clientHeight
-    const scrollValue = target.scrollTop
+  // 处理滚动事件
+  const handleScroll = (e: Event) => {
+    const target = e.target as HTMLDivElement
+    const { scrollTop, scrollHeight, clientHeight } = target
+    const scrollPosition = scrollHeight - scrollTop - clientHeight
 
-    if (scrollValue + height > height) {
-      getCoolDatesList(currentDate.year, currentDate.month + 1, true)
-    }
-
-    // Update month and year when scrolling
-    document.querySelectorAll('.thismonth').forEach((el) => {
-      const element = el as HTMLElement
-      if (scrollValue > element.offsetTop - 100) {
-        setShowMonth(parseInt(element.dataset.month || '0'))
-        setShowYear(parseInt(element.dataset.year || '2022'))
+    // 向下滚动加载更多
+    if (scrollTop < 0 && displayMode !== 'month') {
+      if (displayMode === 'week') {
+        setDisplayMode('two-weeks')
+      } else {
+        setDisplayMode('month')
       }
-    })
+    }
+    // 向上滚动减少显示
+    else if (scrollPosition < 0 && displayMode !== 'week') {
+      if (displayMode === 'month') {
+        setDisplayMode('two-weeks')
+      } else {
+        setDisplayMode('week')
+      }
+    }
   }
+
+  // 初始化
+  useEffect(() => {
+    generateDates(currentDate.year, currentDate.month, displayMode)
+  }, [displayMode])
+
+  useEffect(() => {
+    const calContent = calContentRef.current
+    if (calContent) {
+      calContent.addEventListener('scroll', handleScroll)
+      return () => calContent.removeEventListener('scroll', handleScroll)
+    }
+  }, [currentDate])
 
   return (
     <div className="scroll-calendar">
