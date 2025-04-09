@@ -13,7 +13,7 @@ import Card, { IconImg } from '../Card/Card'
 export default function QuickLink() {
   return (
     <Card
-      logo={<IconImg bgColor="var(--link-icon-background-color)" src={icon} />}
+      logo={<IconImg bgColor="var(--link-icon-background)" src={icon} />}
       title="快捷链接"
       linkHref=""
       linkTitle=""

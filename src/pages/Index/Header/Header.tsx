@@ -1,66 +1,32 @@
-import Calendar from './Calendar/Calendar'
-import Weather from './Weather/Weather'
+import { DayOfWeek, toChineseDay } from '@/models/shared'
+import './Header.css'
 
-export default function Header() {
-  interface Tips {
-    //天气与温馨提示的对象数组
-    weather: string
-    tip: string
-  }
-  const tips: Tips[] = [
-    { weather: '下雨', tip: '今日有雨，记得带伞哦！' },
-    { weather: '', tip: '今日气温较低，注意穿衣保暖~' },
-    { weather: '多云', tip: '今日天气舒服，适合出门走走哟~' },
-    { weather: '晴天', tip: '今日天气舒服，适合出门走走哟~' },
-    { weather: '阴', tip: '虽然阴天，但心情也要晴朗！' },
-    { weather: '霾', tip: '今日空气质量不佳，可以带上口罩隔绝污染' },
-  ]
-
-  interface calendarModel {
-    //calendar部分接口与数据
-    year: number
-    month: number
-    day: number
-    season: string
-    //number指的是冬几周的这个数字
-    number: number
-    //num指的是星期几的这个数字
-    num: string
-  }
-  const calendar: calendarModel = {
-    year: 24,
-    month: 12,
-    day: 24,
-    season: '冬',
-    number: 14,
-    num: '一',
-  }
-  interface weatherModel {
-    //weather部分接口与数据
-    weather: string
-    temperature: {
-      min: number
-      max: number
-    }
-  }
-
-  const weatherCondition: weatherModel = {
-    weather: '多云',
-    temperature: {
-      min: -1,
-      max: 100,
-    },
-  }
-
-  const tip = (
-    tips.find((item) => item.weather === weatherCondition.weather) as Tips
-  ).tip //找到对应天气的温馨提醒
-
-  //
+export default function Header({
+  date,
+  weekOfSemester,
+  weather,
+  tempMin,
+  tempMax,
+  tip,
+}: {
+  date: Date
+  weekOfSemester: string
+  weather: string
+  tempMin: number
+  tempMax: number
+  tip: string
+}) {
   return (
-    <>
-      <Calendar {...calendar} />
-      <Weather weatherData={weatherCondition} tip={tip} />
-    </>
+    <div className="header">
+      <div className="calendar">
+        {date.getFullYear()}年{date.getMonth() + 1}月{date.getDate() + 1}日
+        <br />
+        {weekOfSemester} 星期{toChineseDay(date.getDay() as DayOfWeek)}
+      </div>
+      <div className="weather">
+        {weather} {tempMin}/{tempMax}&#176;C
+        <div className="tip">{tip}</div>
+      </div>
+    </div>
   )
 }

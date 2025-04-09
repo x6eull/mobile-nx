@@ -1,5 +1,27 @@
 /**星期几，1-7；注意与Date.prototype.getDay()的不同 */
 export type DayOfWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7
+/**1=>一，...，7=>日，其它throw */
+export function toChineseDay(from: DayOfWeek) {
+  switch (from) {
+    case 1:
+      return '一'
+    case 2:
+      return '二'
+    case 3:
+      return '三'
+    case 4:
+      return '四'
+    case 5:
+      return '五'
+    case 6:
+      return '六'
+    case 7:
+      return '日'
+    default:
+      throw new Error('Invalid day of week')
+  }
+}
+
 /**学期中的第几周，1-16 */
 export type WeekOfSemester =
   | (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8)

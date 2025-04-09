@@ -18,7 +18,7 @@ export default function Card(props: {
       <div className="head">
         <div className="desc">
           {props.logo}
-          <div className="title">{props.title}</div>
+          {props.title}
         </div>
         <a href={props.linkHref} className="link">
           {props.linkTitle}
