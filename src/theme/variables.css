@@ -22,8 +22,11 @@ http://ionicframework.com/docs/theming/ */
 }
 
 :root {
+  color-scheme: only light;
+
   ion-tab-button {
     --color: grey;
-    --color-selected: #128f9d; /* 选中时颜色 */
+    --color-selected: #128f9d;
+    /* 选中时颜色 */
   }
 }
