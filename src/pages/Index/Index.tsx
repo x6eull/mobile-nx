@@ -7,7 +7,7 @@ import {
 } from '@ionic/react'
 import './Index.css'
 import Header from './Header/Header'
-import Schedule from './Schedule/Schedule'
+import Schedule from './Today/Today'
 import TodoList from './TodoList/TodoList'
 import QuickLink from './QuickLink/QuickLink'
 

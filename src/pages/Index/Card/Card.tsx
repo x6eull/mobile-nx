@@ -9,19 +9,19 @@ export function IconImg({ bgColor, src }: { bgColor: string; src: string }) {
 export default function Card(props: {
   logo: ReactNode
   title: string
-  cardHref: string
-  all: string
+  linkHref: string
+  linkTitle: string
   children: ReactNode
 }) {
   return (
-    <div className="container">
+    <div className="card">
       <div className="head">
-        <div className="front-head">
+        <div className="desc">
           {props.logo}
           <div className="title">{props.title}</div>
         </div>
-        <a href={props.cardHref} className={'all'}>
-          {props.all}
+        <a href={props.linkHref} className="link">
+          {props.linkTitle}
         </a>
       </div>
       {props.children}

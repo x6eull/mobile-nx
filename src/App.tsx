@@ -12,7 +12,7 @@ import {
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import Index from './pages/Index/Index'
-import home from './navIcon/home.svg'
+import home from './navIcon/index.svg'
 import schedule from './navIcon/schedule.svg'
 import mine from './navIcon/mine.svg'
 

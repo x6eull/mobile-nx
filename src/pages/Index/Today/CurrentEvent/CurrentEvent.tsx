@@ -2,7 +2,7 @@ import spot from './spot.svg'
 import time from './time.svg'
 import remarks from './remarks.svg'
 import './CurrentEvent.css'
-import { EventDetail } from '../Schedule'
+import { EventDetail } from '../Today'
 
 export default function CurrentEvent(props: {
   event: EventDetail

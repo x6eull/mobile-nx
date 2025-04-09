@@ -70,8 +70,8 @@ function TodoList() {
     <Card
       logo={<IconImg bgColor="var(--todo-icon-background)" src={icon} />}
       title={'待办事项'}
-      cardHref="/todos"
-      all="查看全部>"
+      linkHref="/todos"
+      linkTitle="查看全部>"
     >
       <div className="todowrapper">
         {todos.length >= 1 ? (

@@ -1,7 +1,7 @@
 import spot from './spot.svg'
 import time from './time.svg'
 import './EventItem.css'
-import { EventBrief } from '../Schedule'
+import { EventBrief } from '../Today'
 
 export default function EventItem({ event }: { event: EventBrief }) {
   return (

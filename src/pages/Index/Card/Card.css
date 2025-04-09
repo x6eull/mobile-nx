@@ -1,28 +1,32 @@
-.container {
+.card {
   display: flex;
   flex-direction: column;
   gap: 0.1875rem;
   margin: 0.625rem 0.6875rem;
   border-radius: 0.9375rem;
   padding-bottom: 0.875rem;
-  background-color: var(--element-background-color);
+  background: var(--card-background);
+
   .head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0.55rem 0 0.55rem 0.625rem;
-    .front-head {
+    padding: 0.55rem 0.625rem;
+
+    .desc {
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
       align-items: center;
       gap: 0.5rem;
       margin-left: 0.5rem;
+
       .icon {
         border-radius: 0.5rem;
         padding: 0.1875rem;
       }
+
       .title {
         height: 1.375rem;
         flex-basis: 58vw;
@@ -30,12 +34,13 @@
         font-weight: bold;
       }
     }
-    .all {
+
+    .link {
       margin-right: 0.5rem;
       height: 1.0625rem;
       font-weight: 500;
       font-size: 1rem;
-      color: var(--schedule-all-color);
+      color: var(--schedule-link-color);
     }
   }
 }

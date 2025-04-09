@@ -21,7 +21,6 @@
   width: 12.5rem;
   height: 10.625rem;
   justify-content: space-evenly;
-  background-color: var(--element-background-color);
   color: var(--current-event-font-color);
   margin: 0 0.89583rem;
   gap: 0.1875rem;

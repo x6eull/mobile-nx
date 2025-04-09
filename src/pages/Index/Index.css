@@ -1,10 +1,10 @@
 .homepage-content {
   --ion-background-color: #f8f8f8;
   --ion-font-family: 'OPPO Sans';
-  --element-background-color: white;
+  --card-background: white;
 
   --schedule-icon-background: #e7f4f5;
-  --schedule-all-color: #6bb9c1;
+  --schedule-link-color: #6bb9c1;
   --schedule-none-color: grey;
   --schedule-emoji-color: #808080;
   --schedule-none-color: #fdab76;
