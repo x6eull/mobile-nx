@@ -15,7 +15,6 @@ export default function QuickLink() {
     <Card
       logo={<IconImg bgColor="var(--link-icon-background)" src={icon} />}
       title="快捷链接"
-      linkHref=""
       linkTitle=""
     >
       <div className="link">

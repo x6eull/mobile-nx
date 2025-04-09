@@ -6,46 +6,12 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import Header from './Header/Header'
-import Schedule from './Today/Today'
-import TodoList from './TodoList/TodoList'
-import QuickLink from './QuickLink/QuickLink'
+import Today from './Today/Today'
+// import TodoList from './TodoList/TodoList'
+// import QuickLink from './QuickLink/QuickLink'
 import './Index.css'
 import { useTime } from '@/utils/hooks'
 
-const mockEvents = [
-  {
-    id: 1,
-    name: '微积分甲I',
-    startTime: '01:57:35',
-    location: '紫金港东2-201(录播)',
-    duration: '8:00-10:00',
-    description: '小测',
-  },
-  {
-    id: 2,
-    name: '工程伦理',
-    location: '玉泉曹光彪大楼西楼-201',
-    duration: '18:50-20:30',
-  },
-  {
-    id: 3,
-    name: '工程伦理',
-    location: '玉泉曹光彪大楼西楼-201',
-    duration: '18:50-20:30',
-  },
-  {
-    id: 4,
-    name: '工程伦理',
-    location: '玉泉曹光彪大楼西楼-201',
-    duration: '18:50-20:30',
-  },
-  {
-    id: 5,
-    name: '工程伦理',
-    location: '玉泉曹光彪大楼西楼-201',
-    duration: '18:50-20:30',
-  },
-] as const
 const tips = [
   { weather: '下雨', tip: '今日有雨，记得带伞哦！' },
   { weather: '', tip: '今日气温较低，注意穿衣保暖~' },
@@ -54,9 +20,25 @@ const tips = [
   { weather: '阴', tip: '虽然阴天，但心情也要晴朗！' },
   { weather: '霾', tip: '今日空气质量不佳，可以带上口罩隔绝污染' },
 ]
+
 export default function Index() {
   // mock data
-  const events = mockEvents,
+  const events = [
+      {
+        id: 1,
+        name: '微积分甲I',
+        startTime: '01:57:35',
+        location: '紫金港东2-201(录播)',
+        duration: '8:00-10:00',
+        description: '小测',
+      },
+      ...Array.from({ length: 10 }, (_, i) => ({
+        id: i + 2,
+        name: `课程${i + 2}`,
+        location: '紫金港东2-201(录播)',
+        duration: '8:00-10:00',
+      })),
+    ] as const,
     weekOfSemester = '夏4周',
     weather = '多云',
     tempMin = 4,
@@ -81,9 +63,9 @@ export default function Index() {
           tip={tip}
         />
         <div className="cards">
-          <Schedule events={events} />
-          <TodoList />
-          <QuickLink />
+          <Today events={events} />
+          {/* <TodoList />
+          <QuickLink /> */}
         </div>
       </IonContent>
     </IonPage>

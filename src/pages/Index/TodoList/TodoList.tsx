@@ -72,6 +72,7 @@ function TodoList() {
       title={'待办事项'}
       linkHref="/todos"
       linkTitle="查看全部>"
+      linkColor="var(--today-link-color)"
     >
       <div className="todowrapper">
         {todos.length >= 1 ? (

@@ -23,40 +23,34 @@ export interface EventBrief {
   description?: string
 }
 
-export default function Schedule({
+export default function Today({
   events,
 }: {
   events: readonly [] | readonly [EventDetail, ...EventBrief[]]
 }) {
   return (
     <Card
-      logo={<IconImg bgColor="var(--schedule-icon-background)" src={icon} />}
-      title={'今日日程'}
+      logo={<IconImg bgColor="var(--today-icon-background)" src={icon} />}
+      title="今日日程"
       linkHref="/schedule"
       linkTitle="查看全部>"
+      linkColor="var(--today-link-color)"
     >
       <div className="container">
         {events.length === 0 ? (
           <div>
-            <div className="schedule-emoji">(⑅˃◡˂⑅)</div>
-            <div className="schedule-none">今日无事</div>
+            <div className="today-emoji">(⑅˃◡˂⑅)</div>
+            <div className="today-none">今日无事</div>
           </div>
         ) : (
-          <div className="schedule-body">
-            {/** TODO flag表示用户是否设置备注 */}
-            <CurrentEvent event={events[0] as EventDetail} flag={true} />
-            {events.length === 1 ? (
-              <div className="schedule-none">
-                <div>d====(￣▽￣*)b</div>
-                <div className="schedule-none-font">Fighting!!!</div>
-              </div>
-            ) : (
-              <div className="list">
-                {events.slice(1).map((e) => (
-                  <EventItem key={e.id} event={e} />
-                ))}
-              </div>
-            )}
+          <div className="today-body">
+            <CurrentEvent event={events[0] as EventDetail} />
+            <div className={'list' + (events.length <= 1 ? ' none' : '')}>
+              {events.slice(1).map((e) => (
+                <EventItem key={e.id} event={e} />
+              ))}
+              {events.length <= 1 ? <>无更多日程</> : <></>}
+            </div>
           </div>
         )}
       </div>

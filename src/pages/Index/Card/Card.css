@@ -4,20 +4,21 @@
   gap: 0.1875rem;
   border-radius: .8rem;
   background: var(--card-background);
+  --card-padding-horizontal: 1rem;
+  --card-padding-vertical: 0.625rem;
 
   .head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0.55rem 0.625rem;
+    padding: var(--card-padding-vertical) var(--card-padding-horizontal);
 
     .desc {
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 0.5rem;
-      margin-left: 0.5rem;
       font-size: 1.25rem;
       font-weight: bold;
 
@@ -28,11 +29,7 @@
     }
 
     .link {
-      margin-right: 0.5rem;
-      height: 1.0625rem;
-      font-weight: 500;
-      font-size: 1rem;
-      color: var(--schedule-link-color);
+      text-decoration: none;
     }
   }
 }

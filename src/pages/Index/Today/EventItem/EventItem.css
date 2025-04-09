@@ -1,18 +1,13 @@
 .event-item-wrap {
-  --min-shadow-color: #cacaca;
-  --min-background-color: #fff6f2;
-  --min-font-color: #ee9e87;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 8.6875rem;
-  min-height: 3.75rem;
-  box-shadow: 0.1rem 0.1rem 0 var(--min-shadow-color);
-  background-color: var(--min-background-color);
-  border-radius: 0.625rem;
-  color: var(--min-font-color);
-  margin-top: 0;
+  height: 3.75rem;
+  box-shadow: 0.1rem 0.1rem 0 #cacaca;
+  background-color: #fff6f2;
+  border-radius: 0.5rem;
+  color: #ee9e87;
 
   .event-item-wrapper {
     display: flex;
@@ -51,8 +46,4 @@
     padding-right: 0.3125rem;
     color: var(--min-font-color);
   }
-}
-
-.event-item-wrap:hover {
-  text-decoration: none;
 }

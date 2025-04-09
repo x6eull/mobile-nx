@@ -11,18 +11,14 @@
   --current-event-time-color: #128f9d;
   --current-event-header-color: #92dbd8;
   overflow: hidden;
-  /* 隐藏溢出的文本 */
   white-space: nowrap;
-  /* 防止换行 */
   text-overflow: ellipsis;
-  /* 显示省略号 */
   display: flex;
   flex-direction: column;
   width: 12.5rem;
   height: 10.625rem;
   justify-content: space-evenly;
   color: var(--current-event-font-color);
-  margin: 0 0.89583rem;
   gap: 0.1875rem;
 
   .current-event-head {

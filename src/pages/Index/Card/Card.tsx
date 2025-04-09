@@ -9,8 +9,9 @@ export function IconImg({ bgColor, src }: { bgColor: string; src: string }) {
 export default function Card(props: {
   logo: ReactNode
   title: string
-  linkHref: string
-  linkTitle: string
+  linkTitle?: string
+  linkHref?: string
+  linkColor?: string
   children: ReactNode
 }) {
   return (
@@ -20,7 +21,11 @@ export default function Card(props: {
           {props.logo}
           {props.title}
         </div>
-        <a href={props.linkHref} className="link">
+        <a
+          href={props.linkHref}
+          className="link"
+          style={{ color: props.linkColor }}
+        >
           {props.linkTitle}
         </a>
       </div>
