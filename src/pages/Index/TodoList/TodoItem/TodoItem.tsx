@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './TodoItem.css'
-import { TodoElement } from '../TodoList'
+import { Todo } from '../TodoList'
 
 function TodoItem({
   id,
@@ -9,7 +9,7 @@ function TodoItem({
   remark,
   type,
   onDelete,
-}: TodoElement & { onDelete: (id: number) => void }) {
+}: Todo & { onDelete: (id: number) => void }) {
   /**处理类型与颜色的对应 */
   const correspondence: Record<number, string> = {
     1: '#FF5E72',

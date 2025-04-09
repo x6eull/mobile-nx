@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import TodoItem from '@/pages/Index/components/TodoList/TodoItem/TodoItem'
-import logo from '@/pages/Index/assets/svg/TodoList/todoList-head.svg'
+import TodoItem from './TodoItem/TodoItem'
+import icon from './iconTodoList.svg'
 import Card, { IconImg } from '../Card/Card'
 import './TodoList.css'
 import NoneTodo from './NoneTodo/NoneTodo'
 
-export interface TodoElement {
+export interface Todo {
   id: number
   name: string
   dueTime: string
@@ -13,7 +13,7 @@ export interface TodoElement {
   type: number
 }
 
-const initialTodos: TodoElement[] = [
+const initialTodos: Todo[] = [
   {
     id: 1,
     name: '不定积分作业',
@@ -68,7 +68,7 @@ function TodoList() {
 
   return (
     <Card
-      logo={<IconImg bgColor="var(--todo-icon-background)" src={logo} />}
+      logo={<IconImg bgColor="var(--todo-icon-background)" src={icon} />}
       title={'待办事项'}
       cardHref="/todos"
       all="查看全部>"

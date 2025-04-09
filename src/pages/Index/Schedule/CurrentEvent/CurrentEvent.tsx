@@ -1,6 +1,6 @@
-import spot from '@/pages/Index/assets/svg/Schedule/Current/spot.svg'
-import time from '@/pages/Index/assets/svg/Schedule/Current/time.svg'
-import remarks from '@/pages/Index/assets/svg/Schedule/Current/remarks.svg'
+import spot from './spot.svg'
+import time from './time.svg'
+import remarks from './remarks.svg'
 import './CurrentEvent.css'
 import { EventDetail } from '../Schedule'
 

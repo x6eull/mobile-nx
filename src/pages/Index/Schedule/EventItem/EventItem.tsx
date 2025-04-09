@@ -1,5 +1,5 @@
-import spot from '@/pages/Index/assets/svg/Schedule/List/spot.svg'
-import time from '@/pages/Index/assets/svg/Schedule/List/time.svg'
+import spot from './spot.svg'
+import time from './time.svg'
 import './EventItem.css'
 import { EventBrief } from '../Schedule'
 

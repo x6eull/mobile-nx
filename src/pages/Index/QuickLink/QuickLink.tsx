@@ -1,11 +1,11 @@
-import logo from '../../assets/svg/QuickLink/Link/link.svg'
-import logo1 from '../../assets/svg/QuickLink/Logo/1.svg'
-import logo2 from '../../assets/svg/QuickLink/Logo/2.svg'
-import logo3 from '../../assets/svg/QuickLink/Logo/3.svg'
-import logo4 from '../../assets/svg/QuickLink/Logo/4.svg'
-import logo5 from '../../assets/svg/QuickLink/Logo/5.svg'
-import logo6 from '../../assets/svg/QuickLink/Logo/6.svg'
-import logo7 from '../../assets/svg/QuickLink/Logo/7.svg'
+import icon from './iconQuickLink.svg'
+import logo1 from './icons/1.svg'
+import logo2 from './icons/2.svg'
+import logo3 from './icons/3.svg'
+import logo4 from './icons/4.svg'
+import logo5 from './icons/5.svg'
+import logo6 from './icons/6.svg'
+import logo7 from './icons/7.svg'
 import './QuickLink.css'
 import LinkAnimation from './LinkAnimation'
 import Card, { IconImg } from '../Card/Card'
@@ -13,7 +13,7 @@ import Card, { IconImg } from '../Card/Card'
 export default function QuickLink() {
   return (
     <Card
-      logo={<IconImg bgColor="var(--link-icon-background-color)" src={logo} />}
+      logo={<IconImg bgColor="var(--link-icon-background-color)" src={icon} />}
       title="快捷链接"
       cardHref=""
       all=""

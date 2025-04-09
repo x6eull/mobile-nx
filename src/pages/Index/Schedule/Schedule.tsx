@@ -1,8 +1,8 @@
-import logo from '@/pages/Index/assets/svg/Schedule/schedule.svg'
+import icon from './iconSchedule.svg'
 import './Schedule.css'
 import CurrentEvent from './CurrentEvent/CurrentEvent'
 import EventItem from './EventItem/EventItem'
-import Card, { IconImg } from '@/pages/Index/components/Card/Card'
+import Card, { IconImg } from '../Card/Card'
 
 /**展示的最核心Event详情 */
 export interface EventDetail {
@@ -23,45 +23,14 @@ export interface EventBrief {
   description?: string
 }
 
-export default function Schedule() {
-  const events: EventBrief[] = [
-    {
-      id: 1,
-      name: '微积分甲I',
-      startTime: '01:57:35',
-      location: '紫金港东2-201(录播)',
-      duration: '8:00-10:00',
-      description: '小测',
-    },
-    {
-      id: 2,
-      name: '工程伦理',
-      location: '玉泉曹光彪大楼西楼-201',
-      duration: '18:50-20:30',
-    },
-    {
-      id: 3,
-      name: '工程伦理',
-      location: '玉泉曹光彪大楼西楼-201',
-      duration: '18:50-20:30',
-    },
-    {
-      id: 4,
-      name: '工程伦理',
-      location: '玉泉曹光彪大楼西楼-201',
-      duration: '18:50-20:30',
-    },
-    {
-      id: 5,
-      name: '工程伦理',
-      location: '玉泉曹光彪大楼西楼-201',
-      duration: '18:50-20:30',
-    },
-  ]
-
+export default function Schedule({
+  events,
+}: {
+  events: readonly [] | readonly [EventDetail, ...EventBrief[]]
+}) {
   return (
     <Card
-      logo={<IconImg bgColor="var(--schedule-icon-background)" src={logo} />}
+      logo={<IconImg bgColor="var(--schedule-icon-background)" src={icon} />}
       title={'今日日程'}
       cardHref="/schedule"
       all="查看全部>"

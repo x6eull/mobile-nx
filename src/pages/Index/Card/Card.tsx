@@ -1,14 +1,8 @@
 import { ReactNode } from 'react'
 import './Card.css'
 
-export function IconImg(props: { bgColor: string; src: string }) {
-  return (
-    <img
-      className="icon"
-      src={props.src}
-      style={{ background: props.bgColor }}
-    />
-  )
+export function IconImg({ bgColor, src }: { bgColor: string; src: string }) {
+  return <img className="icon" src={src} style={{ background: bgColor }} />
 }
 
 /** Card是首页的通用组件 */
