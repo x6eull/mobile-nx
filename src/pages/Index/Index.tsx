@@ -11,6 +11,7 @@ import Today from './Today/Today'
 // import QuickLink from './QuickLink/QuickLink'
 import './Index.css'
 import { useTime } from '@/utils/hooks'
+import dayjs from 'dayjs'
 
 const tips = [
   { weather: '下雨', tip: '今日有雨，记得带伞哦！' },
@@ -22,28 +23,31 @@ const tips = [
 ]
 
 export default function Index() {
+  const startUpDate = useTime(-1)
   // mock data
   const events = [
       {
         id: 1,
         name: '微积分甲I',
-        startTime: '01:57:35',
-        location: '紫金港东2-201(录播)',
-        duration: '8:00-10:00',
+        startAt: dayjs(startUpDate).add(15, 'minute'),
+        endAt: dayjs(startUpDate).add(30, 'minute'),
+        location: '紫金11港东2-201(录播)',
         description: '小测',
       },
-      ...Array.from({ length: 10 }, (_, i) => ({
+      ...Array.from({ length: 3 }, (_, i) => ({
         id: i + 2,
-        name: `课程${i + 2}`,
+        name: `event${i + 2}`,
+        startAt: dayjs(startUpDate),
+        endAt: dayjs(startUpDate),
         location: '紫金港东2-201(录播)',
-        duration: '8:00-10:00',
       })),
-    ] as const,
-    weekOfSemester = '夏4周',
+    ],
+    weekOfSemester = '夏1周',
     weather = '多云',
     tempMin = 4,
     tempMax = 18
-  const date = useTime(1000 * 5)
+  // 5s 更新header的日期
+  const date = dayjs(useTime(1000 * 5))
 
   const tip = tips.find((item) => item.weather === weather)?.tip ?? ''
   return (

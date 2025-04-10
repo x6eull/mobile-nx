@@ -12,7 +12,7 @@ import {
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import Index from './pages/Index/Index'
-import home from './navIcon/index.svg'
+import index from './navIcon/index.svg'
 import schedule from './navIcon/schedule.svg'
 import mine from './navIcon/mine.svg'
 
@@ -55,9 +55,9 @@ export default function App() {
         <IonTabs>
           <IonRouterOutlet>
             <Route exact path="/">
-              <Redirect to="/home" />
+              <Redirect to="/index" />
             </Route>
-            <Route exact path="/home">
+            <Route exact path="/index">
               <Index />
             </Route>
             <Route exact path="/schedule">
@@ -68,8 +68,8 @@ export default function App() {
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/home">
-              <IonIcon aria-hidden="true" icon={home} />
+            <IonTabButton tab="tab1" href="/index">
+              <IonIcon aria-hidden="true" icon={index} />
               <IonLabel>主页</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab2" href="/schedule">

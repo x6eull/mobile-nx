@@ -9,9 +9,9 @@
 
   --today-icon-background: #e7f4f5;
   --today-link-color: #6bb9c1;
-  --today-none-color: grey;
   --today-emoji-color: #808080;
   --today-none-color: #fdab76;
+  --today-list-none-color: grey;
 
   --todo-icon-background: #ffe0e0;
   --link-icon-background: #fff2ea;
@@ -19,6 +19,6 @@
   .cards {
     display: flex;
     flex-direction: column;
-    gap: .8rem;
+    gap: 0.8rem;
   }
 }

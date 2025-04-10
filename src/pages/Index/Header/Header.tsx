@@ -1,5 +1,6 @@
 import { DayOfWeek, toChineseDay } from '@/models/shared'
 import './Header.css'
+import dayjs from 'dayjs'
 
 export default function Header({
   date,
@@ -9,7 +10,7 @@ export default function Header({
   tempMax,
   tip,
 }: {
-  date: Date
+  date: dayjs.Dayjs
   weekOfSemester: string
   weather: string
   tempMin: number
@@ -18,10 +19,10 @@ export default function Header({
 }) {
   return (
     <div className="header">
-      <div className="calendar">
-        {date.getFullYear()}年{date.getMonth() + 1}月{date.getDate() + 1}日
+      <div className="date">
+        {date.format('YYYY年M月D日')}
         <br />
-        {weekOfSemester} 星期{toChineseDay(date.getDay() as DayOfWeek)}
+        {weekOfSemester} 星期{toChineseDay(date.day() as DayOfWeek)}
       </div>
       <div className="weather">
         {weather} {tempMin}/{tempMax}&#176;C

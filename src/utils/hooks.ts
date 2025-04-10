@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 export function useTime(refreshInMs: number): Date {
   const [time, setTime] = useState(() => new Date())
   useEffect(() => {
+    if (refreshInMs <= 0) return
     const interval = setInterval(() => {
       setTime(new Date())
     }, refreshInMs)

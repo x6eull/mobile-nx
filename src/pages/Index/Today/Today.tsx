@@ -1,33 +1,23 @@
 import icon from './iconToday.svg'
 import './Today.css'
 import CurrentEvent from './CurrentEvent/CurrentEvent'
-import EventItem from './EventItem/EventItem'
+import EventList from './EventList/EventList'
 import Card, { IconImg } from '../Card/Card'
+import { useTime } from '@/utils/hooks'
+import dayjs from 'dayjs'
 
-/**展示的最核心Event详情 */
-export interface EventDetail {
+export interface TodayEvent {
   id: number
   name: string
-  startTime: string
+  startAt: dayjs.Dayjs
+  endAt: dayjs.Dayjs
   location: string
-  duration: string
-  description: string
-}
-/**events数组中传递的接口 */
-export interface EventBrief {
-  id: number
-  name: string
-  startTime?: string
-  location: string
-  duration: string
   description?: string
 }
 
-export default function Today({
-  events,
-}: {
-  events: readonly [] | readonly [EventDetail, ...EventBrief[]]
-}) {
+export default function Today({ events }: { events: TodayEvent[] }) {
+  const now = useTime(500)
+  //TODO 不显示已完成的事件
   return (
     <Card
       logo={<IconImg bgColor="var(--today-icon-background)" src={icon} />}
@@ -36,7 +26,7 @@ export default function Today({
       linkTitle="查看全部>"
       linkColor="var(--today-link-color)"
     >
-      <div className="container">
+      <div className="today">
         {events.length === 0 ? (
           <div>
             <div className="today-emoji">(⑅˃◡˂⑅)</div>
@@ -44,13 +34,8 @@ export default function Today({
           </div>
         ) : (
           <div className="today-body">
-            <CurrentEvent event={events[0] as EventDetail} />
-            <div className={'list' + (events.length <= 1 ? ' none' : '')}>
-              {events.slice(1).map((e) => (
-                <EventItem key={e.id} event={e} />
-              ))}
-              {events.length <= 1 ? <>无更多日程</> : <></>}
-            </div>
+            <CurrentEvent now={now} event={events[0]} />
+            <EventList events={events.slice(1)} />
           </div>
         )}
       </div>

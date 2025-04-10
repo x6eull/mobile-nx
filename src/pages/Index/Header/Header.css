@@ -1,13 +1,13 @@
 .header {
   display: flex;
   flex-direction: column;
+  gap: 0.6rem;
   margin-bottom: 1rem;
 
-  .calendar {
+  .date {
     display: flex;
     flex-direction: column;
     font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: .6rem;
   }
 }
