@@ -5,7 +5,7 @@ export interface Course {
   /**学年&学期 */
   semester: Semester
   /**选课号 如(2024-2025-1)-761T0060-0017687-4 */
-  id?: string
+  id: string
   /**课程名称（中文） */
   name: string
   /**学分 */

@@ -1,0 +1,40 @@
+*{
+  padding:0;
+  margin:0;
+}
+.schedule-page {
+  display: flex;
+  flex-direction: column;
+}
+.schedule-content {
+  flex: 1;
+  overflow-y: auto;
+}
+.header-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+.kbleft-img {
+  width: 4em;
+  height: 2.5em;
+  margin-left: 0.3em;
+  margin-right: 1em;
+  margin-top: 1.5em;
+}
+.schedule-title {
+  font-family: 'Inter', sans-serif;
+  font-size:1em;
+  font-weight: bold;
+  margin-left: 0;
+  margin-bottom: 0.4em;
+}
+
+.schedule-content::-webkit-scrollbar {
+  display: none;
+}
+
+
+

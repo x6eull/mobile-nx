@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import {
   IonApp,
   IonIcon,
@@ -10,15 +10,9 @@ import {
   setupIonicReact,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import { ellipse, square, triangle } from 'ionicons/icons'
-import Tab1 from './pages/Tab1'
-import DaySchedule from './pages/DaySchedule'
-import WeekSchedule from './pages/WeekSchedule'
-import Tab3 from './pages/Tab3'
-import Profile from './pages/Profile'
-import CourseSchedule from './pages/CourseSchedule'
-import Grades from './pages/Grades'
-import Login from './pages/Login'
+import { square, triangle } from 'ionicons/icons'
+import CourseSchedule from './pages/CourseSchedule/CourseSchedule'
+import Grades from './pages/Grades/Grades'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -58,42 +52,22 @@ export default function App() {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/tab1">
-              <Tab1 />
+            <Route exact path="/grades">
+              <Grades />
             </Route>
-            <Route exact path="/day-schedule">
-              <DaySchedule />
+            <Route exact path="/courseSchedule">
+              <CourseSchedule />
             </Route>
-            <Route exact path="/tab3">
-              <Tab3 />
-            </Route>
-            <Route exact path="/profile">
-              <Profile />
-            </Route>
-
-            {/* 嵌套路由 */}
-            <Route path="/profile/grades" component={Grades} />
-            <Route path="/profile/course-schedule" component={CourseSchedule} />
-            <Route path="/profile/login" component={Login} />
-            <Route path="/day-schedule/week-schedule" component={WeekSchedule} />
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/tab1">
-              <IonIcon icon={triangle} />
-              <IonLabel>Tab 1</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="day-schedule" href="/day-schedule">
-              <IonIcon icon={ellipse} />
-              <IonLabel>日程</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab3" href="/tab3">
+            <IonTabButton tab="grades" href="/grades">
               <IonIcon icon={square} />
-              <IonLabel>Tab 3</IonLabel>
+              <IonLabel>绩点</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="profile" href="/profile">
+            <IonTabButton tab="course" href="/courseSchedule">
               <IonIcon icon={triangle} />
-              <IonLabel>我的</IonLabel>
+              <IonLabel>课表</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
