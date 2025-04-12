@@ -45,6 +45,8 @@ import '@ionic/react/css/display.css'
 
 /* Theme variables */
 import './App.css'
+import GradePage from './pages/Grades/Grades'
+import CourseSchedule from './pages/CourseSchedule/CourseSchedule'
 
 setupIonicReact()
 
@@ -66,17 +68,23 @@ export default function App() {
             <Route exact path='/mine'>
               <IonPage>todo</IonPage>
             </Route>
+            <Route exact path='/grade'>
+              <GradePage />
+            </Route>
+            <Route exact path='/courseSchedule'>
+              <CourseSchedule />
+            </Route>
           </IonRouterOutlet>
           <IonTabBar className='app-nav' slot='bottom'>
-            <IonTabButton tab='tab1' href='/index'>
+            <IonTabButton tab='index' href='/index'>
               <IonIcon aria-hidden='true' icon={index} />
               <IonLabel>主页</IonLabel>
             </IonTabButton>
-            <IonTabButton tab='tab2' href='/schedule'>
+            <IonTabButton tab='schedule' href='/schedule'>
               <IonIcon aria-hidden='true' icon={schedule} />
               <IonLabel>日程</IonLabel>
             </IonTabButton>
-            <IonTabButton tab='tab5' href='/mine'>
+            <IonTabButton tab='mine' href='/mine'>
               <IonIcon aria-hidden='true' icon={mine} />
               <IonLabel>我的</IonLabel>
             </IonTabButton>

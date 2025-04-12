@@ -12,15 +12,16 @@ import {
   IonSegmentContent,
 } from '@ionic/react'
 import { close } from 'ionicons/icons'
-import kbleft from '../../assets/schedule-left.png'
+import kbleft from './schedule-left.png'
 import CourseScheduleHeader from './Header/CourseScheduleHeader'
 import CourseGrid from './Grid/CourseGrid'
 import SemesterSelector from './Semester/SemesterSelector'
-import { Course } from '../../models/Course'
 import { Term, Semester } from '../../models/shared'
 import './CourseSchedule.css'
+import { CourseBase } from '@/models/CourseBase'
+import { CourseClassInfo } from '@/models/CourseClassInfo'
 
-const courses: Course[] = [
+const courses: (CourseBase & CourseClassInfo)[] = [
   {
     semester: { year: 2024, term: Term.Autumn },
     name: '微积分（甲）II',
@@ -70,7 +71,7 @@ const semesterList: Semester[] = [
   { year: 2023, term: Term.Autumn },
 ]
 
-const CourseSchedule: React.FC = () => {
+export default function CourseSchedule() {
   const firstSemester = semesterList[0]
   const defaultSemester = `${firstSemester.year}-${Term[firstSemester.term]}`
 
@@ -125,5 +126,3 @@ const CourseSchedule: React.FC = () => {
     </IonPage>
   )
 }
-
-export default CourseSchedule

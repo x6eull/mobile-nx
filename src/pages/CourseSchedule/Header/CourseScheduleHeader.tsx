@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { IonButton, IonImg, IonToast } from '@ionic/react'
-import eye from '../../../assets/kbheader-eye.png'
-import out from '../../../assets/kbheader-out.png'
-import toast from '../../../assets/toast.jpg'
+import eye from './kbheader-eye.png'
+import out from './kbheader-out.png'
+import toast from './toast.jpg'
 
 interface CourseScheduleHeaderProps {
   creditHours: number

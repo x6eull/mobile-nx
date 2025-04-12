@@ -1,5 +1,4 @@
-'use client'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   IonPage,
   IonToolbar,
@@ -12,14 +11,14 @@ import {
   IonLabel,
 } from '@ionic/react'
 import { close } from 'ionicons/icons'
-import jd from '../../assets/Search.svg'
+import jd from './Search.svg'
 import GradesSummary from './Summary/GradesSummary'
 import SemesterSummary from './Summary/SemesterSummary'
 import CourseList from './List/CourseList'
 import SemesterSelector from './Semester/SemesterSelector'
 import './Grades.css'
 
-const Grades: React.FC = () => {
+export default function GradePage() {
   const [selectedSemester, setSelectedSemester] = useState('2018-fall')
 
   return (
@@ -52,5 +51,3 @@ const Grades: React.FC = () => {
     </IonPage>
   )
 }
-
-export default Grades
