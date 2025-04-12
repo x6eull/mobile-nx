@@ -4,6 +4,7 @@ import {
   IonIcon,
   IonLabel,
   IonPage,
+  IonRouterLink,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -43,9 +44,9 @@ import '@ionic/react/css/display.css'
 /* import '@ionic/react/css/palettes/dark.class.css'; */
 // import '@ionic/react/css/palettes/dark.system.css'
 
-/* Theme variables */
+/* Global stylesheets and theme variables */
 import './App.css'
-import GradePage from './pages/Grades/Grades'
+import GradePage from './pages/GradePage/GradePage'
 import CourseSchedule from './pages/CourseSchedule/CourseSchedule'
 
 setupIonicReact()
@@ -55,7 +56,7 @@ export default function App() {
     <IonApp>
       <IonReactRouter>
         <IonTabs>
-          <IonRouterOutlet>
+          <IonRouterOutlet animated>
             <Route exact path='/'>
               <Redirect to='/index' />
             </Route>
@@ -66,7 +67,12 @@ export default function App() {
               <IonPage>todo</IonPage>
             </Route>
             <Route exact path='/mine'>
-              <IonPage>todo</IonPage>
+              <IonPage>
+                <IonRouterLink routerLink='/grade'>grade</IonRouterLink>
+                <IonRouterLink routerLink='/courseSchedule'>
+                  courseSchedule
+                </IonRouterLink>
+              </IonPage>
             </Route>
             <Route exact path='/grade'>
               <GradePage />

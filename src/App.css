@@ -24,13 +24,51 @@
 
 :root {
   color-scheme: only light;
+  font-family: 'OPPO Sans';
+  --ion-font-family: 'OPPO Sans';
+  --ion-background-color: var(--nx-color-background);
 
   * {
     line-height: 1em;
+
+    --scrollbar-size: 0.4rem;
+
+    &::-webkit-scrollbar {
+      width: var(--scrollbar-size);
+      height: var(--scrollbar-size);
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-color);
+      border-radius: calc(var(--scrollbar-size) / 2);
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    &.no-scrollbar {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 
-  .app-nav > ion-tab-button {
-    --color: var(--nx-color-unselected);
-    --color-selected: var(--nx-color-dark);
+  /**如果有一个非隐藏IonPage包含.no-app-nav，则隐藏主导航栏 */
+  &:has(.ion-page:not(.ion-page-hidden).no-app-nav) {
+    .app-nav {
+      opacity: 0;
+      height: 0;
+    }
+  }
+
+  .app-nav {
+    transition: opacity .2s ease-out;
+
+    ion-tab-button {
+      --color: var(--nx-color-unselected);
+      --color-selected: var(--nx-color-dark);
+    }
   }
 }

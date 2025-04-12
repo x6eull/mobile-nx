@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import './Card.css'
 
 export function IconImg({ bgColor, src }: { bgColor: string; src: string }) {
-  return <img className='icon' src={src} style={{ background: bgColor }} />
+  return <img className='card-icon' src={src} style={{ background: bgColor }} />
 }
 
 /** Card是首页的通用组件 */

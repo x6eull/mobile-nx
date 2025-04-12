@@ -21,11 +21,11 @@
     gap: 0.2rem;
 
     .prefix {
-      color: var(--nx-color-major);
+      color: var(--nx-color-primary);
     }
 
     .time {
-      font-family: 'Rubik', sans-serif;
+      font-family: var(--nx-font-rubik);
       font-size: 2.2rem;
       font-weight: bold;
       color: var(--nx-color-dark);
@@ -51,7 +51,7 @@
       gap: 0.2rem;
       font-size: 0.9rem;
 
-      & > img {
+      &>img {
         flex: 0 0 auto;
       }
     }

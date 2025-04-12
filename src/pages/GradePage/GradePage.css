@@ -1,0 +1,13 @@
+.grade-page {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--nx-color-dark);
+  max-height: 100%;
+
+  .icon-grade {
+    color: #E06969;
+    background-color: #E069691a;
+    border-radius: .25rem;
+    padding: .25rem;
+  }
+}

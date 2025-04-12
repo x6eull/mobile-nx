@@ -6,14 +6,11 @@
   --shadow-offset: 1.5px;
   /**最多伸展到显示几个item */
   --max-items: 3;
-  max-height: calc(
-    var(--max-items) * var(--item-height) + var(--max-items) * var(--item-gap)
-  );
+  max-height: calc(var(--max-items) * var(--item-height) + var(--max-items) * var(--item-gap));
   gap: var(--item-gap);
   flex: 1 0;
   /**给item阴影和滚动条（如有）留出空间 */
-  padding: 0 calc(var(--shadow-offset) + var(--scrollbar-gap, 0rem))
-    var(--item-gap) 0;
+  padding: 0 calc(var(--shadow-offset) + var(--scrollbar-gap, 0rem)) var(--item-gap) 0;
   overflow-y: auto;
 
   &:has(.item:nth-child(4)) {
@@ -51,7 +48,7 @@
       gap: 0.4em;
 
       .title,
-      .field > div {
+      .field>div {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

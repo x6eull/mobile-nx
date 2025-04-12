@@ -18,7 +18,7 @@ export default function Header({
   tip: string
 }) {
   return (
-    <div className='header'>
+    <div className='index-header'>
       <div className='date'>
         {date.format('YYYY年M月D日')}
         <br />

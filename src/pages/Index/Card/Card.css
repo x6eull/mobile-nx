@@ -6,7 +6,7 @@
   --card-padding-horizontal: 1rem;
   --card-padding-vertical: 0.625rem;
 
-  & > .head {
+  &>.head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -21,7 +21,7 @@
       font-size: 1.25rem;
       font-weight: bold;
 
-      .icon {
+      &>.card-icon {
         border-radius: 0.5rem;
         padding: 0.1875rem;
       }

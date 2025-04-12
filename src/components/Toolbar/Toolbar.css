@@ -1,0 +1,35 @@
+.toolbar {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+
+  .info {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    .toolbar-icon {
+      display: block;
+      width: 1.75rem;
+    }
+
+    .title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+  }
+
+  .close-button {
+    --color: var(--nx-color-text);
+
+    --close-button-padding: .25rem;
+    --padding-top: var(--close-button-padding);
+    --padding-bottom: var(--close-button-padding);
+    --padding-start: var(--close-button-padding);
+    --padding-end: var(--close-button-padding);
+    min-height: unset;
+
+    &>img {
+      width: 1.5rem;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.semester-segment-container {
+  flex: 0 0;
+  padding-bottom: .5rem;
+  background-color: var(--nx-color-dark);
+
+  .segment {
+    &::part(indicator) {
+      display: none;
+    }
+
+    .button {
+      --background: var(--nx-color-dark);
+      --background-checked: #fff;
+      --background-focused: #fff;
+      --color: #fff;
+      --color-checked: var(--nx-color-dark);
+      --indicator-color: transparent;
+      --border-radius: 0 0 .75rem .75rem;
+
+      &:first-child {
+        margin-left: 1rem;
+      }
+
+      &:last-child {
+        margin-right: 1rem;
+      }
+    }
+  }
+}
