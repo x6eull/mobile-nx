@@ -41,23 +41,23 @@ const CourseGrid: React.FC<CourseGridProps> = ({
   )
 
   return (
-    <IonGrid className="course-grid">
-      <IonRow className="weekday-row">
-        <IonCol size="1"></IonCol>
+    <IonGrid className='course-grid'>
+      <IonRow className='weekday-row'>
+        <IonCol size='1'></IonCol>
         {['一', '二', '三', '四', '五', '六', '日'].map((day, index) => (
-          <IonCol key={index} className="weekday-cell">
+          <IonCol key={index} className='weekday-cell'>
             {day}
           </IonCol>
         ))}
       </IonRow>
 
-      <IonRow className="main-content-row">
+      <IonRow className='main-content-row'>
         {/* 时间列 */}
-        <IonCol size="1" className="time-column">
+        <IonCol size='1' className='time-column'>
           {timeSlots.map((slot) => (
             <div
               key={slot.index}
-              className="time-slot-label"
+              className='time-slot-label'
               style={{ height: `${timeSlotHeight}vh` }}
             >
               <span>{slot.start}</span>
@@ -68,7 +68,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({
 
         {/* 天列 */}
         {[1, 2, 3, 4, 5, 6, 7].map((day) => (
-          <IonCol key={day} className="day-column">
+          <IonCol key={day} className='day-column'>
             {filteredCourses.map((course, idx) =>
               course.classes
                 .filter((classItem) => classItem.dayOfWeek === day)

@@ -1,0 +1,26 @@
+.today {
+  /**事件数>=1渲染.today-body，
+  否则渲染.today-emoji和.today-none */
+
+  .today-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 0 var(--card-padding-horizontal) var(--card-padding-vertical);
+    gap: 0.5rem;
+  }
+
+  .today-emoji {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--nx-color-major);
+  }
+
+  .today-none {
+    font-size: 1.85rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.4rem 0.8rem 1.2rem;
+    color: var(--nx-color-dark);
+  }
+}

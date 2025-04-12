@@ -23,28 +23,23 @@ const Grades: React.FC = () => {
   const [selectedSemester, setSelectedSemester] = useState('2018-fall')
 
   return (
-    <IonPage className="grades-page">
+    <IonPage className='grades-page'>
       <IonToolbar>
-        <div className="header-content">
-          <IonImg
-            src={jd}
-            alt="JD "
-            slot="start"
-            className="jd-img"
-          />
-          <IonLabel className="grades-title">绩点</IonLabel>
+        <div className='header-content'>
+          <IonImg src={jd} alt='JD ' slot='start' className='jd-img' />
+          <IonLabel className='grades-title'>绩点</IonLabel>
         </div>
-        <IonButtons slot="end">
-          <IonRouterLink routerLink="/profile">
+        <IonButtons slot='end'>
+          <IonRouterLink routerLink='/profile'>
             <IonButton>
-              <IonIcon icon={close} size="large" />
+              <IonIcon icon={close} size='large' />
             </IonButton>
           </IonRouterLink>
         </IonButtons>
       </IonToolbar>
 
-      <IonContent fullscreen className="grades-content" scrollY={true}>
-        <div className="grades-container">
+      <IonContent fullscreen className='grades-content' scrollY={true}>
+        <div className='grades-container'>
           <GradesSummary />
           <SemesterSummary />
           <CourseList />

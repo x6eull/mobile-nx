@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  IonSegment,
-  IonSegmentButton,
-  IonLabel
-} from '@ionic/react'
+import { IonSegment, IonSegmentButton, IonLabel } from '@ionic/react'
 import './SemesterSelector.css'
 import { Semester, Term } from '../../../models/shared'
 
@@ -20,11 +16,10 @@ const SemesterSelector: React.FC<{
   onChange: (value: string) => void
 }> = ({ selected, onChange }) => {
   return (
-    
     <IonSegment
       value={selected}
       onIonChange={(e) => onChange(e.detail.value as string)}
-      className="semester-selector"
+      className='semester-selector'
       scrollable={true}
     >
       {SemesterList.map((semester) => {
@@ -45,14 +40,13 @@ const SemesterSelector: React.FC<{
             key={semesterKey}
             value={semesterKey}
             contentId={semesterKey}
-            className="semester-selector-button"
+            className='semester-selector-button'
           >
             <IonLabel>{label}</IonLabel>
           </IonSegmentButton>
         )
       })}
-      </IonSegment>
-    
+    </IonSegment>
   )
 }
 

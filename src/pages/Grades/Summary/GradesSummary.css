@@ -1,21 +1,21 @@
 .grades-summary {
-  background: #586FC2;
+  background: #586fc2;
   color: white;
   padding: 16px;
   border-radius: 8px;
-      .item-value {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 4px;
-  font-family: 'Inter', sans-serif;
-  color: white;
+  .item-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-family: 'Inter', sans-serif;
+    color: white;
     .item-label {
-  font-size: 0.9em;
-  opacity: 0.9;
-  font-family: 'Inter', sans-serif;
-  color: white;
-}
-}
+      font-size: 0.9em;
+      opacity: 0.9;
+      font-family: 'Inter', sans-serif;
+      color: white;
+    }
+  }
 }
 
 .summary-row {
@@ -32,4 +32,4 @@
 .update-time {
   font-size: 0.8em;
   opacity: 0.8;
-} 
+}

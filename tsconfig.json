@@ -1,17 +1,13 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
-    "target": "ES2020",
+    "experimentalDecorators": false,
+    "stripInternal": true,
+    "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -27,11 +23,8 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src",
-    "local.*.ts",
-    "local.test.ts.dis"
-  ],
+  "include": ["**/*"],
+  "exclude": ["vite.*.ts", "vitePlugin/**", "dist/**", "node_modules/**"],
   "references": [
     {
       "path": "./tsconfig.node.json"

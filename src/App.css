@@ -1,0 +1,36 @@
+@import url('./theme.css');
+
+@font-face {
+  font-family: 'OPPO Sans';
+  src: url('./font/OPPOSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OPPO Sans';
+  src: url('./font/OPPOSans-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  /* 给Index/Today/CurrentEvent的时间用 */
+  font-family: 'Rubik';
+  src: url('./font/Rubik-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  color-scheme: only light;
+
+  * {
+    line-height: 1em;
+  }
+
+  .app-nav > ion-tab-button {
+    --color: var(--nx-color-unselected);
+    --color-selected: var(--nx-color-dark);
+  }
+}

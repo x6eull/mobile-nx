@@ -18,7 +18,7 @@ const SemesterSelector: React.FC<SemesterSelectorProps> = ({
     <IonSegment
       value={selected}
       onIonChange={(e) => onChange(e.detail.value as string)}
-      className="semester-selector"
+      className='semester-selector'
       scrollable={true}
     >
       {semesterList.map((semester) => {
@@ -38,7 +38,7 @@ const SemesterSelector: React.FC<SemesterSelectorProps> = ({
             key={semesterKey}
             value={semesterKey}
             contentId={semesterKey}
-            className="semester-selector-button"
+            className='semester-selector-button'
           >
             <IonLabel>{label}</IonLabel>
           </IonSegmentButton>

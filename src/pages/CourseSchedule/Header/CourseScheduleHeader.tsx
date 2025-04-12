@@ -4,7 +4,6 @@ import eye from '../../../assets/kbheader-eye.png'
 import out from '../../../assets/kbheader-out.png'
 import toast from '../../../assets/toast.jpg'
 
-
 interface CourseScheduleHeaderProps {
   creditHours: number
   isTextVisible: boolean
@@ -24,7 +23,8 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
   }
 
   const handleSaveClick = async () => {
-    try {//保存图片AI写了一段，具体的url应该要之后再修改
+    try {
+      //保存图片AI写了一段，具体的url应该要之后再修改
       // 获取要截图的元素
       const element = document.getElementById('semesterKey')
       if (!element) {
@@ -40,7 +40,7 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
 
       // 设置 canvas 尺寸
       const { width, height } = element.getBoundingClientRect()
-      canvas.width = width * 2 
+      canvas.width = width * 2
       canvas.height = height * 2
 
       // 设置缩放以提高清晰度
@@ -92,17 +92,17 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
   }
 
   return (
-    <div className="schedule-header">
-      <div className="credit-info">
-        <span className="credit-label">学期学时</span>
-        <span className="credit-value">{creditHours}</span>
+    <div className='schedule-header'>
+      <div className='credit-info'>
+        <span className='credit-label'>学期学时</span>
+        <span className='credit-value'>{creditHours}</span>
       </div>
-      <div className="action-buttons">
-        <IonButton fill="clear" size="small" onClick={handleEyeClick}>
-          <IonImg src={eye} alt="eye" />
+      <div className='action-buttons'>
+        <IonButton fill='clear' size='small' onClick={handleEyeClick}>
+          <IonImg src={eye} alt='eye' />
         </IonButton>
-        <IonButton fill="clear" size="small" onClick={handleSaveClick}>
-          <IonImg src={out} alt="Out" />
+        <IonButton fill='clear' size='small' onClick={handleSaveClick}>
+          <IonImg src={out} alt='Out' />
         </IonButton>
       </div>
 
@@ -111,8 +111,8 @@ const CourseScheduleHeader: React.FC<CourseScheduleHeaderProps> = ({
         onDidDismiss={() => setShowToast(false)}
         message={isSuccess ? '保存图片成功！' : '保存图片失败！'}
         duration={2000}
-        position="top"
-        cssClass="custom-toast"
+        position='top'
+        cssClass='custom-toast'
         icon={toast} //似乎没有image属性，图片插入无法显示
       />
     </div>

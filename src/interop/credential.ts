@@ -1,10 +1,11 @@
 import { env } from './env'
-import { ZjuamService } from './zjuam'
+import { ZjuamService } from '../services/ZjuamService'
 
 export type Credential = {
   username: string
   password: string
 }
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function requestCredential(
   service: ZjuamService,
 ): Promise<Credential> {

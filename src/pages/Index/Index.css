@@ -1,0 +1,34 @@
+.index-container {
+  --ion-background-color: #f8f8f8;
+  --ion-font-family: 'OPPO Sans';
+  --card-background: white;
+  --padding-top: 1rem;
+  --padding-bottom: var(--padding-top);
+  --padding-start: 1.2rem;
+  --padding-end: var(--padding-start);
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  * {
+    --scrollbar-size: 0.4rem;
+
+    &::-webkit-scrollbar {
+      width: var(--scrollbar-size);
+      height: var(--scrollbar-size);
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #586fc21a;
+      border-radius: calc(var(--scrollbar-size) / 2);
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+/* For information on how to create your own theme, please see:
+http://ionicframework.com/docs/theming/ */
+
+:root {
+  --nx-color-text: black;
+  --nx-color-dark: #128f9d;
+  --nx-color-major: #92dbd8;
+  --nx-color-light: #ecfaf4;
+  --nx-color-unselected: #c3cecb;
+}

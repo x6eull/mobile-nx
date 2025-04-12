@@ -83,27 +83,27 @@ const CourseSchedule: React.FC = () => {
   }
 
   return (
-    <IonPage className="schedule-page">
+    <IonPage className='schedule-page'>
       <IonToolbar>
-        <div className="header-content">
+        <div className='header-content'>
           <IonImg
             src={kbleft}
-            alt="KB Left"
-            slot="start"
-            className="kbleft-img"
+            alt='KB Left'
+            slot='start'
+            className='kbleft-img'
           />
-          <IonLabel className="schedule-title">课表</IonLabel>
+          <IonLabel className='schedule-title'>课表</IonLabel>
         </div>
-        <IonButtons slot="end">
-          <IonButton routerLink="/profile">
-            <IonIcon icon={close} size="large" />
+        <IonButtons slot='end'>
+          <IonButton routerLink='/profile'>
+            <IonIcon icon={close} size='large' />
           </IonButton>
         </IonButtons>
       </IonToolbar>
 
-      <IonContent className="schedule-content" scrollY={true} fullscreen={true}>
+      <IonContent className='schedule-content' scrollY={true} fullscreen={true}>
         <IonSegmentView>
-          <IonSegmentContent id="semesterKey" className="schedule-content">
+          <IonSegmentContent id='semesterKey' className='schedule-content'>
             <CourseScheduleHeader
               creditHours={creditHours}
               isTextVisible={isTextVisible}

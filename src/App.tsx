@@ -1,8 +1,9 @@
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import {
   IonApp,
   IonIcon,
   IonLabel,
+  IonPage,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -10,9 +11,10 @@ import {
   setupIonicReact,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import { square, triangle } from 'ionicons/icons'
-import CourseSchedule from './pages/CourseSchedule/CourseSchedule'
-import Grades from './pages/Grades/Grades'
+import Index from './pages/Index/Index'
+import index from './navIcon/index.svg'
+import schedule from './navIcon/schedule.svg'
+import mine from './navIcon/mine.svg'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -39,10 +41,10 @@ import '@ionic/react/css/display.css'
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css'
+// import '@ionic/react/css/palettes/dark.system.css'
 
 /* Theme variables */
-import './theme/variables.css'
+import './App.css'
 
 setupIonicReact()
 
@@ -52,22 +54,31 @@ export default function App() {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/grades">
-              <Grades />
+            <Route exact path='/'>
+              <Redirect to='/index' />
             </Route>
-            <Route exact path="/courseSchedule">
-              <CourseSchedule />
+            <Route exact path='/index'>
+              <Index />
+            </Route>
+            <Route exact path='/schedule'>
+              <IonPage>todo</IonPage>
+            </Route>
+            <Route exact path='/mine'>
+              <IonPage>todo</IonPage>
             </Route>
           </IonRouterOutlet>
-
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="grades" href="/grades">
-              <IonIcon icon={square} />
-              <IonLabel>绩点</IonLabel>
+          <IonTabBar className='app-nav' slot='bottom'>
+            <IonTabButton tab='tab1' href='/index'>
+              <IonIcon aria-hidden='true' icon={index} />
+              <IonLabel>主页</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="course" href="/courseSchedule">
-              <IonIcon icon={triangle} />
-              <IonLabel>课表</IonLabel>
+            <IonTabButton tab='tab2' href='/schedule'>
+              <IonIcon aria-hidden='true' icon={schedule} />
+              <IonLabel>日程</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab='tab5' href='/mine'>
+              <IonIcon aria-hidden='true' icon={mine} />
+              <IonLabel>我的</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

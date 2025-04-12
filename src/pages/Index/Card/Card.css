@@ -1,0 +1,35 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.8rem;
+  background: var(--card-background);
+  --card-padding-horizontal: 1rem;
+  --card-padding-vertical: 0.625rem;
+
+  & > .head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--card-padding-vertical) var(--card-padding-horizontal);
+
+    .desc {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+
+      .icon {
+        border-radius: 0.5rem;
+        padding: 0.1875rem;
+      }
+    }
+
+    .link {
+      text-decoration: none;
+      color: var(--nx-color-dark);
+    }
+  }
+}

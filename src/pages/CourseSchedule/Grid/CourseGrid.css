@@ -25,7 +25,6 @@
     padding-left: 0.2em;
     justify-content: flex-start;
 
-
     & .time-slot-label {
       display: flex;
       flex-direction: column;
@@ -87,7 +86,7 @@
 }
 
 .course-card.hide-text {
-  background-color:#586fc2;
+  background-color: #586fc2;
 }
 
 .course-card.hide-text ion-card-content {

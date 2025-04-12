@@ -11,8 +11,9 @@ AndroidManifest.xml.orig
 node_modules/
 
 # build files
-dist/
 .tsbuildinfo
+dist/
+ship/
 
 # keystore files
 *.jks

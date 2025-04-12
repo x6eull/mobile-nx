@@ -13,22 +13,23 @@ const courses = [
 
 const CourseList: React.FC = () => {
   return (
-    <div className="course-list">
+    <div className='course-list'>
       {courses.map((course, index) => (
-        <div key={index} className="course-item">
-          <div className="course-header">
-            <div className="course-name">
-              {course.name} <span className="course-credits">{course.credits} 学分</span>
+        <div key={index} className='course-item'>
+          <div className='course-header'>
+            <div className='course-name'>
+              {course.name}{' '}
+              <span className='course-credits'>{course.credits} 学分</span>
             </div>
-            <div className="course-score">
+            <div className='course-score'>
               {course.score}/{course.total}
             </div>
           </div>
           {course.total > 0 && (
             <IonProgressBar
               value={Number(course.score) / Number(course.total)}
-              color="primary"
-              className="course-progress"
+              color='primary'
+              className='course-progress'
             />
           )}
         </div>
