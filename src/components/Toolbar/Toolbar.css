@@ -1,6 +1,7 @@
 .toolbar {
   --padding-start: 1rem;
   --padding-end: 1rem;
+  --ion-background-color: white;
 
   .info {
     display: flex;

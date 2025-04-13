@@ -12,6 +12,7 @@ export interface CourseClassInfo {
 export interface ClassArrangement {
   /**上课周次 */
   weekType: WeekType
+  /**星期几上课 */
   dayOfWeek: DayOfWeek
   /**从第几节开始 =djj */
   startSection: number

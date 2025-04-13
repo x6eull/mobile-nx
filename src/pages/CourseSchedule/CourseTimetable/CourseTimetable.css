@@ -1,0 +1,69 @@
+.course-timetable {
+  flex: 0 1 100%;
+
+  table {
+    box-sizing: border-box;
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+    --day-count: 7;
+    --col-count: calc(var(--day-count) + 1);
+
+    tr {
+      overflow: hidden;
+      height: 1em;
+
+      th {
+        &[scope="column"] {
+          width: calc(100% / var(--col-count));
+          font-size: .9rem;
+          opacity: .6;
+          padding: .5rem 0;
+        }
+
+        .label {
+          font-size: .7rem;
+          font-weight: initial;
+        }
+
+        .order {
+          font-weight: bold;
+        }
+      }
+
+      &:first-of-type>td {
+        border-top-color: transparent;
+      }
+
+      &:last-of-type>td {
+        border-bottom-color: transparent;
+      }
+
+      td {
+        border: 2px solid #efefef;
+
+
+        &:first-of-type {
+          border-left-color: transparent;
+        }
+
+        &:last-of-type {
+          border-right-color: transparent;
+        }
+
+        &.has-class {
+          color: var(--nx-color-dark);
+          --background: var(--nx-color-light);
+
+          .block {
+            height: 100%;
+            background: var(--background);
+            border-radius: .25rem;
+            overflow: hidden;
+
+          }
+        }
+      }
+    }
+  }
+}

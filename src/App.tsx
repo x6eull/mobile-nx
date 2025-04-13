@@ -53,7 +53,7 @@ import { RenewService } from './services/RenewService'
 import { CourseCombinedContext } from './context/CourseCombinedContext'
 import { LastUpdatedContext } from './context/LastUpdatedContext'
 
-setupIonicReact()
+setupIonicReact({ mode: 'md' })
 
 export default function App() {
   const renewService = useMemo(() => new RenewService(), [])
