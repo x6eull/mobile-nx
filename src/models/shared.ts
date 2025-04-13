@@ -43,9 +43,53 @@ export enum Term {
   SpringSummer = Spring | Summer, // 0b11
   AutumnWinter = Autumn | Winter, // 0b1100
 }
+export function termToString(from: Term) {
+  switch (from) {
+    case Term.Spring:
+      return '春'
+    case Term.Summer:
+      return '夏'
+    case Term.Autumn:
+      return '秋'
+    case Term.Winter:
+      return '冬'
+    case Term.Short:
+      return '短'
+    case Term.SpringSummer:
+      return '春夏'
+    case Term.AutumnWinter:
+      return '秋冬'
+    default:
+      throw new Error('Invalid term')
+  }
+}
 export interface Semester {
   /**学年，取区间较小者。如此处2024表示2024-2025学年 */
   year: number
   /**学期 */
   term: Term
+}
+
+/**获取所在的长学期。短学期目前统一返回秋冬 */
+export function toLongTerm(term: Term) {
+  switch (term) {
+    case Term.Spring:
+    case Term.Summer:
+    case Term.SpringSummer:
+      return Term.SpringSummer
+    case Term.Autumn:
+    case Term.Winter:
+    case Term.AutumnWinter:
+    case Term.Short:
+      return Term.AutumnWinter
+    default:
+      throw new Error('Unknown long term for: ' + (term as number))
+  }
+}
+/**秋冬=>冬，春夏=>夏，单个学期原样返回，其他报错 */
+export function toEndTerm(term: Term) {
+  if (term === Term.SpringSummer) return Term.Summer
+  if (term === Term.AutumnWinter) return Term.Winter
+  if ((term & (term - 1)) === 0) return term //单个学期
+  throw new Error('Unknown end term for: ' + term)
 }

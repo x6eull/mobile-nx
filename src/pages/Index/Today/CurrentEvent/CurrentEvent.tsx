@@ -4,6 +4,7 @@ import remarks from './remarks.svg'
 import './CurrentEvent.css'
 import { TodayEvent } from '../Today'
 import dayjs from 'dayjs'
+import { IonRouterLink } from '@ionic/react'
 
 export default function CurrentEvent({
   event,
@@ -17,7 +18,11 @@ export default function CurrentEvent({
   const timeSpan =
     event.startAt.format('HH:mm') + ' - ' + event.endAt.format('HH:mm')
   return (
-    <a className='current-event' href='/schedule'>
+    <IonRouterLink
+      routerDirection='root'
+      className='current-event'
+      routerLink='/schedule'
+    >
       <div className='countdown'>
         <div className='prefix'>距上课</div>
         <div className='time'>{timeLeft}</div>
@@ -39,6 +44,6 @@ export default function CurrentEvent({
           </div>
         )}
       </div>
-    </a>
+    </IonRouterLink>
   )
 }

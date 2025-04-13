@@ -45,29 +45,32 @@
       background: white;
       border-radius: .5rem;
       padding: .8rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
 
-      .header {
+      .info {
         display: flex;
-        justify-content: space-between;
+        flex-direction: row;
+        gap: .5rem;
         align-items: center;
 
-        .info {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: .5rem;
-
-          .name {
-            font-size: 0.95em;
-            color: var(--nx-color-dark);
-          }
-
-          .credits {
-            font-size: 0.85em;
-            color: var(--ion-color-medium);
-          }
+        .name {
+          font-size: 0.95em;
+          color: var(--nx-color-dark);
         }
 
+        .credits {
+          flex: 0 0 auto;
+          font-size: 0.85em;
+          color: var(--ion-color-medium);
+        }
+      }
+
+      .score {
+        flex: 0 0 auto;
       }
     }
   }

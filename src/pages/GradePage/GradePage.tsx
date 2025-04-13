@@ -1,64 +1,140 @@
-import { useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { IonPage } from '@ionic/react'
 import IconGrade from './iconGrade.svg?react'
 import GradeSummary from './GradeSummary/GradeSummary'
 import SemesterGrade from './SemesterGrade/SemesterGrade'
 import './GradePage.css'
-import { Term } from '@/models/shared'
+import { termToString, toLongTerm } from '@/models/shared'
 import Toolbar from '@/components/Toolbar/Toolbar'
 import SemesterSegment from '@/components/SemesterSegment/SemesterSegment'
+import { CourseCombinedContext } from '@/context/CourseCombinedContext'
+import { CourseBase } from '@/models/CourseBase'
+import { CourseGradeInfo } from '@/models/CourseGradeInfo'
+import { LastUpdatedContext } from '@/context/LastUpdatedContext'
 
 export default function GradePage() {
-  //TODO 传实际数据
-  const [selectedSemester, setSelectedSemester] = useState(
-    `2023-` + Term.Autumn,
+  const courseCombined = useContext(CourseCombinedContext)
+  const lastUpdated = useContext(LastUpdatedContext)
+  //计算出可选择的学期列表，以及可用年+Term索引的课程列表
+  const [semesterList, yearTermMap] = useMemo(() => {
+    const courseWithGrade = courseCombined.filter((c) => 'rawScore' in c)
+    const yearTermMap = new Map<
+      number,
+      Map<ReturnType<typeof toLongTerm>, (CourseBase & CourseGradeInfo)[]>
+    >()
+    courseWithGrade.forEach((course) => {
+      const {
+        semester: { year, term },
+      } = course
+      const longTerm = toLongTerm(term)
+      yearTermMap.ensure(
+        year,
+        () => new Map([[longTerm, [course]]]),
+        (termMap) =>
+          termMap.ensure(
+            longTerm,
+            () => [course],
+            (courseList) => courseList.push(course),
+          ),
+      )
+    })
+    return [
+      yearTermMap
+        .entries()
+        .map(([year, terms]) =>
+          terms
+            .keys()
+            .map((t) => ({
+              value: `${year}-${t}`,
+              label: `${year} ${termToString(t)}`,
+            }))
+            .toArray(),
+        )
+        .toArray()
+        .flat(1),
+      new Map(
+        yearTermMap.entries().map(([year, terms]) => [
+          year,
+          new Map(
+            terms.entries().map(([term, courses]) => {
+              // 总学分、总学分绩点
+              let totalCredits = 0,
+                totalCreditGradePoint = 0
+              courses.forEach((course) => {
+                //TODO 不及格没有学分？
+                if (course.isAborted) return
+                totalCredits += course.credit
+                totalCreditGradePoint +=
+                  course.credit * Number(course.rawGradePoint)
+              })
+              return [
+                term,
+                {
+                  credits: totalCredits,
+                  gpa:
+                    totalCredits > 0 ? totalCreditGradePoint / totalCredits : 0,
+                  creditGradePoint: totalCreditGradePoint,
+                  courses,
+                },
+              ]
+            }),
+          ),
+        ]),
+      ),
+    ]
+  }, [courseCombined])
+
+  const [currentSemester, setCurrentSemester] = useState(
+    semesterList.at(-1)?.value ?? '',
   )
+  useEffect(() => {
+    //异步获取数据完成，如果没选中任何学期自动选最后一个
+    if (!currentSemester) setCurrentSemester(semesterList.at(-1)?.value ?? '')
+  }, [courseCombined, currentSemester, semesterList])
+  const [yearStr, termStr] = currentSemester.split('-')
+  const currentYear = Number(yearStr),
+    currentTerm = Number(termStr)
+  const currentYearMap = yearTermMap.get(currentYear),
+    currentSemesterInfo = currentYearMap?.get(currentTerm)
+  const currentSemesterCredits = currentSemesterInfo?.credits ?? 0,
+    currentSemesterGpa = currentSemesterInfo?.gpa ?? 0,
+    currentYearCredits =
+      currentYearMap?.values().reduce((acc, { credits }) => acc + credits, 0) ??
+      0,
+    currentYearGpa =
+      (currentYearMap
+        ?.values()
+        .reduce((acc, { creditGradePoint }) => acc + creditGradePoint, 0) ??
+        0) / currentYearCredits
 
   return (
     <IonPage className='grade-page no-app-nav'>
-      <Toolbar
-        icon={<IconGrade className='icon-grade' />}
-        title='成绩'
-        backLink='/mine'
-      />
-      <GradeSummary
-        credits='123.9'
-        gpa5='1.23'
-        gpa4_3='2.34'
-        gpa100='34.5'
-        lastUpdated='2023-10-01 12:00:00'
-      />
-      <SemesterGrade
-        credits='22.5'
-        gpa='1.23'
-        creditsYear='41'
-        gpaYear='1.23'
-        courses={Array.from({ length: 100 }, (_, index) => ({
-          name: '高等数学' + index,
-          credit: 4,
-          id: index.toString(),
-          rawScore: '90',
-          rawGradePoint: '4.0',
-          semester: { year: 2023, term: Term.Autumn },
-          isAborted: false,
-        }))}
-      />
-      <SemesterSegment
-        value={selectedSemester}
-        onChange={setSelectedSemester}
-        items={[
-          { label: '2023-秋', value: '2023-' + Term.Autumn },
-          { label: '2023-春', value: '2023-' + Term.Spring },
-          { label: '2023-夏', value: '2023-' + Term.Summer },
-          { label: '2024-夏', value: '2024-' + Term.Summer },
-          { label: '2025-夏', value: '2025-' + Term.Summer },
-          { label: '2026-夏', value: '2026-' + Term.Summer },
-          { label: '2027-夏', value: '2027-' + Term.Summer },
-          { label: '2028-夏', value: '2028-' + Term.Summer },
-          { label: '2029-夏', value: '2029-' + Term.Summer },
-          { label: '2030-夏', value: '2030-' + Term.Summer },
-        ]}
-      />
+      <Toolbar icon={<IconGrade className='icon-grade' />} title='成绩' />
+      {semesterList.length ? (
+        <>
+          <GradeSummary
+            credits={0}
+            gpa5={0}
+            gpa4_3={0}
+            gpa100={0}
+            lastUpdated={lastUpdated?.format('YYYY.M.D HH:mm:ss') ?? '待更新'}
+          />
+          <SemesterGrade
+            credits={currentSemesterCredits}
+            gpa={currentSemesterGpa}
+            creditsYear={currentYearCredits}
+            gpaYear={currentYearGpa}
+            courses={currentSemesterInfo?.courses ?? []}
+          />
+          <SemesterSegment
+            value={currentSemester}
+            onChange={setCurrentSemester}
+            items={semesterList}
+          />
+        </>
+      ) : (
+        <>暂无成绩</>
+      )}
     </IonPage>
   )
 }

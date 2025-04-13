@@ -1,10 +1,4 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react'
+import { IonContent, IonPage } from '@ionic/react'
 import Header from './Header/Header'
 import Today from './Today/Today'
 import './Index.css'
@@ -24,7 +18,7 @@ export default function Index() {
   const startUpDate = useTime(-1)
   // mock data
   const events = [
-      ...Array.from({ length: 5 }, (_, i) => ({
+      ...Array.from({ length: 50 }, (_, i) => ({
         id: i + 1,
         name: `微积分-event${i + 1}`,
         startAt: dayjs(startUpDate).add(15, 'minute'),
@@ -43,11 +37,6 @@ export default function Index() {
   const tip = tips.find((item) => item.weather === weather)?.tip ?? ''
   return (
     <IonPage>
-      <IonHeader collapse='condense'>
-        <IonToolbar>
-          <IonTitle size='large'>首页</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent className='index-container'>
         <Header
           date={date}

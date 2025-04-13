@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react'
 import './CourseGrid.css'
-import { Course } from '../../../models/Course'
 import { Term } from '../../../models/shared'
+import { CourseBase } from '@/models/CourseBase'
+import { CourseClassInfo } from '@/models/CourseClassInfo'
 
 interface CourseGridProps {
-  courses: Course[]
+  courses: (CourseBase & CourseClassInfo)[]
   selectedSemester: string
   isTextVisible: boolean
 }

@@ -2,16 +2,16 @@ import { IonButton, IonButtons, IonToolbar } from '@ionic/react'
 import { ReactNode } from 'react'
 import { close as iconClose } from 'ionicons/icons'
 import './Toolbar.css'
+import { useHistory } from 'react-router-dom'
 
 export default function Toolbar({
   icon,
   title,
-  backLink,
 }: {
   icon: ReactNode
   title: string
-  backLink?: string
 }) {
+  const his = useHistory()
   return (
     <IonToolbar class='toolbar'>
       <div slot='start' className='info'>
@@ -19,7 +19,7 @@ export default function Toolbar({
         <div className='title'>{title}</div>
       </div>
       <IonButtons slot='end'>
-        <IonButton routerLink={backLink} className='close-button'>
+        <IonButton onClick={() => his.goBack()} className='close-button'>
           <img src={iconClose} />
         </IonButton>
       </IonButtons>

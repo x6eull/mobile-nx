@@ -10,6 +10,6 @@ console.warn('appPlatform:', appPlatform, 'appVersion:', appVersion)
 
 if (appPlatform === 'android')
   await App.addListener('backButton', (ev) => {
-    if (ev.canGoBack) window.history.back()
-    else void App.exitApp()
+    if (!ev.canGoBack || location.pathname.match(/^\/(index|schedule|mine)$/))
+      void App.exitApp()
   })

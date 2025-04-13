@@ -23,7 +23,7 @@ export default function Today({ events }: { events: TodayEvent[] }) {
       icon={<IconImg bgColor='var(--nx-color-light)' src={icon} />}
       title='今日日程'
       linkHref='/schedule'
-      linkTitle='查看全部 >'
+      // linkTitle='查看全部 >'
     >
       <div className='today'>
         {events.length === 0 ? (

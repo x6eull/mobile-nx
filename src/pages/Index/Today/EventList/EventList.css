@@ -1,8 +1,9 @@
 .event-list {
   display: flex;
+  flex: 0 1 100%;
   flex-direction: column;
   --item-gap: 0.25rem;
-  --item-height: 4rem;
+  --item-height: 3.5rem;
   --shadow-offset: 1.5px;
   /**最多伸展到显示几个item */
   --max-items: 3;
@@ -26,7 +27,6 @@
   }
 
   .item {
-    flex-shrink: 0;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -36,7 +36,7 @@
     border-radius: 0.5rem;
     color: var(--nx-color-dark);
     height: var(--item-height);
-    gap: 0.4rem;
+    flex-shrink: 0;
     padding: 0 0.8rem;
     text-decoration: none;
 
@@ -45,7 +45,7 @@
       flex-direction: column;
       overflow: hidden;
       height: auto;
-      gap: 0.4em;
+      gap: 0.1rem;
 
       .title,
       .field>div {
@@ -55,7 +55,7 @@
       }
 
       .title {
-        font-size: 0.95rem;
+        font-size: .85rem;
       }
 
       .detail {
@@ -70,13 +70,9 @@
           flex-direction: row;
           align-items: center;
           gap: 0.1rem;
-          font-size: 0.65rem;
+          font-size: 0.6rem;
         }
       }
-    }
-
-    &::after {
-      content: '>';
     }
   }
 }

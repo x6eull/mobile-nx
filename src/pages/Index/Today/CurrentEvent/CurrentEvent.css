@@ -3,11 +3,11 @@
   white-space: nowrap;
   display: flex;
   flex-direction: column;
-  width: 12rem;
   justify-content: center;
   text-decoration: none;
   color: var(--nx-color-text);
   gap: 0.5rem;
+  flex: 0 0 9rem;
 
   * {
     max-width: 100%;
@@ -26,13 +26,13 @@
 
     .time {
       font-family: var(--nx-font-rubik);
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       font-weight: bold;
       color: var(--nx-color-dark);
     }
 
     .title {
-      font-size: 1.6rem;
+      font-size: 1.2rem;
       font-weight: bold;
     }
   }
@@ -49,10 +49,10 @@
       flex-direction: row;
       align-items: center;
       gap: 0.2rem;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
 
       &>img {
-        flex: 0 0 auto;
+        flex: 0 0 1.2rem;
       }
     }
   }

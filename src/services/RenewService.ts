@@ -7,6 +7,10 @@ import { GradeSpider } from '@/spiders/GradeSpider'
 import { XzzdSpider } from '@/spiders/XzzdSpider'
 import { toSemester } from '@/utils/stringUtils'
 import { CourseCombined, DataOrigin } from '../models/CourseCombined'
+import { kvGet, kvSet } from '@/interop/kvStore'
+import dayjs, { Dayjs } from 'dayjs'
+import { fileRead, fileWrite } from '@/interop/fileStore'
+import { nxParse, nxStringify } from '@/utils/json'
 
 /**批量获取并解析所有上游数据的服务。 */
 export class RenewService {
@@ -15,8 +19,36 @@ export class RenewService {
   gradeSpider = new GradeSpider()
   xxzdSpider = new XzzdSpider()
 
+  public courseCombined: CourseCombined[] = []
+  public lastUpdated: Dayjs | null = null
+  public renewInterval = dayjs.duration(30, 'minute').asMilliseconds()
+
+  /**如果数据已过期（超过renewInterval），则更新，否则返回已有数据 */
+  async autoRenew() {
+    if (this.lastUpdated && dayjs().diff(this.lastUpdated) < this.renewInterval)
+      return this.courseCombined
+    return await this.renewAll()
+  }
+
+  private async save() {
+    const now = dayjs()
+    this.lastUpdated = now
+    await kvSet('lastUpdated', now.toISOString())
+    await fileWrite('courseCombined.json', nxStringify(this.courseCombined)) //注意：写JSON的时候Date会格式化成字符串
+  }
+
+  async read() {
+    const kvLastUpdated = await kvGet('lastUpdated')
+    const json = await fileRead('courseCombined.json')
+    if (kvLastUpdated && json) {
+      this.courseCombined = nxParse(json) as CourseCombined[]
+      this.lastUpdated = dayjs(kvLastUpdated)
+    }
+  }
+
   /**立即重新获取所有数据并解析。若任何步骤发生致命错误将reject。 */
-  async renewAll(): Promise<CourseCombined[]> {
+  private async renewAll(): Promise<CourseCombined[]> {
+    console.log('renewAll called')
     /** 对term做按位交，合并两个Semester */
     function combineSemester(sem1: Semester, sem2: Semester): Semester {
       const { year: year1, term: term1 } = sem1,
@@ -98,6 +130,9 @@ export class RenewService {
       usage: 'sort',
       sensitivity: 'variant',
     })
-    return [...r.values()].sort((a, b) => coll.compare(a.id, b.id))
+    const result = [...r.values()].sort((a, b) => coll.compare(a.id, b.id))
+    this.courseCombined = result
+    await this.save()
+    return result
   }
 }

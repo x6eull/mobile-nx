@@ -2,13 +2,15 @@ import IconSpot from './spot.svg?react'
 import IconTime from './time.svg?react'
 import './EventList.css'
 import { TodayEvent } from '../Today'
+import { Link } from 'react-router-dom'
 
 export default function EventList({ events }: { events: TodayEvent[] }) {
   return (
     <div className='event-list'>
       {events.length ? (
         events.map((ev) => (
-          <a key={ev.id} className='item' href='/schedule'>
+          //TODO link to event detail
+          <Link key={ev.id} className='item' to='/schedule'>
             <div className='info'>
               <div className='title'>{ev.name}</div>
               <div className='detail'>
@@ -26,7 +28,7 @@ export default function EventList({ events }: { events: TodayEvent[] }) {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         ))
       ) : (
         <>无更多日程</>

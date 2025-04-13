@@ -24,8 +24,8 @@
 
 :root {
   color-scheme: only light;
-  font-family: 'OPPO Sans';
-  --ion-font-family: 'OPPO Sans';
+  /* font-family: 'OPPO Sans', sans-serif, ui-sans-serif, system-ui;
+  --ion-font-family: 'OPPO Sans', sans-serif, ui-sans-serif, system-ui; */
   --ion-background-color: var(--nx-color-background);
 
   * {

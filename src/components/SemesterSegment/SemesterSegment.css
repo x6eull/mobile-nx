@@ -4,10 +4,6 @@
   background-color: var(--nx-color-dark);
 
   .segment {
-    &::part(indicator) {
-      display: none;
-    }
-
     .button {
       --background: var(--nx-color-dark);
       --background-checked: #fff;

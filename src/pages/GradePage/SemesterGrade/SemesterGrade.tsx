@@ -9,10 +9,10 @@ export default function SemesterGrade({
   gpaYear,
   courses,
 }: {
-  credits: string
-  gpa: string
-  creditsYear: string
-  gpaYear: string
+  credits: number
+  gpa: number
+  creditsYear: number
+  gpaYear: number
   courses: (CourseBase & CourseGradeInfo)[]
 }) {
   return (
@@ -20,32 +20,30 @@ export default function SemesterGrade({
       <div className='summary'>
         <div className='field'>
           <div className='label'>学期学分</div>
-          <div className='value'>{credits}</div>
+          <div className='value'>{credits.toFixed(1)}</div>
         </div>
         <div className='field'>
           <div className='label'>学期均绩</div>
-          <div className='value'>{gpa}</div>
+          <div className='value'>{gpa.toFixed(2)}</div>
         </div>
         <div className='field'>
           <div className='label'>学年学分</div>
-          <div className='value'>{creditsYear}</div>
+          <div className='value'>{creditsYear.toFixed(1)}</div>
         </div>
         <div className='field'>
           <div className='label'>学年均绩</div>
-          <div className='value'>{gpaYear}</div>
+          <div className='value'>{gpaYear.toFixed(2)}</div>
         </div>
       </div>
       <div className='course-list'>
         {courses.map((course) => (
           <div key={course.id} className='item'>
-            <div className='header'>
-              <div className='info'>
-                <div className='name'>{course.name}</div>
-                <div className='credits'>{course.credit} 学分</div>
-              </div>
-              <div className='course-score'>
-                {course.rawScore} / {course.rawGradePoint}
-              </div>
+            <div className='info'>
+              <div className='name'>{course.name}</div>
+              <div className='credits'>{course.credit} 学分</div>
+            </div>
+            <div className='score'>
+              {course.rawScore} / {course.rawGradePoint}
             </div>
           </div>
         ))}
