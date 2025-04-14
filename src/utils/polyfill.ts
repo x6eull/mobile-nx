@@ -1,4 +1,5 @@
 /**polyfill部分常见的缺失实现。 */
+import 'core-js/actual/iterator'
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 Response.json ??= (data, options) => {

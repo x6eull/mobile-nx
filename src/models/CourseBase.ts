@@ -1,4 +1,4 @@
-import { Semester } from './shared'
+import { Semester } from './Semester'
 
 /**课程最基础的识别信息。选课课号为唯一标识符。
  *

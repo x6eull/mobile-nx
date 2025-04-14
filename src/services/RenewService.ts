@@ -1,6 +1,7 @@
 import { CourseBase } from '@/models/CourseBase'
 import { CourseTodoInfo } from '@/models/CourseTodoInfo'
-import { Semester, Term } from '@/models/shared'
+import { Term } from '@/models/Semester'
+import { Semester } from '@/models/Semester'
 import { CourseSpider } from '@/spiders/CourseSpider'
 import { ExamSpider } from '@/spiders/ExamSpider'
 import { GradeSpider } from '@/spiders/GradeSpider'

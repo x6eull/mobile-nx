@@ -9,7 +9,7 @@
     padding: .25rem;
   }
 
-  .content {
+  &>.content {
     flex: 0 1 100%;
     overflow-y: auto;
     display: flex;
@@ -64,6 +64,13 @@
           }
         }
       }
+    }
+
+    .timetable {
+      flex: 0 1 100%;
+
+      --sep-color: red;
+      --sep-size: .8rem;
     }
   }
 }

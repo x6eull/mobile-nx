@@ -58,6 +58,7 @@
   /**如果有一个非隐藏IonPage包含.no-app-nav，则隐藏主导航栏 */
   &:has(.ion-page:not(.ion-page-hidden).no-app-nav) {
     .app-nav {
+      transition: none;
       opacity: 0;
       height: 0;
     }

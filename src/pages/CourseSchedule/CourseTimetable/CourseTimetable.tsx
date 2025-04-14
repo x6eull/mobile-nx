@@ -1,14 +1,9 @@
+import Timeline from '@/components/Timeline/Timeline'
 import './CourseTimetable.css'
 import { CourseBase } from '@/models/CourseBase'
 import { CourseClassInfo } from '@/models/CourseClassInfo'
 import { toChineseDay } from '@/models/shared'
-import React from 'react'
-
-interface CourseGridProps {
-  courses: (CourseBase & CourseClassInfo)[]
-  selectedSemester: string
-  isTextVisible: boolean
-}
+import { useMemo } from 'react'
 
 const dayCount = 7
 const timeslotLabels = [
@@ -31,62 +26,72 @@ export default function CourseTimetable({
   courses,
   isTextVisible,
 }: {
-  courses: Pick<CourseBase & CourseClassInfo, 'name' | 'classes'>[]
+  courses: (CourseBase & CourseClassInfo)[]
   isTextVisible: boolean
 }) {
+  const courseEachDay = useMemo(() => {
+    const result: {
+      course: CourseBase
+      classInfo: CourseClassInfo['classes'][number]
+    }[][] = Array.from({ length: dayCount }, () => [])
+    courses.forEach((course) => {
+      course.classes.forEach((classInfo) =>
+        result[classInfo.dayOfWeek - 1].push({ course, classInfo }),
+      )
+    })
+    return result
+  }, [courses])
+
   return (
     <div className='course-timetable'>
-      <table>
-        <tr>
-          <th scope='column'></th>
-          {Array.from({ length: dayCount }, (_, i) => (
-            <th scope='column' key={i} className='day'>
-              {toChineseDay(i + 1)}
-            </th>
-          ))}
-        </tr>
-        {timeslotLabels.map((label, timeslotI) => (
-          <tr key={label}>
-            <th scope='row'>
-              <div className='label'>{label}</div>
-              <div className='order'>{timeslotI + 1}</div>
-            </th>
-            {Array.from({ length: dayCount }, (_, dayI) => {
-              const courseNow = courses.findX((course) =>
-                course.classes.find(
-                  (c) =>
-                    c.dayOfWeek === dayI + 1 &&
-                    c.startSection <= timeslotI + 1 &&
-                    c.startSection + c.sectionCount - 1 >= timeslotI + 1,
-                ),
-              )
-              if (!courseNow)
-                //空单元格
-                return <td key={dayI}></td>
-              const [course, classInfo] = courseNow
-              if (classInfo.startSection !== timeslotI + 1)
-                return <React.Fragment key={dayI}></React.Fragment>
-              return (
-                <td
-                  className={'has-class'.with(
-                    //如果每周都上 加个full类
-                    classInfo.weekType === 'every',
-                    'full',
-                  )}
-                  rowSpan={classInfo.sectionCount}
-                  key={dayI}
-                >
-                  <div className='block'>
-                    {course.name}
-                    <br />
-                    {classInfo.location}
-                  </div>
-                </td>
-              )
-            })}
-          </tr>
+      <div className='date-row'>
+        <div className='date'></div>
+        {Array.from({ length: dayCount }, (_, dayI) => (
+          <div key={dayI} className='date'>
+            {toChineseDay(dayI + 1)}
+          </div>
         ))}
-      </table>
+      </div>
+      <div className='table-body'>
+        <div className='column header'>
+          <Timeline
+            blockCount={timeslotLabels.length}
+            blocks={timeslotLabels.map((l, i) => ({
+              fromBlock: i,
+              duration: 1,
+              content: (
+                <div key={i} className='timeslot'>
+                  <div className='label'>{l}</div>
+                  <div className='order'>{i + 1}</div>
+                </div>
+              ),
+            }))}
+          />
+        </div>
+        {courseEachDay.map((courseThisDay, dayI) => (
+          <div key={dayI} className='column'>
+            <Timeline
+              blockCount={timeslotLabels.length}
+              blocks={courseThisDay.map(({ course, classInfo }) => ({
+                fromBlock: classInfo.startSection - 1,
+                duration: classInfo.sectionCount,
+                content: (
+                  <div className='course-outer'>
+                    <div className='course'>
+                      {isTextVisible && (
+                        <>
+                          <div className='name'>{course.name}</div>
+                          <div className='location'>{classInfo.location}</div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ),
+              }))}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

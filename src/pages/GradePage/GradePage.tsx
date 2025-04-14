@@ -1,10 +1,10 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { IonPage } from '@ionic/react'
 import IconGrade from './iconGrade.svg?react'
 import GradeSummary from './GradeSummary/GradeSummary'
 import SemesterGrade from './SemesterGrade/SemesterGrade'
 import './GradePage.css'
-import { termToString, toLongTerm } from '@/models/shared'
+import { Semester, toLongTerm } from '@/models/Semester'
 import Toolbar from '@/components/Toolbar/Toolbar'
 import SemesterSegment from '@/components/SemesterSegment/SemesterSegment'
 import { CourseCombinedContext } from '@/context/CourseCombinedContext'
@@ -44,10 +44,7 @@ export default function GradePage() {
         .map(([year, terms]) =>
           terms
             .keys()
-            .map((t) => ({
-              value: `${year}-${t}`,
-              label: `${year} ${termToString(t)}`,
-            }))
+            .map((t) => ({ year, term: t }) as Semester)
             .toArray(),
         )
         .toArray()
@@ -84,18 +81,10 @@ export default function GradePage() {
     ]
   }, [courseCombined])
 
-  const [currentSemester, setCurrentSemester] = useState(
-    semesterList.at(-1)?.value ?? '',
-  )
-  useEffect(() => {
-    //异步获取数据完成，如果没选中任何学期自动选最后一个
-    if (!currentSemester) setCurrentSemester(semesterList.at(-1)?.value ?? '')
-  }, [courseCombined, currentSemester, semesterList])
-  const [yearStr, termStr] = currentSemester.split('-')
-  const currentYear = Number(yearStr),
-    currentTerm = Number(termStr)
-  const currentYearMap = yearTermMap.get(currentYear),
-    currentSemesterInfo = currentYearMap?.get(currentTerm)
+  const [currentSemester, setCurrentSemester] = useState<Semester | null>(null)
+  const { year, term } = currentSemester ?? { year: 0, term: 0b1 }
+  const currentYearMap = yearTermMap.get(year),
+    currentSemesterInfo = currentYearMap?.get(term)
   const currentSemesterCredits = currentSemesterInfo?.credits ?? 0,
     currentSemesterGpa = currentSemesterInfo?.gpa ?? 0,
     currentYearCredits =

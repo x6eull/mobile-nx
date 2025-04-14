@@ -1,0 +1,36 @@
+.timeline {
+  flex: 0 1 100%;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  --real-sep-size: var(--sep-size, 0rem);
+  --height-for-sep: calc((var(--block-count) - 1) * var(--real-sep-size));
+  /**去除分割线后，单个block高度 */
+  --block-height: calc((100% - var(--height-for-sep)) / var(--block-count));
+
+  .layer {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+    &.back {
+      &>.block {
+        height: var(--block-height);
+        box-sizing: content-box;
+
+        &:not(:last-child) {
+          border-bottom: var(--real-sep-size) solid var(--sep-color);
+        }
+      }
+    }
+
+    &.content {
+      &>.block {
+        position: absolute;
+        width: 100%;
+        top: calc(var(--from-block) * var(--block-height) + var(--from-block-floored) * var(--real-sep-size));
+        height: calc(var(--duration) * var(--block-height) + var(--crossed-sep-count) * var(--real-sep-size));
+      }
+    }
+  }
+}

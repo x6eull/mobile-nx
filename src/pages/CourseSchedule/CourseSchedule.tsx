@@ -1,57 +1,54 @@
-import { useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { IonButton, IonButtons, IonPage } from '@ionic/react'
 import IconCourseSchedule from './iconCourseSchedule.svg?react'
 import IconEye from './eye.svg?react'
 import CourseTimetable from './CourseTimetable/CourseTimetable'
-import { Term } from '../../models/shared'
+import {
+  fromSemesterNumber,
+  Semester,
+  toSemesterNumber,
+  toSingleSemesters,
+} from '@/models/Semester'
 import './CourseSchedule.css'
-import { CourseBase } from '@/models/CourseBase'
-import { CourseClassInfo } from '@/models/CourseClassInfo'
 import Toolbar from '@/components/Toolbar/Toolbar'
 import SemesterSegment from '@/components/SemesterSegment/SemesterSegment'
-
-const courses: Omit<CourseBase & CourseClassInfo, 'id' | 'teacherName'>[] = [
-  {
-    semester: { year: 2024, term: Term.Autumn },
-    name: '微积分（甲）II',
-    classes: [
-      {
-        weekType: 'every',
-        dayOfWeek: 1,
-        startSection: 1,
-        sectionCount: 2,
-        location:
-          '紫金港东紫金港东紫金港东紫金港东紫金港东紫金港东紫金港东 2-201',
-      },
-
-      {
-        weekType: 'odd',
-        dayOfWeek: 3,
-        startSection: 3,
-        sectionCount: 2,
-        location: '紫金港东 2-201',
-      },
-      {
-        weekType: 'every',
-        dayOfWeek: 4,
-        startSection: 3,
-        sectionCount: 3,
-        location: '紫金港东 2-201',
-      },
-    ],
-  },
-]
-
-const semesterList = Array.from({ length: 10 }, (_, i) => ({
-  value: `${2020 + i}-${Term.Autumn}`,
-  label: `${2020 + i} ${Term[Term.Autumn]}`,
-}))
+import { CourseCombinedContext } from '@/context/CourseCombinedContext'
+import { CourseBase } from '@/models/CourseBase'
+import { CourseClassInfo } from '@/models/CourseClassInfo'
 
 export default function CourseSchedule() {
-  const [selectedSemester, setSelectedSemester] = useState(
-    semesterList[0].value,
-  )
+  //TODO 这个页面的布局还需要调整一下
+  // 特别是文本省略（能显示1行/2行/4行）的布局问题
+  const courseCombined = useContext(CourseCombinedContext)
+  const [currentSemester, setCurrentSemester] = useState<Semester | null>(null)
   const [isTextVisible, setIsTextVisible] = useState(true)
+
+  const semesterList = useMemo(
+    () =>
+      new Set(
+        courseCombined
+          .map((c) => toSingleSemesters(c.semester))
+          .flat(1)
+          .map((s) => toSemesterNumber(s)),
+      )
+        .keys()
+        .map((n) => fromSemesterNumber(n))
+        .toArray(),
+    [courseCombined],
+  )
+  const courseFiltered = useMemo(
+    () =>
+      courseCombined.filter((course) => {
+        const semester = course.semester
+        return (
+          semester.year === currentSemester?.year &&
+          currentSemester?.term & semester.term &&
+          'classes' in course
+        )
+      }),
+    [courseCombined, currentSemester],
+  ) as (CourseBase & CourseClassInfo)[]
+  console.log(courseFiltered)
 
   return (
     <IonPage className='course-schedule no-app-nav'>
@@ -62,13 +59,13 @@ export default function CourseSchedule() {
       <div className='content'>
         <div className='conclusion'>
           <div className='info'>
-            <div className='field'>
+            {/* <div className='field'>
               <div className='label'>学期学分</div>
               <div className='value'>30.0</div>
-            </div>
+            </div> */}
             <div className='field'>
               <div className='label'>学期学时</div>
-              <div className='value'>32.5</div>
+              <div className='value'>0.0</div>
             </div>
           </div>
           <IonButtons className='operations'>
@@ -80,12 +77,15 @@ export default function CourseSchedule() {
             </IonButton>
           </IonButtons>
         </div>
-        <CourseTimetable courses={courses} isTextVisible={isTextVisible} />
+        <CourseTimetable
+          courses={courseFiltered}
+          isTextVisible={isTextVisible}
+        />
       </div>
       <SemesterSegment
         items={semesterList}
-        value={selectedSemester}
-        onChange={setSelectedSemester}
+        value={currentSemester}
+        onChange={setCurrentSemester}
       />
     </IonPage>
   )

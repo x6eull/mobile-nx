@@ -1,4 +1,5 @@
-import { DayOfWeek, Term, WeekType } from '../models/shared'
+import { DayOfWeek, WeekType } from '../models/shared'
+import { Term } from '@/models/Semester'
 import { CourseBase } from '../models/CourseBase'
 import { ClassArrangement, CourseClassInfo } from '@/models/CourseClassInfo'
 import { parseCourseSelectionId } from '@/utils/stringUtils'
@@ -111,7 +112,10 @@ export class CourseSpider {
         //示例：第1、2、4节有课，位域应为0b10110（最低位保留）
         return prevSections
       }
-      locMap.ensure(location, mergeSection, mergeSection)
+      locMap.ensure(location, mergeSection, (v) =>
+        // 必须显式set一次 v是原始值 不是引用
+        locMap.set(location, mergeSection(v)),
+      )
     })
     return [...weekMap]
       .map(([week, dayMap]) =>

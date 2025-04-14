@@ -1,6 +1,6 @@
 /**处理某些固定格式的字符串。 */
 
-import { Semester, Term } from '@/models/shared'
+import { Semester, Term } from '@/models/Semester'
 
 export type CourseSelectionIdFields = {
   yearStart: number

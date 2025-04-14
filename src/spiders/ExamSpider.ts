@@ -49,14 +49,9 @@ export class ExamSpider {
 
     return items.map((item) => {
       const selectionId = item.xkkh
-      const course = {
-        semester: toSemester(selectionId),
-        id: selectionId,
-        name: item.kcmc,
-        exams: [] as ExamArrangement[],
-      }
+      const exams = [] as ExamArrangement[]
       if ('qzkssj' in item)
-        course.exams.push({
+        exams.push({
           type: 'midterm',
           ...parseZdbkDate(item.qzkssj),
           location: item.qzjsmc,
@@ -64,13 +59,18 @@ export class ExamSpider {
         })
       if ('kssj' in item)
         //有时候期末考试也不存在
-        course.exams.push({
+        exams.push({
           type: 'final',
           ...parseZdbkDate(item.kssj),
           location: item.jsmc,
           seat: item.zwxh,
         })
-      return course
+      return {
+        semester: toSemester(selectionId),
+        id: selectionId,
+        name: item.kcmc,
+        exams,
+      }
     })
   }
 }
