@@ -1,0 +1,30 @@
+.profile-content {
+  --background:  linear-gradient(180deg, #57CDC8 0%, #EDFFFB 36.4%, #FAFAFA 73.4%, #FAFAFA 100%);
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}
+
+.logout-button {
+  margin: 24px 16px;
+  --border-color: #BDBDBD;
+  --color:black ;
+  --border-width: 1px;
+  --border-style: solid;
+  --background: #FFF6F7;
+  --border-radius: 8px;
+  height: 36px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 30%;
+
+
+}
+.logout-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+}
+

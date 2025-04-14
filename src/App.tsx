@@ -45,6 +45,7 @@ import '@ionic/react/css/display.css'
 
 /* Theme variables */
 import './App.css'
+import Profile from './pages/mypage/Profile'
 
 setupIonicReact()
 
@@ -64,7 +65,8 @@ export default function App() {
               <IonPage>todo</IonPage>
             </Route>
             <Route exact path='/mine'>
-              <IonPage>todo</IonPage>
+              {/* <IonPage>todo</IonPage> */}
+              <Profile />
             </Route>
           </IonRouterOutlet>
           <IonTabBar className='app-nav' slot='bottom'>

@@ -1,0 +1,26 @@
+.terms-checkbox {
+  /* --padding-start: 16px;
+  --padding-end: 16px; */
+  --min-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 80%;
+  max-width: 400px;
+  /* width: 80%; */
+  /* margin-left: 140px; */
+  padding-left: 38px;
+}
+
+.terms-checkbox .terms-link {
+  color: var(--ion-color-primary);
+  text-decoration: none;
+  /* margin-left: 4px; */
+}
+
+.terms-checkbox ion-checkbox {
+  --size: 20px;
+  margin-right: 8px;
+}
