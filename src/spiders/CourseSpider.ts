@@ -1,7 +1,7 @@
-import { DayOfWeek, WeekType } from '../models/shared'
+import { DayOfWeek } from '../models/shared'
 import { Term } from '@/models/Semester'
 import { CourseBase } from '../models/CourseBase'
-import { ClassArrangement, CourseClassInfo } from '@/models/CourseClassInfo'
+import { CourseClassInfo, mergeClasses } from '@/models/CourseClassInfo'
 import { parseCourseSelectionId } from '@/utils/stringUtils'
 import { sharedZjuamService } from './sharedZjuamService'
 
@@ -90,71 +90,7 @@ export class CourseSpider {
     }
     return [...cMap.values()].map((courses) => ({
       ...courses[0], // 首项必定存在，课程名称、教师等均取自首项
-      classes: this.mergeClasses(courses.map((c) => c.classes).flat(1)),
+      classes: mergeClasses(courses.map((c) => c.classes).flat(1)),
     }))
-  }
-
-  /**
-   * 合并课程安排。
-   * 对于地点、周数完全相同的，合并至上课节数不相交，连续的节数也合并为一项；
-   * 地点/周数不一样的不合并。
-   */
-  private mergeClasses(classes: ClassArrangement[]): ClassArrangement[] {
-    const weekMap = new Map<WeekType, Map<DayOfWeek, Map<string, number>>>()
-    classes.forEach((c) => {
-      const { weekType, dayOfWeek, location, startSection, sectionCount } = c
-      const dayMap = weekMap.ensure(weekType, () => new Map())
-      const locMap = dayMap.ensure(dayOfWeek, () => new Map())
-      /**把已有的位域（默认0）和当前的startSection、sectionCount段进行合并 */
-      function mergeSection(prevSections = 0) {
-        for (let sec = startSection; sec < startSection + sectionCount; sec++)
-          prevSections |= 0b1 << sec
-        //示例：第1、2、4节有课，位域应为0b10110（最低位保留）
-        return prevSections
-      }
-      locMap.ensure(location, mergeSection, (v) =>
-        // 必须显式set一次 v是原始值 不是引用
-        locMap.set(location, mergeSection(v)),
-      )
-    })
-    return [...weekMap]
-      .map(([week, dayMap]) =>
-        [...dayMap].map(([day, locMap]) =>
-          [...locMap].map(([loc, secFlags]) => {
-            const sections = [] as ClassArrangement[]
-            secFlags >>= 1 //最低位保留，右移掉以减少一次循环
-            let curSec = 1,
-              startSec = 0,
-              secCount = 0
-            /**把当前的startSec、secCount以及其它变量合成为ClassArrangement并加到数组中 */
-            function finishCurSection() {
-              sections.push({
-                weekType: week,
-                dayOfWeek: day,
-                location: loc,
-                startSection: startSec,
-                sectionCount: secCount,
-              })
-            }
-            while (secFlags !== 0) {
-              const curSecValid = Boolean(secFlags & 0b1)
-              if (curSecValid) {
-                //当前sec有课
-                if (startSec === 0) startSec = curSec
-                secCount++
-              } else if (startSec !== 0) {
-                finishCurSection()
-                startSec = 0
-                secCount = 0
-              }
-              secFlags >>= 1
-              curSec++
-            }
-            if (startSec !== 0) finishCurSection()
-            return sections
-          }),
-        ),
-      )
-      .flat(3)
   }
 }

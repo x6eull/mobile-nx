@@ -9,7 +9,7 @@ const apiMetadataKey = Symbol('APIMetadata')
 type WithAPIMetadata = { [apiMetadataKey]: APIMetatdata }
 type APIMetatdata = { version: string; schema: z.ZodType }
 
-/**标记一个类的方法是暴露的插件API。调用此函数会返回一个stage3装饰器。 */
+/**标记一个类的方法是暴露给插件的API。**调用**此函数会返回一个stage3装饰器。 */
 function exposedAPI<V extends string>(version: V, schema: z.ZodType) {
   return function <
     This,

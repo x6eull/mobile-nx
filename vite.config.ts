@@ -37,6 +37,7 @@ export default defineConfig(() => ({
     svgr(), // 部分svg改色 要直接放DOM元素
     reactSwc({
       useAtYourOwnRisk_mutateSwcOptions(options) {
+        // extensionAPI用了ES decorator
         options.jsc!.parser!.decorators = true
         options.jsc!.transform!.decoratorVersion = '2022-03'
       },
