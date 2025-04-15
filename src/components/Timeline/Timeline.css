@@ -3,10 +3,12 @@
   height: 100%;
   width: 100%;
   position: relative;
-  --real-sep-size: var(--sep-size, 0rem);
-  --height-for-sep: calc((var(--block-count) - 1) * var(--real-sep-size));
+  --real-sep-size: var(--sep-size, 0px);
   /**去除分割线后，单个block高度 */
-  --block-height: calc((100% - var(--height-for-sep)) / var(--block-count));
+  --block-height: calc(
+    (100% - (var(--block-count) - 1) * var(--real-sep-size)) /
+      var(--block-count)
+  );
 
   .layer {
     height: 100%;
@@ -14,12 +16,23 @@
     position: absolute;
 
     &.back {
-      & > .block {
-        height: var(--block-height);
-        box-sizing: content-box;
+      display: flex;
+      flex-direction: column;
+      gap: var(--real-sep-size);
 
-        &:not(:last-child) {
-          border-bottom: var(--real-sep-size) solid var(--sep-color);
+      & > .block {
+        position: relative;
+        height: var(--block-height);
+
+        /**不能用border。border实际大小会受dpr影响，导致布局偏差*/
+        &:not(:last-child)::after {
+          content: ' ';
+          display: block;
+          width: 100%;
+          position: absolute;
+          top: 100%;
+          height: var(--real-sep-size);
+          background-color: var(--sep-color);
         }
       }
     }

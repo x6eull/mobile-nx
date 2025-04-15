@@ -77,7 +77,12 @@ export default function CourseTimetable({
                 duration: classInfo.sectionCount,
                 content: (
                   <div className='course-outer'>
-                    <div className='course'>
+                    <div
+                      className={'course'.with(
+                        classInfo.weekType === 'every',
+                        'full',
+                      )}
+                    >
                       {isTextVisible && (
                         <>
                           <div className='name'>{course.name}</div>

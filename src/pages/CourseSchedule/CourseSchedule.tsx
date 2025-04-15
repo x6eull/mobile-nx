@@ -48,7 +48,6 @@ export default function CourseSchedule() {
       }),
     [courseCombined, currentSemester],
   ) as (CourseBase & CourseClassInfo)[]
-  console.log(courseFiltered)
 
   return (
     <IonPage className='course-schedule no-app-nav'>

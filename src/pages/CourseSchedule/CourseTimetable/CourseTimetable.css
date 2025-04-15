@@ -32,8 +32,8 @@
       flex: 0 1 100%;
 
       &:not(.header) {
-        --sep-color: #f0f0f0;
-        --sep-size: 1px;
+        --sep-color: #eeeeee;
+        --sep-size: calc(1rem / 16 * 1.5);
 
         &:not(:last-of-type) {
           border-right: var(--sep-size) solid var(--sep-color);
@@ -65,8 +65,6 @@
         .course {
           text-align: center;
           height: 100%;
-          background-color: var(--nx-color-dark);
-          color: white;
           font-size: 0.6rem;
           padding: 0.5rem 0.1rem;
           display: flex;
@@ -75,6 +73,14 @@
           overflow: hidden;
           container: course-container / size;
           border-radius: 0.3rem;
+          background-color: #e8ebf6;
+          color: var(--nx-color-dark);
+
+          &.full {
+            background-color: var(--nx-color-dark);
+            color: white;
+            opacity: 1;
+          }
 
           .name,
           .location {
