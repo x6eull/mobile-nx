@@ -14,7 +14,7 @@
     position: absolute;
 
     &.back {
-      &>.block {
+      & > .block {
         height: var(--block-height);
         box-sizing: content-box;
 
@@ -25,11 +25,17 @@
     }
 
     &.content {
-      &>.block {
+      & > .block {
         position: absolute;
         width: 100%;
-        top: calc(var(--from-block) * var(--block-height) + var(--from-block-floored) * var(--real-sep-size));
-        height: calc(var(--duration) * var(--block-height) + var(--crossed-sep-count) * var(--real-sep-size));
+        top: calc(
+          var(--from-block) * var(--block-height) + var(--from-block-floored) *
+            var(--real-sep-size)
+        );
+        height: calc(
+          var(--duration) * var(--block-height) + var(--crossed-sep-count) *
+            var(--real-sep-size)
+        );
       }
     }
   }

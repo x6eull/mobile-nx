@@ -5,9 +5,9 @@
   max-height: 100%;
 
   .icon-grade {
-    color: #E06969;
-    background-color: #E069691a;
-    border-radius: .25rem;
-    padding: .25rem;
+    color: #e06969;
+    background-color: #e069691a;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
   }
 }

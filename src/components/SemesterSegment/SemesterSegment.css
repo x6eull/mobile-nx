@@ -1,6 +1,6 @@
 .semester-segment-container {
   flex: 0 0;
-  padding-bottom: .5rem;
+  padding-bottom: 0.5rem;
   background-color: var(--nx-color-dark);
 
   .segment {
@@ -11,7 +11,7 @@
       --color: #fff;
       --color-checked: var(--nx-color-dark);
       --indicator-color: transparent;
-      --border-radius: 0 0 .75rem .75rem;
+      --border-radius: 0 0 0.75rem 0.75rem;
 
       &:first-child {
         margin-left: 1rem;

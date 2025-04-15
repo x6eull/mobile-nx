@@ -65,7 +65,7 @@
   }
 
   .app-nav {
-    transition: opacity .2s ease-out;
+    transition: opacity 0.2s ease-out;
 
     ion-tab-button {
       --color: var(--nx-color-unselected);

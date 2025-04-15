@@ -3,10 +3,10 @@
   flex-direction: column;
   border-radius: 0.8rem;
   background: var(--card-background);
-  --card-padding-horizontal: .8rem;
+  --card-padding-horizontal: 0.8rem;
   --card-padding-vertical: 0.6rem;
 
-  &>.head {
+  & > .head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -21,7 +21,7 @@
       font-size: 1.25rem;
       font-weight: bold;
 
-      &>.card-icon {
+      & > .card-icon {
         border-radius: 0.5rem;
         padding: 0.1875rem;
       }

@@ -17,7 +17,7 @@
       justify-content: center;
       align-items: center;
       font-weight: bold;
-      font-size: .8rem;
+      font-size: 0.8rem;
     }
   }
 
@@ -28,11 +28,8 @@
     /**出滚动条的时候也不用考虑在这个尺寸下布局了*/
     overflow: auto;
 
-
-
     .column {
       flex: 0 1 100%;
-
 
       &:not(.header) {
         --sep-color: #f0f0f0;
@@ -49,36 +46,35 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: .1rem;
+        gap: 0.1rem;
 
         .label {
-          font-size: .6rem;
+          font-size: 0.6rem;
         }
 
         .order {
-          font-size: .8rem;
+          font-size: 0.8rem;
           font-weight: bold;
         }
       }
 
       .course-outer {
         height: 100%;
-        padding: .05rem;
+        padding: 0.05rem;
 
         .course {
           text-align: center;
           height: 100%;
           background-color: var(--nx-color-dark);
           color: white;
-          font-size: .6rem;
-          padding: .5rem .1rem;
+          font-size: 0.6rem;
+          padding: 0.5rem 0.1rem;
           display: flex;
           flex-direction: column;
           gap: 1em;
           overflow: hidden;
           container: course-container / size;
-          border-radius: .3rem;
-
+          border-radius: 0.3rem;
 
           .name,
           .location {
