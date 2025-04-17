@@ -7,23 +7,19 @@ import {
   IonToolbar,
   IonModal,
   IonButtons,
-  IonSegment,
-  IonSegmentButton,
   IonLabel,
-  IonSegmentView,
-  IonSegmentContent,
   IonInput,
   IonList,
   IonItem,
-  IonToggle,
   IonDatetime,
   IonDatetimeButton,
   IonIcon,
   IonTextarea,
 } from '@ionic/react'
-import StudyIcon from '../../svg/Study.svg'
+import StudyIcon from './svg/Study.svg'
 import { closeOutline } from 'ionicons/icons'
 
+// 课程
 export default function Study() {
   const modal = useRef<HTMLIonModalElement>(null)
   function dismiss() {
@@ -131,6 +127,9 @@ export default function Study() {
     </>
   )
 }
+
+
+
 
 
 

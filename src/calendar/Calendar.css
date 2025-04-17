@@ -28,8 +28,9 @@
     }
 
     .calendar {
+      display: flex;
       flex-flow: column;
-      height: 10rem;
+      height: 100vh;
 
       i {
         font-style: normal;
@@ -58,17 +59,25 @@
         }
       }
 
-      .week {
-        z-index: 1;
-
-        .col {
-          font-size: 14px;
-          padding: 10px 10px;
-          background-color: #c6c0ba;
-          border-bottom: 1px solid #fff;
-        }
+      .swiper {
+        width: 100%;
+        padding: 0 0 0 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
       }
     }
+  }
+}
+
+.week {
+  z-index: 1;
+
+  .col {
+    font-size: 14px;
+    padding: 10px 10px;
+    background-color: #c6c0ba;
+    border-bottom: 1px solid #fff;
   }
 }
 
@@ -85,7 +94,7 @@
   overflow-x: hidden;
 
   .col {
-    min-height: 15rem;
+    min-height: 10rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
 
