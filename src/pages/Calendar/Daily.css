@@ -1,0 +1,130 @@
+.fab-button-daily {
+  width: 3rem;
+  height: 3rem;
+  --background: #f2f2f2;
+}
+
+.schedule-modal-daily {
+  --height: auto;
+  --background: #f2f2f2;
+  --border-radius: 0.6rem;
+
+  ion-header {
+    ion-toolbar {
+      --background: #f;
+      text-align: center;
+      .bar {
+        display: flex;
+        justify-content: space-between;
+        .title {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+          div {
+            padding: 0.6rem
+          }
+        }
+
+        ion-buttons {
+          margin-right: 0.6rem;
+          .editor {
+            width: 3.2rem;
+            font-size: 1rem;
+            color: #128f9d;
+            opacity: 0.5;
+          }
+          .close {
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+
+  .content {
+    ion-label {
+      width: 3.2rem;
+    }
+
+    ion-list.md,
+    ion-list.ios {
+      background: #f2f2f2;
+      &.solid {
+        border: solid 1px #000;
+      }
+      ion-item.custom-input-item {
+        --color: #333;
+        --background: #f2f2f2;
+        ion-input {
+          --background: #f2f2f2;
+        }
+      }
+    }
+
+    ion-label.right {
+      text-align: right;
+    }
+    ion-label.left {
+      --color: #128f9d;
+      text-align: left;
+    }
+    ion-select::part(container) {
+      background: #f2f2f2;
+      padding: 0.4rem 0.6rem;
+      margin: 0.4rem;
+      border-radius: 0.6rem;
+    }
+    ion-select::part(text){
+      color: #545ca7;
+    }
+    ion-select.flip {
+      --backdrop-opacity: 0;
+      .label-text {
+        color: #000;
+      }
+      ion-select-option {
+        color: #765347;
+        background-color: #ff62f2;
+      }
+    }
+
+    ion-select.flip::part(icon) {
+      transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    ion-select.flip.select-expanded::part(icon) {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.Daily-select-interface {
+  --width: 9.4rem;
+  background: rgba(1,1,1,0);
+  ion-list {
+    ion-item {
+      --border-radius: 0.6rem;
+      margin-bottom: 0.4rem;
+      --inner-border-width: 0;
+      --border-width: 0;  
+    }
+    ion-item:nth-child(1) {
+      --background: #EAEAEA;
+      --color: #808080;
+    }
+    ion-item:nth-child(2) {
+      --background: #EDF2FF;
+      --color: #4874FA;
+    }
+    ion-item:nth-child(3) {
+      --background: #FFEFF1;
+      --color: #FF5E72;
+    }
+    ion-item:nth-child(4) {
+      --background: #FFF8E6;
+      margin-bottom: 0;
+    }
+  }
+}
