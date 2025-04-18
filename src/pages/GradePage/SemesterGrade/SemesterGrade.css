@@ -1,0 +1,79 @@
+.semester-grade {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--nx-color-background);
+  border-radius: 0.5rem 0.5rem 0 0;
+  flex: 0 1 100%;
+  overflow: hidden;
+
+  .summary {
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+
+    .field {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+
+      .label {
+        font-size: 0.8em;
+      }
+
+      .value {
+        color: var(--nx-color-dark);
+        font-size: 1.5em;
+        font-weight: bold;
+        font-family: var(--nx-font-rubik);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 0 1 100%;
+    overflow: scroll;
+    padding: 0 1rem;
+
+    .item {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 0.8rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+
+      .info {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: center;
+
+        .name {
+          font-size: 0.95em;
+          color: var(--nx-color-dark);
+        }
+
+        .credits {
+          flex: 0 0 auto;
+          font-size: 0.85em;
+          color: var(--ion-color-medium);
+        }
+      }
+
+      .score {
+        flex: 0 0 auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.index-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  .date {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.2em;
+  }
+
+  .weather {
+    line-height: 1.2em;
+  }
+}

@@ -3,6 +3,8 @@ import {
   IonApp,
   IonIcon,
   IonLabel,
+  IonPage,
+  IonRouterLink,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -10,10 +12,10 @@ import {
   setupIonicReact,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import { ellipse, square, triangle } from 'ionicons/icons'
-import Tab1 from './pages/Tab1'
-import Tab2 from './pages/Tab2'
-import Tab3 from './pages/Tab3'
+import Index from './pages/Index/Index'
+import index from './navIcon/index.svg'
+import schedule from './navIcon/schedule.svg'
+import mine from './navIcon/mine.svg'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -40,48 +42,97 @@ import '@ionic/react/css/display.css'
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css'
+// import '@ionic/react/css/palettes/dark.system.css'
 
-/* Theme variables */
-import './theme/variables.css'
+/* Global stylesheets and theme variables */
+import './App.css'
+import GradePage from './pages/GradePage/GradePage'
+import CourseSchedule from './pages/CourseSchedule/CourseSchedule'
+import { useEffect, useMemo, useState } from 'react'
+import { RenewService } from './services/RenewService'
+import { CourseCombinedContext } from './context/CourseCombinedContext'
+import { LastUpdatedContext } from './context/LastUpdatedContext'
 
-setupIonicReact()
+setupIonicReact({ mode: 'md' })
 
 export default function App() {
+  const renewService = useMemo(() => new RenewService(), [])
+  useEffect(() => {
+    void renewService
+      .read()
+      .then(() => renewService.autoRenew())
+      .then(setCourseCombined)
+  }, [renewService])
+  const [courseCombined, setCourseCombined] = useState(
+    renewService.courseCombined,
+  )
+
   return (
     <IonApp>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route exact path="/tab1">
-              <Tab1 />
-            </Route>
-            <Route exact path="/tab2">
-              <Tab2 />
-            </Route>
-            <Route exact path="/tab3">
-              <Tab3 />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/tab1" />
-            </Route>
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/tab1">
-              <IonIcon icon={triangle} />
-              <IonLabel>Tab 1</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
-              <IonIcon icon={ellipse} />
-              <IonLabel>Tab 2</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab3" href="/tab3">
-              <IonIcon icon={square} />
-              <IonLabel>Tab 3</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
+      <CourseCombinedContext.Provider value={courseCombined}>
+        <LastUpdatedContext.Provider value={renewService.lastUpdated}>
+          <AppRouter />
+        </LastUpdatedContext.Provider>
+      </CourseCombinedContext.Provider>
     </IonApp>
+  )
+}
+
+function AppRouter() {
+  return (
+    <IonReactRouter>
+      <IonTabs>
+        <IonRouterOutlet animated>
+          <Route exact path='/'>
+            <Redirect to='/index' />
+          </Route>
+          <Route exact path='/index'>
+            <Index />
+          </Route>
+          <Route exact path='/schedule'>
+            <IonPage>todo</IonPage>
+          </Route>
+          <Route exact path='/mine'>
+            <IonPage>
+              <IonRouterLink routerDirection='forward' routerLink='/grade'>
+                grade
+              </IonRouterLink>
+              <IonRouterLink
+                routerDirection='forward'
+                routerLink='/courseSchedule'
+              >
+                courseSchedule
+              </IonRouterLink>
+            </IonPage>
+          </Route>
+          <Route exact path='/grade'>
+            <GradePage />
+          </Route>
+          <Route exact path='/courseSchedule'>
+            <CourseSchedule />
+          </Route>
+        </IonRouterOutlet>
+        <AppNav />
+      </IonTabs>
+    </IonReactRouter>
+  )
+}
+
+function AppNav() {
+  return (
+    <IonTabBar className='app-nav' slot='bottom'>
+      <IonTabButton tab='index' href='/index'>
+        <IonIcon aria-hidden='true' icon={index} />
+        <IonLabel>主页</IonLabel>
+      </IonTabButton>
+      <IonTabButton tab='schedule' href='/schedule'>
+        <IonIcon aria-hidden='true' icon={schedule} />
+        <IonLabel>日程</IonLabel>
+      </IonTabButton>
+      <IonTabButton tab='mine' href='/mine'>
+        <IonIcon aria-hidden='true' icon={mine} />
+        <IonLabel>我的</IonLabel>
+      </IonTabButton>
+    </IonTabBar>
   )
 }

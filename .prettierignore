@@ -1,16 +1,23 @@
-node_modules
+# dependencies
+node_modules/
+
+# build output
+.tsbuildinfo
+dist/
+ship/
 
 # native folders
 android
 ios
 
-# npm will format theses files
+# npm will format these files
 package.json
 package-lock.json
-
-tsconfig.*
 
 *.md
 *.bat
 *.sh
+
 .*
+!.github/
+!.vscode/

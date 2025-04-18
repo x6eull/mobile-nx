@@ -1,0 +1,76 @@
+.course-schedule {
+  display: flex;
+  flex-direction: column;
+
+  .icon-course-schedule {
+    color: #4299e1;
+    background-color: #e9ebf3;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+  }
+
+  & > .content {
+    flex: 0 1 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .conclusion {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 1.2rem;
+
+      .info {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+        .field {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          .label {
+            color: var(--nx-color-text-secondary);
+            font-size: 0.8rem;
+          }
+
+          .value {
+            font-size: 2rem;
+            color: var(--nx-color-dark);
+            font-family: var(--nx-font-rubik);
+          }
+        }
+      }
+
+      .operations {
+        gap: 0.4rem;
+
+        .button {
+          --border-radius: 0.75rem;
+          --button-padding: 0.5rem;
+          --padding-top: var(--button-padding);
+          --padding-bottom: var(--button-padding);
+          --padding-start: var(--button-padding);
+          --padding-end: var(--button-padding);
+
+          --background: #6a8fff1a;
+          --color: var(--nx-color-dark);
+
+          &.primary {
+            --background: var(--nx-color-dark);
+            --color: white;
+          }
+        }
+      }
+    }
+
+    .timetable {
+      flex: 0 1 100%;
+
+      --sep-color: red;
+      --sep-size: 0.8rem;
+    }
+  }
+}

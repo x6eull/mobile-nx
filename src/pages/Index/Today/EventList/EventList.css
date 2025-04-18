@@ -1,0 +1,81 @@
+.event-list {
+  display: flex;
+  flex: 0 1 100%;
+  flex-direction: column;
+  --item-gap: 0.25rem;
+  --item-height: 3.5rem;
+  --shadow-offset: 1.5px;
+  /**最多伸展到显示几个item */
+  --max-items: 3;
+  max-height: calc(
+    var(--max-items) * var(--item-height) + var(--max-items) * var(--item-gap)
+  );
+  gap: var(--item-gap);
+  flex: 1 0;
+  /**给item阴影和滚动条（如有）留出空间 */
+  padding: 0 calc(var(--shadow-offset) + var(--scrollbar-gap, 0rem))
+    var(--item-gap) 0;
+  overflow-y: auto;
+
+  &:has(.item:nth-child(4)) {
+    --scrollbar-gap: 0.2rem;
+  }
+
+  &:not(:has(.item)) {
+    padding: 0;
+    font-size: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--nx-color-unselected);
+  }
+
+  .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 #cacaca;
+    background-color: var(--nx-color-light);
+    border-radius: 0.5rem;
+    color: var(--nx-color-dark);
+    height: var(--item-height);
+    flex-shrink: 0;
+    padding: 0 0.8rem;
+    text-decoration: none;
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: auto;
+      gap: 0.1rem;
+
+      .title,
+      .field > div {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .title {
+        font-size: 0.85rem;
+      }
+
+      .detail {
+        .field {
+          svg {
+            /**svg里用currentcolor读 */
+            color: var(--nx-color-dark);
+            flex: 0 0 auto;
+          }
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.1rem;
+          font-size: 0.6rem;
+        }
+      }
+    }
+  }
+}

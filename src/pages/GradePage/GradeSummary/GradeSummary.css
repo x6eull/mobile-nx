@@ -1,0 +1,36 @@
+.grade-summary {
+  flex: 0 0;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .summary-row {
+    display: flex;
+    text-align: center;
+
+    .field {
+      flex: 1;
+      min-width: 0;
+
+      .label {
+        font-size: 0.9rem;
+      }
+
+      .value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        font-family: var(--nx-font-rubik);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .update-time {
+    font-size: 0.8em;
+    opacity: 0.8;
+  }
+}

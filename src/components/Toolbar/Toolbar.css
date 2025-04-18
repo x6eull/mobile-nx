@@ -1,0 +1,39 @@
+.toolbar {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  --ion-background-color: white;
+
+  .info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .toolbar-icon {
+      display: block;
+      width: 1.75rem;
+    }
+
+    .title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+  }
+
+  .close-button {
+    --color: var(--nx-color-text);
+
+    --close-button-padding: 0.25rem;
+    --padding-top: var(--close-button-padding);
+    --padding-bottom: var(--close-button-padding);
+    --padding-start: var(--close-button-padding);
+    --padding-end: var(--close-button-padding);
+
+    width: 2rem;
+    height: 2rem;
+
+    &:host {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}

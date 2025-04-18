@@ -1,0 +1,75 @@
+@import url('./theme.css');
+
+@font-face {
+  font-family: 'OPPO Sans';
+  src: url('./font/OPPOSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OPPO Sans';
+  src: url('./font/OPPOSans-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  /* 给Index/Today/CurrentEvent的时间用 */
+  font-family: 'Rubik';
+  src: url('./font/Rubik-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  color-scheme: only light;
+  /* font-family: 'OPPO Sans', sans-serif, ui-sans-serif, system-ui;
+  --ion-font-family: 'OPPO Sans', sans-serif, ui-sans-serif, system-ui; */
+  --ion-background-color: var(--nx-color-background);
+
+  * {
+    line-height: 1em;
+
+    --scrollbar-size: 0.4rem;
+
+    &::-webkit-scrollbar {
+      width: var(--scrollbar-size);
+      height: var(--scrollbar-size);
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-color);
+      border-radius: calc(var(--scrollbar-size) / 2);
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    &.no-scrollbar {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  /**如果有一个非隐藏IonPage包含.no-app-nav，则隐藏主导航栏 */
+  &:has(.ion-page:not(.ion-page-hidden).no-app-nav) {
+    .app-nav {
+      transition: none;
+      opacity: 0;
+      height: 0;
+    }
+  }
+
+  .app-nav {
+    transition: opacity 0.2s ease-out;
+
+    ion-tab-button {
+      --color: var(--nx-color-unselected);
+      --color-selected: var(--nx-color-dark);
+    }
+  }
+}

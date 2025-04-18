@@ -1,0 +1,15 @@
+/* For information on how to create your own theme, please see:
+http://ionicframework.com/docs/theming/ */
+
+:root {
+  --nx-color-text: black;
+  --nx-color-text-secondary: #a6a6a6;
+  --nx-color-dark: #128f9d;
+  --nx-color-primary: #92dbd8;
+  --nx-color-light: #ecfaf4;
+  --nx-color-unselected: #c3cecb;
+  --nx-color-background: #f8f8f8;
+  --scrollbar-color: #586fc24a;
+
+  --nx-font-rubik: 'Rubik', sans-serif;
+}
