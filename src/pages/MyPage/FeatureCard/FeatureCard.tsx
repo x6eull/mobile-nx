@@ -6,9 +6,8 @@ import {
   IonCardTitle,
 } from '@ionic/react'
 import './FeatureCard.css'
-import idcard from '../assets/idcard.png'
-import grades from '../assets/grades.svg'
-import schedule from '../assets/schedule.svg'
+import grades from '../grades.svg'
+import schedule from '../schedule.svg'
 
 const FeatureCard: React.FC = () => {
   return (

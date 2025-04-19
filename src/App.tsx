@@ -45,7 +45,7 @@ import '@ionic/react/css/display.css'
 
 /* Theme variables */
 import './App.css'
-import Profile from './pages/mypage/Profile'
+import Profile from './pages/MyPage/MyPage'
 
 setupIonicReact()
 

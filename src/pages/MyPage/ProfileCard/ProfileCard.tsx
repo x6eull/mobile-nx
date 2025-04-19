@@ -1,7 +1,6 @@
 import React from 'react'
 import { IonAvatar, IonItem, IonLabel } from '@ionic/react'
 import './ProfileCard.css'
-import avatar from '../assets/avatar.png'
 const ProfileCard: React.FC = () => {
   return (
     <IonItem className="profile-card">

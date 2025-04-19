@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { IonButton, IonContent, IonModal, IonPage } from "@ionic/react";
-import "./Profile.css";
+import "./MyPage.css";
 
-import ProfileCard from "./ProfilePage/ProfileCard";
-import FeatureCard from "./ProfilePage/FeatureCard";
-import Settings from "./ProfilePage/Settings";
-import Login from "./Login";
+import ProfileCard from "./ProfileCard/ProfileCard"
+import FeatureCard from "./FeatureCard/FeatureCard";
+import Settings from "./Settings/Settings";
+import Login from "./LoginPage/LoginPage";
 
 const Profile: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
