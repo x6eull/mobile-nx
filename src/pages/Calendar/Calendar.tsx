@@ -8,6 +8,7 @@ import Viewday from './svg/Viewday.svg'
 import Viewweek from './svg/Viewweek.svg'
 import Viewtoday from './svg/Viewtoday.svg'
 import './Calendar.css'
+import Daily from './Daily'
 
 interface DateItem {
   year: number
@@ -230,94 +231,97 @@ const Calendar: React.FC = () => {
   }
 
   return (
-    <div className='scroll-calendar'>
-      <div className='container'>
-        <div className='title'>
-          <IonToolbar>
-            <IonTitle>
-              {chosenDate.getFullYear()}年 {monthZh[chosenDate.getMonth()]}月
-            </IonTitle>
-            <IonButtons collapse={true} slot='end'>
-              <IonButton className='dayview'>
-                <img src={Viewday} alt='Day view' />
-              </IonButton>
-              <IonButton className='weekview'>
-                <img src={Viewweek} alt='Week view' />
-              </IonButton>
-              <IonButton className='todayview' onClick={goToToday}>
-                <img src={Viewtoday} alt='Today view' />
-              </IonButton>
-              <IonButton
-                className='dayview'
-                onClick={() => changeDisplayMode('week')}
-              >
-                单
-              </IonButton>
-              <IonButton
-                className='todayview'
-                onClick={() => changeDisplayMode('two-weeks')}
-              >
-                双
-              </IonButton>
-              <IonButton
-                className='weekview'
-                onClick={() => changeDisplayMode('month')}
-              >
-                月
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </div>
-
-        <div className='calendar'>
-          <div className='week'>
-            <div className='wrap'>
-              {weeks.map((week, index) => (
-                <div key={index} className='col'>
-                  <i>{week}</i>
-                </div>
-              ))}
-            </div>
+    <>
+      <div className='scroll-calendar'>
+        <div className='container'>
+          <div className='title'>
+            <IonToolbar>
+              <IonTitle>
+                {chosenDate.getFullYear()}年 {monthZh[chosenDate.getMonth()]}月
+              </IonTitle>
+              <IonButtons collapse={true} slot='end'>
+                <IonButton className='dayview'>
+                  <img src={Viewday} alt='Day view' />
+                </IonButton>
+                <IonButton className='weekview'>
+                  <img src={Viewweek} alt='Week view' />
+                </IonButton>
+                <IonButton className='todayview' onClick={goToToday}>
+                  <img src={Viewtoday} alt='Today view' />
+                </IonButton>
+                <IonButton
+                  className='dayview'
+                  onClick={() => changeDisplayMode('week')}
+                >
+                  单
+                </IonButton>
+                <IonButton
+                  className='todayview'
+                  onClick={() => changeDisplayMode('two-weeks')}
+                >
+                  双
+                </IonButton>
+                <IonButton
+                  className='weekview'
+                  onClick={() => changeDisplayMode('month')}
+                >
+                  月
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
           </div>
 
-          <Swiper
-            initialSlide={1}
-            slidesPerView={1}
-            onSwiper={(swiper) => {
-              swiperRef.current = swiper
-            }}
-            onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
-            speed={300} // 控制滑动速度
-            touchRatio={1} // 触摸比例，控制滑动灵敏度
-            resistance={true} // 边缘抵抗
-            resistanceRatio={0.85} // 抵抗比例
-            className='week-swiper'
-          >
-            {weekQueue.map((week, index) => (
-              <SwiperSlide key={`week-${index}`}>
-                <div className='dates wrap'>
-                  {week.dates.map((date, dateIndex) => (
-                    <div
-                      key={dateIndex}
-                      className={`col ${date.active ? 'active-day' : ''}`}
-                    >
-                      <div className='inner'>
-                        <div
-                          className={`num din ${date.month === chosenDate.getMonth() + 1 ? 'cur' : ''}`}
-                          onClick={() => handleDateClick(date)}
-                        >
-                          {date.year}年 {date.month} 月{date.date}
+          <div className='calendar'>
+            <div className='week'>
+              <div className='wrap'>
+                {weeks.map((week, index) => (
+                  <div key={index} className='col'>
+                    <i>{week}</i>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Swiper
+              initialSlide={1}
+              slidesPerView={1}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper
+              }}
+              onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
+              speed={300} // 控制滑动速度
+              touchRatio={1} // 触摸比例，控制滑动灵敏度
+              resistance={true} // 边缘抵抗
+              resistanceRatio={0.85} // 抵抗比例
+              className='week-swiper'
+            >
+              {weekQueue.map((week, index) => (
+                <SwiperSlide key={`week-${index}`}>
+                  <div className='dates wrap'>
+                    {week.dates.map((date, dateIndex) => (
+                      <div
+                        key={dateIndex}
+                        className={`col ${date.active ? 'active-day' : ''}`}
+                      >
+                        <div className='inner'>
+                          <div
+                            className={`num din ${date.month === chosenDate.getMonth() + 1 ? 'cur' : ''}`}
+                            onClick={() => handleDateClick(date)}
+                          >
+                            {date.year}年 {date.month} 月{date.date}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                    ))}
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
       </div>
-    </div>
+      <Daily />
+    </>
   )
 }
 

@@ -22,69 +22,71 @@ import { closeOutline } from 'ionicons/icons'
 // 课程
 export default function Study() {
   const modal = useRef<HTMLIonModalElement>(null)
-  function dismiss() {
-    modal.current?.dismiss()
+  async function dismiss() {
+    await modal.current?.dismiss()
   }
   return (
     <>
       <IonButton
-        className="fab-button-study"
-        shape="round"
-        id="open-modal"
-        expand="block"
-        size="small"
+        className='fab-button-study'
+        shape='round'
+        id='open-modal'
+        expand='block'
+        size='small'
       >
-        <img src={StudyIcon} alt="Study" />
+        <img src={StudyIcon} alt='Study' />
       </IonButton>
 
       <IonModal
-        className="schedule-modal-study"
+        className='schedule-modal-study'
         ref={modal}
-        trigger="open-modal"
+        trigger='open-modal'
         initialBreakpoint={1}
         breakpoints={[0, 1]}
       >
-        <IonHeader className="ion-no-border">
+        <IonHeader className='ion-no-border'>
           <IonToolbar>
-            <div className="bar">
-              <div className="title">
-                <div className="icon-calendar">
-                  <img src={StudyIcon} alt="Study" />
+            <div className='bar'>
+              <div className='title'>
+                <div className='icon-calendar'>
+                  <img src={StudyIcon} alt='Study' />
                 </div>
-                <div className="icon-label">
+                <div className='icon-label'>
                   <IonLabel>课程</IonLabel>
                 </div>
               </div>
               <IonButtons>
-                <IonButton className="editor" size="large">
+                <IonButton className='editor' size='large'>
                   <IonLabel>编辑</IonLabel>
                 </IonButton>
                 <IonButton
-                  className="close"
-                  size="small"
-                  onClick={() => dismiss()}
+                  className='close'
+                  size='small'
+                  onClick={() => {
+                    void dismiss()
+                  }}
                 >
-                  <IonIcon icon={closeOutline} size="large"></IonIcon>
+                  <IonIcon icon={closeOutline} size='large'></IonIcon>
                 </IonButton>
               </IonButtons>
             </div>
           </IonToolbar>
         </IonHeader>
 
-        <div className="content">
-          <IonList inset={false} lines="full" mode="md">
-            <IonItem className="custom-input-item">
-              <IonInput placeholder="课程名称" mode="ios"></IonInput>
+        <div className='content'>
+          <IonList inset={false} lines='full' mode='md'>
+            <IonItem className='custom-input-item'>
+              <IonInput placeholder='课程名称' mode='ios'></IonInput>
             </IonItem>
           </IonList>
-          <IonList inset={true} lines="inset" mode="ios" className="solid">
+          <IonList inset={true} lines='inset' mode='ios' className='solid'>
             <IonItem>
-              <IonLabel className="left">时间</IonLabel>
-              <IonDatetimeButton datetime="course-time"></IonDatetimeButton>
+              <IonLabel className='left'>时间</IonLabel>
+              <IonDatetimeButton datetime='course-time'></IonDatetimeButton>
               <IonModal keepContentsMounted={true}>
                 <IonDatetime
-                  id="course-time"
-                  presentation="date-time"
+                  id='course-time'
+                  presentation='date-time'
                   formatOptions={{
                     date: {
                       month: 'long',
@@ -99,26 +101,26 @@ export default function Study() {
               </IonModal>
             </IonItem>
             <IonItem>
-              <IonLabel className="left">地点</IonLabel>
-              <IonLabel class="right">东2-201</IonLabel>
+              <IonLabel className='left'>地点</IonLabel>
+              <IonLabel class='right'>东2-201</IonLabel>
             </IonItem>
             <IonItem>
-              <IonLabel className="left">教师</IonLabel>
-              <IonLabel class="right">苏德矿</IonLabel>
+              <IonLabel className='left'>教师</IonLabel>
+              <IonLabel class='right'>苏德矿</IonLabel>
             </IonItem>
             <IonItem>
-              <IonLabel className="left">学期</IonLabel>
-              <IonLabel class="right">25年 春夏</IonLabel>
+              <IonLabel className='left'>学期</IonLabel>
+              <IonLabel class='right'>25年 春夏</IonLabel>
             </IonItem>
           </IonList>
-          <IonList inset={true} lines="inset" mode="ios" className="solid">
+          <IonList inset={true} lines='inset' mode='ios' className='solid'>
             <IonItem>
-              <IonLabel className="left">备注</IonLabel>
+              <IonLabel className='left'>备注</IonLabel>
             </IonItem>
             <IonItem>
               <IonTextarea
                 autoGrow={true}
-                placeholder="可添加成绩构成等课程说明"
+                placeholder='可添加成绩构成等课程说明'
               ></IonTextarea>
             </IonItem>
           </IonList>
@@ -127,18 +129,3 @@ export default function Study() {
     </>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
