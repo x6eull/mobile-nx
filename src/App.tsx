@@ -48,6 +48,7 @@ import '@ionic/react/css/display.css'
 import './App.css'
 import GradePage from './pages/GradePage/GradePage'
 import CourseSchedule from './pages/CourseSchedule/CourseSchedule'
+import Calendar from './pages/Calendar/Calendar'
 import { useEffect, useMemo, useState } from 'react'
 import { RenewService } from './services/RenewService'
 import { CourseCombinedContext } from './context/CourseCombinedContext'
@@ -90,7 +91,9 @@ function AppRouter() {
             <Index />
           </Route>
           <Route exact path='/schedule'>
-            <IonPage>todo</IonPage>
+            <IonPage>
+              <Calendar />
+            </IonPage>
           </Route>
           <Route exact path='/mine'>
             <IonPage>

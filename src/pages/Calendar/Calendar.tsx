@@ -8,45 +8,31 @@ import Viewday from './svg/Viewday.svg'
 import Viewweek from './svg/Viewweek.svg'
 import Viewtoday from './svg/Viewtoday.svg'
 import './Calendar.css'
-import { get } from 'http'
 
 interface DateItem {
   year: number
   month: number
   date: number
   postLists: any[]
-  holiday: object
   active: boolean
 }
 
 interface WeekData {
-  id: number // 用于标识周的相对位置
+  baseDate: Date
   dates: DateItem[]
-  startDate: Date
-  endDate: Date
 }
 
-const ScrollCalendar: React.FC = () => {
+const Calendar: React.FC = () => {
   const now = new Date()
-  const [currentDate, setCurrentDate] = useState(now)
-  const [currentMonth, setCurrentMonth] = useState(
-    new Date(now.getFullYear(), now.getMonth(), 1),
-  )
+  const [current, setCurrent] = useState(now)
 
   const [chosenDate, setChosenDate] = useState(now)
 
   const swiperRef = useRef<any>(null)
 
-  // 跟踪偏移量，用于记录用户滑动了多少周
-  const currentWeekOffsetRef = useRef<number>(0)
-  const currentMonthOffsetRef = useRef<number>(0)
-
   const [displayMode, setDisplayMode] = useState<
     'week' | 'two-weeks' | 'month'
   >('week')
-
-  // 队列 -表示当前、上一个和下一个周
-  const [weekQueue, setWeekQueue] = useState<WeekData[]>([])
 
   // Constants
   const monthZh = [
@@ -67,7 +53,7 @@ const ScrollCalendar: React.FC = () => {
 
   // 生成日期数据
   const generateQueueData = (
-    baseDate: Date,
+    base: Date,
     offset: number,
     mode: 'week' | 'two-weeks' | 'month',
   ): WeekData => {
@@ -80,33 +66,25 @@ const ScrollCalendar: React.FC = () => {
       return monday
     }
 
-    //获取周日作为结束日
-    const getWeekEnd = (date: Date) => {
-      const day = date.getDay() || 7 // 转换周日的0为7
-      const diff = 7 - day // 计算到周日的差值
-      const sunday = new Date(date)
-      sunday.setDate(date.getDate() + diff)
-      return sunday
-    }
-
-    if (displayMode === 'month') {
+    if (mode === 'month') {
       const monthStart = new Date(
-        baseDate.getFullYear(),
-        baseDate.getMonth(),
+        base.getFullYear(),
+        base.getMonth() + offset,
         1,
       )
       const monthEnd = new Date(
-        baseDate.getFullYear(),
-        baseDate.getMonth() + 1,
+        base.getFullYear(),
+        base.getMonth() + 1 + offset,
         0,
       )
 
-      // 计算偏移后的月份
-      monthStart.setMonth(monthStart.getMonth() + offset)
-      monthEnd.setMonth(monthEnd.getMonth() + offset)
+      const nextbaseDate = new Date(
+        base.getFullYear(),
+        base.getMonth() + Math.floor(offset / 2),
+        1,
+      )
 
       const queueStart = getWeekStart(monthStart)
-      const queueEnd = getWeekEnd(monthEnd)
 
       const totalDays =
         (monthStart.getDay() === 0 ? 7 : monthStart.getDay()) -
@@ -124,40 +102,39 @@ const ScrollCalendar: React.FC = () => {
           month: date.getMonth() + 1,
           date: date.getDate(),
           postLists: [],
-          holiday: {},
           active: date.toDateString() === now.toDateString(),
         })
       }
 
       return {
-        id: offset,
+        baseDate: nextbaseDate,
         dates: monthDates,
-        startDate: queueStart,
-        endDate: queueEnd,
       }
     }
 
-    const queueStart = getWeekStart(baseDate)
-    // 添加偏移
-    queueStart.setDate(
-      queueStart.getDate() + offset * (mode === 'week' ? 7 : 14),
+    const totalDays = mode === 'week' ? 7 : 14
+
+    const queueStart = getWeekStart(base)
+
+    const nextbaseDate = new Date(queueStart)
+    nextbaseDate.setDate(
+      nextbaseDate.getDate() + Math.floor((offset / 2) * totalDays),
     )
 
-    const queueDates: DateItem[] = []
+    // 添加偏移
+    queueStart.setDate(queueStart.getDate() + offset * totalDays)
 
-    const totalDays = mode === 'week' ? 7 : 14
+    const queueDates: DateItem[] = []
 
     // 生成的数据
     for (let j = 0; j < totalDays; j++) {
       const date = new Date(queueStart)
       date.setDate(queueStart.getDate() + j)
-
       queueDates.push({
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         date: date.getDate(),
         postLists: [],
-        holiday: {},
         active: date.toDateString() === now.toDateString(),
       })
     }
@@ -167,40 +144,31 @@ const ScrollCalendar: React.FC = () => {
     weekEnd.setDate(queueStart.getDate() + 6)
 
     return {
-      id: offset,
+      baseDate: nextbaseDate,
       dates: queueDates,
-      startDate: new Date(queueStart),
-      endDate: weekEnd,
     }
   }
 
   // 初始化周队列
-  const initWeekQueue = () => {
-    const currentWeek =
-      displayMode === 'month'
-        ? generateQueueData(currentMonth, 0, displayMode)
-        : generateQueueData(currentDate, 0, displayMode)
-    const prevWeek =
-      displayMode === 'month'
-        ? generateQueueData(currentMonth, -1, displayMode)
-        : generateQueueData(currentDate, -1, displayMode)
-    const nextWeek =
-      displayMode === 'month'
-        ? generateQueueData(currentMonth, 1, displayMode)
-        : generateQueueData(currentDate, 1, displayMode)
+  const initWeekQueue = (mode: 'week' | 'two-weeks' | 'month', base: Date) => {
+    const currentWeek = generateQueueData(base, 0, mode)
+    const prevWeek = generateQueueData(base, -1, mode)
+    const nextWeek = generateQueueData(base, 1, mode)
 
-    setWeekQueue([prevWeek, currentWeek, nextWeek])
-    currentWeekOffsetRef.current = 0
+    // setWeekQueue((weekQueue) => [prevWeek, currentWeek, nextWeek])
+    return [prevWeek, currentWeek, nextWeek]
   }
+
+  // 队列 -表示当前、上一个和下一个周
+  const [weekQueue, setWeekQueue] = useState<WeekData[]>(
+    initWeekQueue(displayMode, now),
+  )
 
   // 更新队列 - 向前滑动
   const updateQueueBackward = () => {
-    currentWeekOffsetRef.current -= 1
-    const newOffset =
-      displayMode === 'month'
-        ? currentMonthOffsetRef.current
-        : currentWeekOffsetRef.current - 1
-    const newPrev = generateQueueData(currentDate, -1, displayMode)
+    // currentWeekOffsetRef.current -= 1
+    // const newOffset = displayMode === 'month'  ? currentMonthOffsetRef.current : currentWeekOffsetRef.current - 1
+    const newPrev = generateQueueData(current, -2, displayMode)
 
     setWeekQueue((prev) => {
       const newQueue = [...prev]
@@ -210,24 +178,14 @@ const ScrollCalendar: React.FC = () => {
       return newQueue
     })
 
-    if (displayMode === 'month') {
-      // Update current month when in month mode
-      currentMonthOffsetRef.current -= 1
-      const newMonth = new Date(currentMonth)
-      newMonth.setMonth(newMonth.getMonth() - 1)
-      setCurrentMonth(newMonth)
-    } else {
-      setCurrentDate(newPrev.startDate)
-    }
-
-    // swiperRef.current.slideTo(1, 0)
+    setCurrent(newPrev.baseDate)
   }
 
   // 更新队列 - 向后滑动
   const updateQueueForward = () => {
-    currentWeekOffsetRef.current += 1
-    const newOffset = currentWeekOffsetRef.current + 1
-    const newNext = generateQueueData(currentDate, 1, displayMode)
+    // currentWeekOffsetRef.current += 1
+    // const newOffset = currentWeekOffsetRef.current + 1
+    const newNext = generateQueueData(current, 2, displayMode)
 
     setWeekQueue((prev) => {
       const newQueue = [...prev]
@@ -237,26 +195,20 @@ const ScrollCalendar: React.FC = () => {
       return newQueue
     })
 
-    setCurrentDate(newNext.startDate)
-
-    // swiperRef.current.slideTo(1, 0)
+    setCurrent(newNext.baseDate)
   }
 
   // 切换到今天
   const goToToday = () => {
-    setCurrentDate(now)
-    initWeekQueue()
+    setCurrent(now)
+    setWeekQueue(initWeekQueue(displayMode, now))
   }
 
   // 切换显示模式
   const changeDisplayMode = (mode: 'week' | 'two-weeks' | 'month') => {
     setDisplayMode(mode)
+    setWeekQueue(initWeekQueue(mode, current))
   }
-
-  // 初始化
-  useEffect(() => {
-    initWeekQueue()
-  })
 
   // 处理滑动结束事件
   const handleSlideChangeTransitionEnd = (swiper: any) => {
@@ -271,78 +223,38 @@ const ScrollCalendar: React.FC = () => {
     }
   }
 
-  // 渲染视图
-  const renderView = () => {
-    return (
-      <Swiper
-        initialSlide={1}
-        slidesPerView={1}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper
-        }}
-        onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
-        speed={300} // 控制滑动速度
-        touchRatio={1} // 触摸比例，控制滑动灵敏度
-        resistance={true} // 边缘抵抗
-        resistanceRatio={0.85} // 抵抗比例
-        className="week-swiper"
-      >
-        {weekQueue.map((week, index) => (
-          <SwiperSlide key={`week-${week.id}-${index}`}>
-            <div className="dates wrap">
-              {week.dates.map((date, dateIndex) => (
-                <div
-                  key={dateIndex}
-                  className={`col ${date.active ? 'active-day' : ''}`}
-                >
-                  <div className="inner">
-                    <div
-                      className={`num din ${date.month === chosenDate.getMonth() + 1 ? 'cur' : ''}`}
-                    >
-                      {date.date}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    )
-  }
-
   return (
-    <div className="scroll-calendar">
-      <div className="container">
-        <div className="title">
+    <div className='scroll-calendar'>
+      <div className='container'>
+        <div className='title'>
           <IonToolbar>
             <IonTitle>
               {chosenDate.getFullYear()}年 {monthZh[chosenDate.getMonth()]}月
             </IonTitle>
-            <IonButtons collapse={true} slot="end">
-              <IonButton className="dayview">
-                <img src={Viewday} alt="Day view" />
+            <IonButtons collapse={true} slot='end'>
+              <IonButton className='dayview'>
+                <img src={Viewday} alt='Day view' />
               </IonButton>
-              <IonButton className="weekview">
-                <img src={Viewweek} alt="Week view" />
+              <IonButton className='weekview'>
+                <img src={Viewweek} alt='Week view' />
               </IonButton>
-              <IonButton className="todayview" onClick={goToToday}>
-                <img src={Viewtoday} alt="Today view" />
+              <IonButton className='todayview' onClick={goToToday}>
+                <img src={Viewtoday} alt='Today view' />
               </IonButton>
               <IonButton
-                className="dayview"
+                className='dayview'
                 onClick={() => changeDisplayMode('week')}
               >
                 单
               </IonButton>
               <IonButton
-                className="todayview"
+                className='todayview'
                 onClick={() => changeDisplayMode('two-weeks')}
               >
                 双
               </IonButton>
               <IonButton
-                className="weekview"
+                className='weekview'
                 onClick={() => changeDisplayMode('month')}
               >
                 月
@@ -351,23 +263,55 @@ const ScrollCalendar: React.FC = () => {
           </IonToolbar>
         </div>
 
-        <div className="calendar">
-          <div className="week">
-            <div className="wrap">
+        <div className='calendar'>
+          <div className='week'>
+            <div className='wrap'>
               {weeks.map((week, index) => (
-                <div key={index} className="col">
+                <div key={index} className='col'>
                   <i>{week}</i>
                 </div>
               ))}
             </div>
           </div>
 
-          {renderView()}
+          <Swiper
+            initialSlide={1}
+            slidesPerView={1}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper
+            }}
+            onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
+            speed={300} // 控制滑动速度
+            touchRatio={1} // 触摸比例，控制滑动灵敏度
+            resistance={true} // 边缘抵抗
+            resistanceRatio={0.85} // 抵抗比例
+            className='week-swiper'
+          >
+            {weekQueue.map((week, index) => (
+              <SwiperSlide key={`week-${index}`}>
+                <div className='dates wrap'>
+                  {week.dates.map((date, dateIndex) => (
+                    <div
+                      key={dateIndex}
+                      className={`col ${date.active ? 'active-day' : ''}`}
+                    >
+                      <div className='inner'>
+                        <div
+                          className={`num din ${date.month === chosenDate.getMonth() + 1 ? 'cur' : ''}`}
+                        >
+                          {date.year}年 {date.month} 月{date.date}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </div>
   )
 }
 
-export default ScrollCalendar
-
+export default Calendar
