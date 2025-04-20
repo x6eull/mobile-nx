@@ -1,7 +1,7 @@
-'use client'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { IonToolbar, IonTitle, IonButtons, IonButton } from '@ionic/react'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import type SwiperCore from 'swiper'
 import 'swiper/css'
 
 import Viewday from './svg/Viewday.svg'
@@ -13,7 +13,6 @@ interface DateItem {
   year: number
   month: number
   date: number
-  postLists: any[]
   active: boolean
 }
 
@@ -28,7 +27,7 @@ const Calendar: React.FC = () => {
 
   const [chosenDate, setChosenDate] = useState(now)
 
-  const swiperRef = useRef<any>(null)
+  const swiperRef = useRef<SwiperCore>()
 
   const [displayMode, setDisplayMode] = useState<
     'week' | 'two-weeks' | 'month'
@@ -101,7 +100,6 @@ const Calendar: React.FC = () => {
           year: date.getFullYear(),
           month: date.getMonth() + 1,
           date: date.getDate(),
-          postLists: [],
           active: date.toDateString() === now.toDateString(),
         })
       }
@@ -134,7 +132,6 @@ const Calendar: React.FC = () => {
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         date: date.getDate(),
-        postLists: [],
         active: date.toDateString() === now.toDateString(),
       })
     }
@@ -211,16 +208,25 @@ const Calendar: React.FC = () => {
   }
 
   // 处理滑动结束事件
-  const handleSlideChangeTransitionEnd = (swiper: any) => {
+  const handleSlideChangeTransitionEnd = (swiper: SwiperCore) => {
     if (swiper.activeIndex === 0) {
       // 向前滑动
       updateQueueBackward()
-      swiperRef.current.slideTo(1, 0)
+      if (swiperRef.current) {
+        swiperRef.current.slideTo(1, 0)
+      }
     } else if (swiper.activeIndex === 2) {
       // 向后滑动
       updateQueueForward()
-      swiperRef.current.slideTo(1, 0)
+      if (swiperRef.current) {
+        swiperRef.current.slideTo(1, 0)
+      }
     }
+  }
+
+  // 处理日期点击事件
+  const handleDateClick = (date: DateItem) => {
+    setChosenDate(new Date(date.year, date.month - 1, date.date))
   }
 
   return (
@@ -298,6 +304,7 @@ const Calendar: React.FC = () => {
                       <div className='inner'>
                         <div
                           className={`num din ${date.month === chosenDate.getMonth() + 1 ? 'cur' : ''}`}
+                          onClick={() => handleDateClick(date)}
                         >
                           {date.year}年 {date.month} 月{date.date}
                         </div>
