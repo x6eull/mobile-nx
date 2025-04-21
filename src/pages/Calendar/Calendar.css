@@ -32,8 +32,19 @@
       flex-flow: column;
       height: 100vh;
 
-      i {
-        font-style: normal;
+      .week {
+        z-index: 1;
+
+        .col {
+          font-size: 14px;
+          padding: 10px 10px;
+          background-color: #c6c0ba;
+          border-bottom: 1px solid #fff;
+
+          i {
+            font-style: normal;
+          }
+        }
       }
 
       .wrap {
@@ -67,17 +78,6 @@
         flex-direction: column;
       }
     }
-  }
-}
-
-.week {
-  z-index: 1;
-
-  .col {
-    font-size: 14px;
-    padding: 10px 10px;
-    background-color: #c6c0ba;
-    border-bottom: 1px solid #fff;
   }
 }
 

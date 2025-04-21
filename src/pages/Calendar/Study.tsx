@@ -16,7 +16,7 @@ import {
   IonIcon,
   IonTextarea,
 } from '@ionic/react'
-import StudyIcon from './svg/Study.svg'
+import StudyIcon from './icon/Study.svg'
 import { closeOutline } from 'ionicons/icons'
 
 // 课程

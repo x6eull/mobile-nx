@@ -4,9 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import type SwiperCore from 'swiper'
 import 'swiper/css'
 
-import Viewday from './svg/Viewday.svg'
-import Viewweek from './svg/Viewweek.svg'
-import Viewtoday from './svg/Viewtoday.svg'
+import { Dayview, Weekview, Todayview } from './icon/icon'
 import './Calendar.css'
 import Daily from './Daily'
 
@@ -240,15 +238,9 @@ const Calendar: React.FC = () => {
                 {chosenDate.getFullYear()}年 {monthZh[chosenDate.getMonth()]}月
               </IonTitle>
               <IonButtons collapse={true} slot='end'>
-                <IonButton className='dayview'>
-                  <img src={Viewday} alt='Day view' />
-                </IonButton>
-                <IonButton className='weekview'>
-                  <img src={Viewweek} alt='Week view' />
-                </IonButton>
-                <IonButton className='todayview' onClick={goToToday}>
-                  <img src={Viewtoday} alt='Today view' />
-                </IonButton>
+                <Dayview />
+                <Weekview />
+                <Todayview onClick={goToToday} />
                 <IonButton
                   className='dayview'
                   onClick={() => changeDisplayMode('week')}
