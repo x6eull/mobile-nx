@@ -17,7 +17,7 @@ import {
   IonDatetimeButton,
   IonIcon,
 } from '@ionic/react'
-import dailyIcon from './icon/Daily.svg'
+import dailyIcon from '../icon/Daily.svg'
 import { closeOutline, chevronDownOutline } from 'ionicons/icons'
 
 // 日程
