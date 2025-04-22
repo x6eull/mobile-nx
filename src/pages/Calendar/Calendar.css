@@ -1,111 +1,81 @@
 .scroll-calendar {
   .container {
-    padding: 0 1.5rem;
-    margin: 1rem 0 0 0;
+    border-radius: 0 0 0.75rem 0.75rem;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    margin: 1rem 0 0rem 0;
+    background-color: #fff;
+    letter-spacing: -0.01875px;
 
     .title {
       padding: 2rem 0 0 0;
+      background-color: #fff;
 
-      ion-title {
-        text-align: left;
-        padding: 0;
-        margin: 0;
-        font-size: 18px;
-        font-weight: 500;
-      }
-
-      ion-buttons {
-        margin: 0;
-        ion-button {
-          margin: 0;
+      ion-toolbar {
+        --background: #fff;
+        ion-title {
+          text-align: left;
           padding: 0;
+          margin: 0;
 
-          button {
-            padding: 0;
+          font-family: 'OPPP Sans';
+          font-weight: 500;
+          font-size: 1.125rem;
+          line-height: 1.375rem;
+        }
+
+        ion-buttons {
+          ion-button {
+            margin: 0;
           }
         }
       }
     }
 
     .calendar {
+      margin: 0.6rem 0 0 0.5rem;
+      border-left: rgba(18, 143, 157, 0.1) 2px solid;
+      width: 100%;
       display: flex;
-      flex-flow: column;
-      height: 100vh;
-
-      .week {
-        z-index: 1;
-
-        .col {
-          font-size: 14px;
-          padding: 10px 10px;
-          background-color: #c6c0ba;
-          border-bottom: 1px solid #fff;
-
-          i {
-            font-style: normal;
-          }
-        }
-      }
-
-      .wrap {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      .col {
-        width: 14.285714%;
-        padding: 10px 10px;
-        box-sizing: border-box;
-        border-left: 1px solid rgba(255, 255, 255, 0.2);
-
-        &:nth-child(7n + 1),
-        &:first-child {
-          border-left: 0;
-        }
-
-        &:nth-child(7n - 1),
-        &:nth-child(7n) {
-          color: #000;
-        }
-      }
+      line-height: 1.125rem;
+      background-color: #fff;
 
       .swiper {
         width: 100%;
         padding: 0 0 0 0;
         margin: 0;
         display: flex;
-        flex-direction: column;
+        align-items: stretch;
+
+        .swiperhide {
+          display: flex;
+        }
+        .week {
+          .wrap {
+            width: 100%;
+            display: flex;
+            flex-wrap: nowrap;
+
+            .col {
+              flex: 1;
+              font-size: 0.875rem;
+              font-weight: 400;
+              text-align: center;
+              color: #128f9d;
+
+              i {
+                font-family: 'OPPP Sans';
+
+                opacity: 0.3;
+              }
+
+              .day {
+                margin: 1rem 0;
+                font-family: 'Rubik Mono One';
+              }
+            }
+          }
+        }
       }
     }
-  }
-}
-
-.dates {
-  -ms-overflow-style: none;
-  scrollbar-width: none; /* Firefox */
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  position: relative;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  .col {
-    min-height: 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .num {
-    font-size: 1rem;
-    font-weight: 900;
-    transition: opacity 0.3s;
-    opacity: 0.1;
-  }
-
-  .cur {
-    opacity: 1;
   }
 }
