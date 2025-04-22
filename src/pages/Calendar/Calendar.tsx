@@ -6,7 +6,8 @@ import 'swiper/css'
 
 import { Dayview, Weekview, Todayview } from './icon/icon'
 import './Calendar.css'
-import Daily from './Daily'
+import Daily from './components/Daily'
+import Study from './components/Study'
 
 interface DateItem {
   year: number
@@ -47,7 +48,7 @@ const Calendar: React.FC = () => {
     '十一',
     '十二',
   ]
-  const weeks = ['一', '二', '三', '四', '五', '六', '日']
+  const weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
   // 生成日期数据
   const generateQueueData = (
@@ -264,16 +265,6 @@ const Calendar: React.FC = () => {
           </div>
 
           <div className='calendar'>
-            <div className='week'>
-              <div className='wrap'>
-                {weeks.map((week, index) => (
-                  <div key={index} className='col'>
-                    <i>{week}</i>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <Swiper
               initialSlide={1}
               slidesPerView={1}
@@ -287,24 +278,33 @@ const Calendar: React.FC = () => {
               resistanceRatio={0.85} // 抵抗比例
               className='week-swiper'
             >
-              {weekQueue.map((week, index) => (
+              {weekQueue.map((queue, index) => (
                 <SwiperSlide key={`week-${index}`}>
-                  <div className='dates wrap'>
-                    {week.dates.map((date, dateIndex) => (
-                      <div
-                        key={dateIndex}
-                        className={`col ${date.active ? 'active-day' : ''}`}
-                      >
-                        <div className='inner'>
-                          <div
-                            className={`num din ${date.month === chosenDate.getMonth() + 1 ? 'cur' : ''}`}
-                            onClick={() => handleDateClick(date)}
-                          >
-                            {date.year}年 {date.month} 月{date.date}
-                          </div>
+                  <div className='week'>
+                    <div className='wrap'>
+                      {weeks.map((week, index) => (
+                        <div key={index} className='col'>
+                          <i>{week}</i>
+                          {queue.dates.map(
+                            (date, dateIndex) =>
+                              dateIndex % 7 === index &&
+                              weekQueue[1].dates.length > dateIndex && (
+                                <div
+                                  key={dateIndex}
+                                  className={`day ${date.active ? 'active-day' : ''}`}
+                                >
+                                  <div
+                                    className={`num din ${date.month === chosenDate.getMonth() + 1 ? 'cur' : ''}`}
+                                    onClick={() => handleDateClick(date)}
+                                  >
+                                    {date.date}
+                                  </div>
+                                </div>
+                              ),
+                          )}
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </SwiperSlide>
               ))}
@@ -313,6 +313,7 @@ const Calendar: React.FC = () => {
         </div>
       </div>
       <Daily />
+      <Study />
     </>
   )
 }
