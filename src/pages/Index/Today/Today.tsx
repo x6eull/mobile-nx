@@ -1,8 +1,8 @@
-import icon from './iconToday.svg'
+import IconToday from './iconToday.svg?react'
 import './Today.css'
 import CurrentEvent from './CurrentEvent/CurrentEvent'
 import EventList from './EventList/EventList'
-import Card, { IconImg } from '../Card/Card'
+import Card, { CardIcon } from '../Card/Card'
 import { useTime } from '@/utils/hooks'
 import { Dayjs } from 'dayjs'
 
@@ -20,7 +20,11 @@ export default function Today({ events }: { events: TodayEvent[] }) {
   //TODO 不显示已完成的事件
   return (
     <Card
-      icon={<IconImg bgColor='var(--nx-color-light)' src={icon} />}
+      icon={
+        <CardIcon bgColor='var(--nx-color-light)'>
+          <IconToday className='icon-today' />
+        </CardIcon>
+      }
       title='今日日程'
       linkHref='/schedule'
       // linkTitle='查看全部 >'

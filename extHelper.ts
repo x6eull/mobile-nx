@@ -6,25 +6,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type { WidgetExtensionExposedAPIs } from '@/extension/WidgetExtensionRuntime'
-import type { PackagedResponse } from '@/extension/ExtensionRuntime'
+import type { EncodedResponse } from '@/extension/ExtensionRuntime'
+
+function createProxiedObj<T extends object>(
+  target: T,
+  getFallback: (this: typeof target, target: T, prop: string | symbol) => any,
+) {
+  return new Proxy(target, {
+    get(target, prop) {
+      if (prop in target) return target[prop as keyof typeof target]
+      if (prop === 'then') return undefined // 防止成为thenable
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return getFallback.call(target, target, prop)
+    },
+  })
+}
 
 function decodeReturn(vToDecode: unknown, extNx: ExtNxType) {
   if (typeof vToDecode !== 'object' || vToDecode === null) return vToDecode
   if ('$borrowedId' in vToDecode) {
     const borrowHandle = vToDecode['$borrowedId'] as number
-    const rawHandle = { __borrowedHandleId: borrowHandle, then: undefined }
-    const handle = new Proxy(rawHandle, {
-      get(target, prop) {
-        if (prop in target || typeof prop === 'symbol')
-          return target[prop as keyof typeof target]
-        return (...args: unknown[]) =>
-          extNx.applyOnHandle(borrowHandle, prop, args)
-      },
-    })
-    return handle
+    const rawHandle = { __borrowedHandleId: borrowHandle }
+    return createProxiedObj(rawHandle, (_, prop) =>
+      typeof prop === 'string'
+        ? (...args: unknown[]) => extNx.applyOnHandle(borrowHandle, prop, args)
+        : undefined,
+    )
   }
   if ('$response' in vToDecode) {
-    const packaged = vToDecode['$response'] as PackagedResponse
+    const packaged = vToDecode['$response'] as EncodedResponse
     const resp = new Response(packaged.body, {
       headers: packaged.headers,
       status: packaged.status,
@@ -37,7 +48,7 @@ function decodeReturn(vToDecode: unknown, extNx: ExtNxType) {
 }
 
 const helperVersion = '0.1.0'
-const nxObj = { helperVersion, then: undefined } as const
+const nxObj = { helperVersion } as const
 export type ExtNxType = typeof nxObj & WidgetExtensionExposedAPIs
 function postParent(data: any) {
   return parent.postMessage(data, '*')
@@ -51,20 +62,16 @@ const traceMap = new Map<
   { resolve(data: any): void; reject(reason: any): void }
 >()
 
-const proxyedNxObj = new Proxy(nxObj, {
-  get(target, prop) {
-    if (prop in target || typeof prop === 'symbol')
-      return target[prop as keyof typeof target]
-    //尝试调用API。如果没有这个API，parent会回传错误
-    return (...args: unknown[]) => {
-      return new Promise((resolve, reject) => {
-        const traceId = newTraceId()
-        traceMap.set(traceId, { resolve, reject })
-        postParent({ traceId, call: prop, args })
-      })
-    }
+const proxiedNxObj = createProxiedObj(nxObj, (_, prop) =>
+  //尝试调用API。如果没有这个API，parent会回传错误
+  (...args: unknown[]) => {
+    return new Promise((resolve, reject) => {
+      const traceId = newTraceId()
+      traceMap.set(traceId, { resolve, reject })
+      postParent({ traceId, call: prop, args })
+    })
   },
-}) as ExtNxType
+) as ExtNxType
 
 self.addEventListener('message', ({ data, source }) => {
   if (!source || source !== parent) return
@@ -74,11 +81,11 @@ self.addEventListener('message', ({ data, source }) => {
   const pair = traceMap.get(traceId)!
 
   if (error !== undefined) pair.reject(error)
-  else pair.resolve(decodeReturn(returnValue, proxyedNxObj))
+  else pair.resolve(decodeReturn(returnValue, proxiedNxObj))
 
   traceMap.delete(traceId)
 })
 
-Reflect.defineProperty(self, 'nx', { value: proxyedNxObj })
+Reflect.defineProperty(self, 'nx', { value: proxiedNxObj })
 
-export default proxyedNxObj
+export default proxiedNxObj

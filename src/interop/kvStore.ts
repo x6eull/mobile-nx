@@ -30,7 +30,7 @@ export async function kvRemove(key: string): Promise<void> {
 
 export async function kvClear(): Promise<void> {
   if (appPlatform === 'web')
-    Array.from(new Array(localStorage.length), (_, i) =>
+    Array.from(new Array({ length: localStorage.length }), (_, i) =>
       localStorage.key(i),
     ).forEach((k) => {
       if (k?.startsWith('nx:')) localStorage.removeItem(k)

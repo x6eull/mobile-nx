@@ -1,3 +1,7 @@
+.icon-today {
+  color: #128f9d;
+}
+
 .today {
   /**事件数>=1渲染.today-body，
   否则渲染.today-emoji和.today-none */

@@ -1,7 +1,7 @@
 import { BorrowedHandle, BorrowManager } from './BorrowManager'
 import { Extension } from './Extension'
 
-export type PackagedResponse = {
+export type EncodedResponse = {
   body: string
   headers: HeadersInit
   status: number
@@ -17,7 +17,7 @@ export async function encodeReturn(vToEncode: unknown) {
         headers: [...vToEncode.headers],
         status: vToEncode.status,
         url: vToEncode.url,
-      } satisfies PackagedResponse,
+      } satisfies EncodedResponse,
     }
   }
 

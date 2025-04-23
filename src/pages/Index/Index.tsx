@@ -4,6 +4,7 @@ import Today from './Today/Today'
 import './Index.css'
 import { useTime } from '@/utils/hooks'
 import dayjs from 'dayjs'
+import BundledWidgets from '../../../widgets/BundledWidget'
 
 const tips = [
   { weather: '下雨', tip: '今日有雨，记得带伞哦！' },
@@ -17,16 +18,14 @@ const tips = [
 export default function Index() {
   const startUpDate = useTime(-1)
   // mock data
-  const events = [
-      ...Array.from({ length: 50 }, (_, i) => ({
-        id: i + 1,
-        name: `微积分-event${i + 1}`,
-        startAt: dayjs(startUpDate).add(15, 'minute'),
-        endAt: dayjs(startUpDate).add(30, 'minute'),
-        location: '紫金港东0-000(录播)',
-        description: 'desc',
-      })),
-    ],
+  const events = Array.from({ length: 50 }, (_, i) => ({
+      id: i + 1,
+      name: `微积分-event${i + 1}`,
+      startAt: dayjs(startUpDate).add(15, 'minute'),
+      endAt: dayjs(startUpDate).add(30, 'minute'),
+      location: '紫金港东0-000(录播)',
+      description: 'desc',
+    })),
     weekOfSemester = '夏1周',
     weather = '多云',
     tempMin = 4,
@@ -48,6 +47,7 @@ export default function Index() {
         />
         <div className='cards'>
           <Today events={events} />
+          <BundledWidgets />
         </div>
       </IonContent>
     </IonPage>

@@ -2,8 +2,18 @@ import { ReactNode } from 'react'
 import './Card.css'
 import { IonRouterLink } from '@ionic/react'
 
-export function IconImg({ bgColor, src }: { bgColor: string; src: string }) {
-  return <img className='card-icon' src={src} style={{ background: bgColor }} />
+export function CardIcon({
+  bgColor,
+  children,
+}: {
+  bgColor: string
+  children: ReactNode
+}) {
+  return (
+    <div className='card-icon' style={{ background: bgColor }}>
+      {children}
+    </div>
+  )
 }
 
 /** Card是首页的通用组件 */
