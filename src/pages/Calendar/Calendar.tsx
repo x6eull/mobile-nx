@@ -8,12 +8,15 @@ import { Dayview, Weekview, Todayview } from './icon/icon'
 import './Calendar.css'
 import Daily from './components/Daily'
 import Study from './components/Study'
+import Dayitem from './components/Dayitem'
 
+// TODO: 简化逻辑
 interface DateItem {
   year: number
   month: number
-  date: number
-  active: boolean
+  day: number
+  active: number // 0: 无  1: 今天
+  event: number
 }
 
 interface WeekData {
@@ -99,8 +102,9 @@ const Calendar: React.FC = () => {
         monthDates.push({
           year: date.getFullYear(),
           month: date.getMonth() + 1,
-          date: date.getDate(),
-          active: date.toDateString() === now.toDateString(),
+          day: date.getDate(),
+          active: date.toDateString() === now.toDateString() ? 1 : 0,
+          event: 1, // TODO: 获取逻辑
         })
       }
 
@@ -131,8 +135,9 @@ const Calendar: React.FC = () => {
       queueDates.push({
         year: date.getFullYear(),
         month: date.getMonth() + 1,
-        date: date.getDate(),
-        active: date.toDateString() === now.toDateString(),
+        day: date.getDate(),
+        active: date.toDateString() === now.toDateString() ? 1 : 0,
+        event: 1, // TODO: 获取逻辑
       })
     }
 
@@ -226,7 +231,7 @@ const Calendar: React.FC = () => {
 
   // 处理日期点击事件
   const handleDateClick = (date: DateItem) => {
-    setChosenDate(new Date(date.year, date.month - 1, date.date))
+    setChosenDate(new Date(date.year, date.month - 1, date.day))
   }
 
   return (
@@ -265,23 +270,26 @@ const Calendar: React.FC = () => {
           </div>
 
           <div className='calendar'>
-            <Swiper
-              initialSlide={1}
-              slidesPerView={1}
-              onSwiper={(swiper) => {
-                swiperRef.current = swiper
-              }}
-              onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
-              speed={300} // 控制滑动速度
-              touchRatio={1} // 触摸比例，控制滑动灵敏度
-              resistance={true} // 边缘抵抗
-              resistanceRatio={0.85} // 抵抗比例
-              className='week-swiper'
-            >
-              {weekQueue.map((queue, index) => (
-                <SwiperSlide key={`week-${index}`}>
-                  <div className='week'>
-                    <div className='wrap'>
+            <div className='content'>
+              <div className='calendar-left'>
+                <div className='left-line'></div>
+              </div>
+              <Swiper
+                initialSlide={1}
+                slidesPerView={1}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper
+                }}
+                onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
+                speed={300} // 控制滑动速度
+                touchRatio={1} // 触摸比例，控制滑动灵敏度
+                resistance={true} // 边缘抵抗
+                resistanceRatio={0.85} // 抵抗比例
+                className='week-swiper'
+              >
+                {weekQueue.map((queue, index) => (
+                  <SwiperSlide key={`week-${index}`}>
+                    <div className='week'>
                       {weeks.map((week, index) => (
                         <div key={index} className='col'>
                           <i>{week}</i>
@@ -291,24 +299,31 @@ const Calendar: React.FC = () => {
                               weekQueue[1].dates.length > dateIndex && (
                                 <div
                                   key={dateIndex}
-                                  className={`day ${date.active ? 'active-day' : ''}`}
+                                  onClick={() => handleDateClick(date)}
+                                  className='items'
                                 >
-                                  <div
-                                    className={`num din ${date.month === chosenDate.getMonth() + 1 ? 'cur' : ''}`}
-                                    onClick={() => handleDateClick(date)}
-                                  >
-                                    {date.date}
-                                  </div>
+                                  <Dayitem
+                                    date={date}
+                                    chosen={
+                                      date.year === chosenDate.getFullYear() &&
+                                      date.month ===
+                                        chosenDate.getMonth() + 1 &&
+                                      date.day === chosenDate.getDate()
+                                    }
+                                  />
                                 </div>
                               ),
                           )}
                         </div>
                       ))}
                     </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+            <div className='bottom'>
+              <div className='bottom-line'></div>
+            </div>
           </div>
         </div>
       </div>

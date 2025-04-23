@@ -1,21 +1,21 @@
 .scroll-calendar {
   .container {
     border-radius: 0 0 0.75rem 0.75rem;
-    padding: 0 1.5rem 1.5rem 1.5rem;
-    margin: 1rem 0 0rem 0;
+    padding: 0 1.25rem;
     background-color: #fff;
     letter-spacing: -0.01875px;
+    justify-content: center;
 
     .title {
-      padding: 2rem 0 0 0;
+      padding: 1rem 0;
       background-color: #fff;
+      justify-content: space-between;
 
       ion-toolbar {
         --background: #fff;
         ion-title {
           text-align: left;
           padding: 0;
-          margin: 0;
 
           font-family: 'OPPP Sans';
           font-weight: 500;
@@ -24,56 +24,76 @@
         }
 
         ion-buttons {
+          gap: 0.5rem;
           ion-button {
             margin: 0;
+            --padding-top: 0;
+            --padding-bottom: 0;
+            --padding-start: 0;
+            --padding-end: 0;
           }
         }
       }
     }
 
     .calendar {
-      margin: 0.6rem 0 0 0.5rem;
-      border-left: rgba(18, 143, 157, 0.1) 2px solid;
-      width: 100%;
-      display: flex;
-      line-height: 1.125rem;
-      background-color: #fff;
-
-      .swiper {
-        width: 100%;
-        padding: 0 0 0 0;
-        margin: 0;
+      padding-bottom: 0.3125rem;
+      .content {
         display: flex;
-        align-items: stretch;
+        position: relative;
+        line-height: 1.125rem;
+        background-color: #fff;
 
-        .swiperhide {
-          display: flex;
-        }
-        .week {
-          .wrap {
-            width: 100%;
+        .swiper {
+          .week {
             display: flex;
             flex-wrap: nowrap;
+            justify-content: space-around;
 
             .col {
-              flex: 1;
               font-size: 0.875rem;
               font-weight: 400;
               text-align: center;
               color: #128f9d;
 
               i {
+                font-style: normal;
                 font-family: 'OPPP Sans';
 
                 opacity: 0.3;
               }
 
-              .day {
-                margin: 1rem 0;
-                font-family: 'Rubik Mono One';
+              .items {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
               }
             }
           }
+        }
+
+        .calendar-left {
+          margin-right: 1rem;
+          padding: 0 0.125rem;
+          display: flex;
+          gap: 1rem;
+
+          .left-line {
+            height: 100%;
+            border: rgba(18, 143, 157, 0.1) 2px solid;
+          }
+        }
+      }
+
+      .bottom {
+        display: flex;
+        justify-content: center;
+        opacity: 0.1;
+        .bottom-line {
+          width: 2.5rem;
+          height: 0.25rem;
+          background-color: #128f9d;
+          border-radius: 0.125rem;
         }
       }
     }
