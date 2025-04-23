@@ -6,9 +6,8 @@ import 'swiper/css'
 
 import { Dayview, Weekview, Todayview } from './icon/icon'
 import './Calendar.css'
-import Daily from './components/Daily'
-import Study from './components/Study'
 import Dayitem from './components/Dayitem'
+import Events from './components/Events'
 
 // TODO: 简化逻辑
 interface DateItem {
@@ -236,7 +235,7 @@ const Calendar: React.FC = () => {
 
   return (
     <>
-      <div className='scroll-calendar'>
+      <div className='calendar'>
         <div className='container'>
           <div className='title'>
             <IonToolbar>
@@ -326,9 +325,8 @@ const Calendar: React.FC = () => {
             </div>
           </div>
         </div>
+        <Events events={[]} />
       </div>
-      <Daily />
-      <Study />
     </>
   )
 }

@@ -1,0 +1,195 @@
+.events {
+  padding: 0.25rem 1rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: start;
+
+  .event {
+    position: relative;
+    height: 5.25rem;
+    background-color: white;
+    border-radius: 0.75rem;
+
+    display: flex;
+    justify-content: space-between;
+
+    box-shadow: 1px 1px 1px 0px #0c3a371a;
+
+    padding: 1rem 1rem 1rem 1.75rem;
+
+    font-family: OPPO Sans;
+    font-weight: 400;
+    letter-spacing: -0.01875px;
+    line-height: 100%;
+    .left-color {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0.75rem;
+      height: 100%;
+      border-radius: 0.75rem 0 0 0.75rem;
+
+      &.red {
+        background-color: #f44336;
+      }
+      &.green {
+        background-color: #4caf50;
+      }
+      &.blue {
+        background-color: #2196f3;
+      }
+      &.yellow {
+        background-color: #ffeb3b;
+      }
+    }
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      .title {
+        font-size: 1.25rem;
+      }
+
+      .location {
+        font-size: 1rem;
+      }
+    }
+    .right {
+      display: flex;
+      align-items: center;
+      .time {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.modal-study {
+  --height: auto;
+  --background: #fafafa;
+  --border-radius: 0.6rem;
+  .model-container {
+    padding: 0 1rem;
+    ion-header {
+      ion-toolbar {
+        --background: #f;
+        text-align: center;
+        .bar {
+          display: flex;
+          justify-content: space-between;
+          padding: 1rem 0 0.75rem 0;
+          .title {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+
+            .icon {
+              width: 2rem;
+              height: 2rem;
+              border-radius: 0.625rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              &.study {
+                background-color: #ff5e7233;
+              }
+              &.daily {
+                background-color: #92dbd836;
+              }
+            }
+            .icon-label {
+              font-family: OPPO Sans;
+              font-weight: 500;
+              font-size: 1.125rem;
+              line-height: 1.3125rem;
+              letter-spacing: -0.01875rem;
+            }
+          }
+        }
+      }
+    }
+
+    .content {
+      background-color: #fafafa;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+
+      .title {
+        padding: 0.5rem 0.5rem;
+        font-family: OPPO Sans;
+        font-weight: 400;
+        font-size: 2rem;
+        line-height: 100%;
+        letter-spacing: 0;
+        vertical-align: middle;
+      }
+      border-radius: 0.625rem;
+      ion-list {
+        border-radius: 0.625rem 0.625rem 0 0;
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        ion-item {
+          --background: #fff;
+
+          ion-label {
+            &.right {
+              text-align: right;
+
+              font-family: OPPO Sans;
+              font-weight: 400;
+              font-size: 1rem;
+              line-height: 100%;
+              letter-spacing: Display Large/Tracking;
+            }
+            &.left {
+              text-align: left;
+              --color: #128f9d;
+              font-family: OPPO Sans;
+              font-weight: 700;
+              font-size: 1.125rem;
+              line-height: 1.3125rem;
+              letter-spacing: -0.01875rem;
+            }
+          }
+
+          ion-textarea {
+            font-family: OPPO Sans;
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 100%;
+            letter-spacing: Display Large/Tracking;
+          }
+
+          .time {
+            display: flex;
+            gap: 0.5rem;
+            .time-label {
+              padding: 0.3125rem 0.5rem;
+              background-color: #c3cecb33;
+              border-radius: 0.625rem;
+
+              font-family: OPPO Sans;
+              font-weight: 400;
+              font-size: 1rem;
+              line-height: 100%;
+              letter-spacing: Display Large/Tracking;
+            }
+          }
+        }
+
+        .item-line {
+          height: 0px;
+          border: #80808026 1px solid;
+          margin: 0 1rem;
+        }
+      }
+    }
+  }
+}

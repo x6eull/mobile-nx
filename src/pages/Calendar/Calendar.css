@@ -1,4 +1,5 @@
-.scroll-calendar {
+.calendar {
+  margin-bottom: 1rem;
   .container {
     border-radius: 0 0 0.75rem 0.75rem;
     padding: 0 1.25rem;
