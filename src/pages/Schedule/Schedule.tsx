@@ -1,11 +1,17 @@
-import React, { useState, useRef } from 'react'
-import { IonToolbar, IonTitle, IonButtons, IonButton } from '@ionic/react'
+import { useState, useRef } from 'react'
+import {
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonButton,
+  IonPage,
+} from '@ionic/react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type SwiperCore from 'swiper'
 import 'swiper/css'
 
 import { Dayview, Weekview, Todayview } from './icon/icon'
-import './Calendar.css'
+import './Schedule.css'
 import Dayitem from './components/Dayitem'
 import Events from './components/Events'
 
@@ -23,7 +29,7 @@ interface WeekData {
   dates: DateItem[]
 }
 
-const Calendar: React.FC = () => {
+export default function Schedule() {
   const now = new Date()
   const [current, setCurrent] = useState(now)
 
@@ -234,8 +240,8 @@ const Calendar: React.FC = () => {
   }
 
   return (
-    <>
-      <div className='calendar'>
+    <IonPage>
+      <div className='schedule-page'>
         <div className='container'>
           <div className='title'>
             <IonToolbar>
@@ -302,8 +308,9 @@ const Calendar: React.FC = () => {
                                   className='items'
                                 >
                                   <Dayitem
-                                    date={date}
-                                    chosen={
+                                    day={date.day}
+                                    selected={date.active === 1}
+                                    isToday={
                                       date.year === chosenDate.getFullYear() &&
                                       date.month ===
                                         chosenDate.getMonth() + 1 &&
@@ -327,8 +334,6 @@ const Calendar: React.FC = () => {
         </div>
         <Events events={[]} />
       </div>
-    </>
+    </IonPage>
   )
 }
-
-export default Calendar

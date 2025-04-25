@@ -30,7 +30,7 @@ interface EventsProps {
   events: EventProps[] | null
 }
 
-const Event = ({
+function Event({
   type,
   date,
   title,
@@ -40,7 +40,7 @@ const Event = ({
   teacher,
   term,
   location,
-}: EventProps) => {
+}: EventProps) {
   const modal = useRef<HTMLIonModalElement>(null)
 
   const Modal = () => {
@@ -161,7 +161,7 @@ const Event = ({
   )
 }
 
-const Events = ({ events }: EventsProps) => {
+export default function Events({ events }: EventsProps) {
   if (!events) {
     return <></>
   }
@@ -203,5 +203,3 @@ const Events = ({ events }: EventsProps) => {
     </div>
   )
 }
-
-export default Events

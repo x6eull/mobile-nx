@@ -1,5 +1,6 @@
-.calendar {
+.schedule-page {
   margin-bottom: 1rem;
+
   .container {
     border-radius: 0 0 0.75rem 0.75rem;
     padding: 0 1.25rem;
@@ -14,6 +15,7 @@
 
       ion-toolbar {
         --background: #fff;
+
         ion-title {
           text-align: left;
           padding: 0;
@@ -26,6 +28,7 @@
 
         ion-buttons {
           gap: 0.5rem;
+
           ion-button {
             margin: 0;
             --padding-top: 0;
@@ -39,6 +42,7 @@
 
     .calendar {
       padding-bottom: 0.3125rem;
+
       .content {
         display: flex;
         position: relative;
@@ -90,6 +94,7 @@
         display: flex;
         justify-content: center;
         opacity: 0.1;
+
         .bottom-line {
           width: 2.5rem;
           height: 0.25rem;
