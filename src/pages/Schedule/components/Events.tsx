@@ -26,10 +26,6 @@ interface EventProps {
   location: string
 }
 
-interface EventsProps {
-  events: EventProps[] | null
-}
-
 function Event({
   type,
   date,
@@ -161,17 +157,13 @@ function Event({
   )
 }
 
-export default function Events({ events }: EventsProps) {
-  if (!events) {
-    return <></>
-  }
-
+export default function Events({ events }: { events: EventProps[] }) {
   return (
     <div className='events'>
       {events.map((event, index) => (
         <Event
-          type={event.type}
           key={index}
+          type={event.type}
           date={event.date}
           title={event.title}
           starttime={event.starttime}

@@ -1,7 +1,7 @@
 .schedule-page {
   margin-bottom: 1rem;
 
-  .container {
+  &>.container {
     border-radius: 0 0 0.75rem 0.75rem;
     padding: 0 1.25rem;
     background-color: #fff;
@@ -85,7 +85,7 @@
 
           .left-line {
             height: 100%;
-            border: rgba(18, 143, 157, 0.1) 2px solid;
+            border: #128f9d1a 2px solid;
           }
         }
       }

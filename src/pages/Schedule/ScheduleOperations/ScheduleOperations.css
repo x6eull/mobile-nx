@@ -1,0 +1,71 @@
+.schedule-operations {
+
+  .icon-dayview {
+    width: 32px;
+    height: 40px;
+
+    .icon-dayview-line {
+      background-color: black;
+      width: 24px;
+      height: 6px;
+      left: 4px;
+      position: absolute;
+      border-radius: 1px;
+
+      &.first {
+        top: 7.5px;
+      }
+
+      &.second {
+        top: 16.5px;
+      }
+
+      &.third {
+        top: 25.5px;
+      }
+    }
+  }
+
+  .icon-weekview {
+    width: 32px;
+    height: 40px;
+
+    .icon-weekview-line {
+      background-color: black;
+      width: 6px;
+      height: 25px;
+      top: 7px;
+      position: absolute;
+      border-radius: 1px;
+
+      &.first {
+        left: 4px;
+      }
+
+      &.second {
+        left: 13px;
+      }
+
+      &.third {
+        left: 22px;
+      }
+    }
+  }
+
+  .goto-today {
+    --background-activated: transparent;
+    --background-focused: transparent;
+    --background-hover: transparent;
+
+    .container {
+      background-color: black;
+      width: 1.8em;
+      height: 1.8em;
+      border-radius: 100%;
+      font-size: 1rem;
+      color: white;
+      font-weight: bold;
+      align-content: center;
+    }
+  }
+}

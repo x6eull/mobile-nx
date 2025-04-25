@@ -1,47 +1,25 @@
-import { useState, useRef } from 'react'
-import {
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonButton,
-  IonPage,
-} from '@ionic/react'
+import { useState, useRef, useMemo } from 'react'
+import { IonToolbar, IonTitle, IonPage } from '@ionic/react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type SwiperCore from 'swiper'
 import 'swiper/css'
 
-import { Dayview, Weekview, Todayview } from './icon/icon'
 import './Schedule.css'
 import Dayitem from './components/Dayitem'
 import Events from './components/Events'
+import ScheduleOperations from './ScheduleOperations/ScheduleOperations'
+import dayjs, { Dayjs } from 'dayjs'
 
-// TODO: 简化逻辑
-interface DateItem {
-  year: number
-  month: number
-  day: number
-  active: number // 0: 无  1: 今天
-  event: number
-}
-
-interface WeekData {
-  baseDate: Date
-  dates: DateItem[]
-}
-
-export default function Schedule() {
-  const now = new Date()
-  const [current, setCurrent] = useState(now)
-
-  const [chosenDate, setChosenDate] = useState(now)
-
+export default function Schedule({ now }: { now: Dayjs }) {
   const swiperRef = useRef<SwiperCore>()
+  const today = dayjs(now)
+  // 点击选中的日期
+  const [selectedDate, setSelectedDate] = useState(today)
+  const [viewMode, setViewMode] = useState<number | 'month'>(1)
+  // 左右滑动到的日期 即当前视图的第一天
+  const [viewDate, setViewDate] = useState(today)
+  const views = useMemo(() => {}, [])
 
-  const [displayMode, setDisplayMode] = useState<
-    'week' | 'two-weeks' | 'month'
-  >('week')
-
-  // Constants
   const monthZh = [
     '一',
     '二',
@@ -58,187 +36,6 @@ export default function Schedule() {
   ]
   const weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-  // 生成日期数据
-  const generateQueueData = (
-    base: Date,
-    offset: number,
-    mode: 'week' | 'two-weeks' | 'month',
-  ): WeekData => {
-    // 获取周一作为起始日
-    const getWeekStart = (date: Date) => {
-      const day = date.getDay() || 7 // 转换周日的0为7
-      const diff = day - 1 // 计算到周一的差值
-      const monday = new Date(date)
-      monday.setDate(date.getDate() - diff)
-      return monday
-    }
-
-    if (mode === 'month') {
-      const monthStart = new Date(
-        base.getFullYear(),
-        base.getMonth() + offset,
-        1,
-      )
-      const monthEnd = new Date(
-        base.getFullYear(),
-        base.getMonth() + 1 + offset,
-        0,
-      )
-
-      const nextbaseDate = new Date(
-        base.getFullYear(),
-        base.getMonth() + Math.floor(offset / 2),
-        1,
-      )
-
-      const queueStart = getWeekStart(monthStart)
-
-      const totalDays =
-        (monthStart.getDay() === 0 ? 7 : monthStart.getDay()) -
-        1 +
-        monthEnd.getDate() +
-        (7 - monthEnd.getDay() === 7 ? 0 : 7 - monthEnd.getDay())
-      const monthDates: DateItem[] = []
-
-      for (let i = 0; i < totalDays; i++) {
-        const date = new Date(queueStart)
-        date.setDate(queueStart.getDate() + i)
-
-        monthDates.push({
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate(),
-          active: date.toDateString() === now.toDateString() ? 1 : 0,
-          event: 1, // TODO: 获取逻辑
-        })
-      }
-
-      return {
-        baseDate: nextbaseDate,
-        dates: monthDates,
-      }
-    }
-
-    const totalDays = mode === 'week' ? 7 : 14
-
-    const queueStart = getWeekStart(base)
-
-    const nextbaseDate = new Date(queueStart)
-    nextbaseDate.setDate(
-      nextbaseDate.getDate() + Math.floor((offset / 2) * totalDays),
-    )
-
-    // 添加偏移
-    queueStart.setDate(queueStart.getDate() + offset * totalDays)
-
-    const queueDates: DateItem[] = []
-
-    // 生成的数据
-    for (let j = 0; j < totalDays; j++) {
-      const date = new Date(queueStart)
-      date.setDate(queueStart.getDate() + j)
-      queueDates.push({
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        day: date.getDate(),
-        active: date.toDateString() === now.toDateString() ? 1 : 0,
-        event: 1, // TODO: 获取逻辑
-      })
-    }
-
-    // 计算周日
-    const weekEnd = new Date(queueStart)
-    weekEnd.setDate(queueStart.getDate() + 6)
-
-    return {
-      baseDate: nextbaseDate,
-      dates: queueDates,
-    }
-  }
-
-  // 初始化周队列
-  const initWeekQueue = (mode: 'week' | 'two-weeks' | 'month', base: Date) => {
-    const currentWeek = generateQueueData(base, 0, mode)
-    const prevWeek = generateQueueData(base, -1, mode)
-    const nextWeek = generateQueueData(base, 1, mode)
-
-    // setWeekQueue((weekQueue) => [prevWeek, currentWeek, nextWeek])
-    return [prevWeek, currentWeek, nextWeek]
-  }
-
-  // 队列 -表示当前、上一个和下一个周
-  const [weekQueue, setWeekQueue] = useState<WeekData[]>(
-    initWeekQueue(displayMode, now),
-  )
-
-  // 更新队列 - 向前滑动
-  const updateQueueBackward = () => {
-    // currentWeekOffsetRef.current -= 1
-    // const newOffset = displayMode === 'month'  ? currentMonthOffsetRef.current : currentWeekOffsetRef.current - 1
-    const newPrev = generateQueueData(current, -2, displayMode)
-
-    setWeekQueue((prev) => {
-      const newQueue = [...prev]
-      // 移除最后一个元素，将新的周插入到队列开头
-      newQueue.pop()
-      newQueue.unshift(newPrev)
-      return newQueue
-    })
-
-    setCurrent(newPrev.baseDate)
-  }
-
-  // 更新队列 - 向后滑动
-  const updateQueueForward = () => {
-    // currentWeekOffsetRef.current += 1
-    // const newOffset = currentWeekOffsetRef.current + 1
-    const newNext = generateQueueData(current, 2, displayMode)
-
-    setWeekQueue((prev) => {
-      const newQueue = [...prev]
-      // 移除第一个元素，将新的周追加到队列末尾
-      newQueue.shift()
-      newQueue.push(newNext)
-      return newQueue
-    })
-
-    setCurrent(newNext.baseDate)
-  }
-
-  // 切换到今天
-  const goToToday = () => {
-    setCurrent(now)
-    setWeekQueue(initWeekQueue(displayMode, now))
-  }
-
-  // 切换显示模式
-  const changeDisplayMode = (mode: 'week' | 'two-weeks' | 'month') => {
-    setDisplayMode(mode)
-    setWeekQueue(initWeekQueue(mode, current))
-  }
-
-  // 处理滑动结束事件
-  const handleSlideChangeTransitionEnd = (swiper: SwiperCore) => {
-    if (swiper.activeIndex === 0) {
-      // 向前滑动
-      updateQueueBackward()
-      if (swiperRef.current) {
-        swiperRef.current.slideTo(1, 0)
-      }
-    } else if (swiper.activeIndex === 2) {
-      // 向后滑动
-      updateQueueForward()
-      if (swiperRef.current) {
-        swiperRef.current.slideTo(1, 0)
-      }
-    }
-  }
-
-  // 处理日期点击事件
-  const handleDateClick = (date: DateItem) => {
-    setChosenDate(new Date(date.year, date.month - 1, date.day))
-  }
-
   return (
     <IonPage>
       <div className='schedule-page'>
@@ -246,31 +43,14 @@ export default function Schedule() {
           <div className='title'>
             <IonToolbar>
               <IonTitle>
-                {chosenDate.getFullYear()}年 {monthZh[chosenDate.getMonth()]}月
+                {selectedDate.year()}年 {monthZh[selectedDate.month() + 1]}月
               </IonTitle>
-              <IonButtons collapse={true} slot='end'>
-                <Dayview />
-                <Weekview />
-                <Todayview onClick={goToToday} />
-                <IonButton
-                  className='dayview'
-                  onClick={() => changeDisplayMode('week')}
-                >
-                  单
-                </IonButton>
-                <IonButton
-                  className='todayview'
-                  onClick={() => changeDisplayMode('two-weeks')}
-                >
-                  双
-                </IonButton>
-                <IonButton
-                  className='weekview'
-                  onClick={() => changeDisplayMode('month')}
-                >
-                  月
-                </IonButton>
-              </IonButtons>
+              <ScheduleOperations
+                gotoToday={() => setSelectedDate(today)}
+                onClickSingle={() => setViewMode(1)}
+                onClickDouble={() => setViewMode(2)}
+                onClickMonth={() => setViewMode('month')}
+              />
             </IonToolbar>
           </div>
 
@@ -309,13 +89,8 @@ export default function Schedule() {
                                 >
                                   <Dayitem
                                     day={date.day}
-                                    selected={date.active === 1}
-                                    isToday={
-                                      date.year === chosenDate.getFullYear() &&
-                                      date.month ===
-                                        chosenDate.getMonth() + 1 &&
-                                      date.day === chosenDate.getDate()
-                                    }
+                                    isToday={}
+                                    selected={}
                                   />
                                 </div>
                               ),

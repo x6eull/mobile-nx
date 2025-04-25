@@ -16,10 +16,12 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+
     &.today {
-      background-color: rgba(18, 143, 157, 0.3);
+      background-color: #128f9d4d;
     }
-    &.chosen {
+
+    &.selected {
       color: white;
       background-color: #128f9d;
     }
@@ -33,7 +35,7 @@
       width: 0.3125rem;
       height: 0.3125rem;
       border-radius: 50%;
-      background-color: rgba(106, 143, 255, 0.25);
+      background-color: #6a8fff40;
     }
   }
 }
