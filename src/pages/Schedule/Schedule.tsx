@@ -17,8 +17,43 @@ export default function Schedule({ now }: { now: Dayjs }) {
   const [selectedDate, setSelectedDate] = useState(today)
   const [viewMode, setViewMode] = useState<number | 'month'>(1)
   // 左右滑动到的日期 即当前视图的第一天
-  const [viewDate, setViewDate] = useState(today)
-  const views = useMemo(() => {}, [])
+  const [currentDate, setCurrentDate] = useState(() => today.startOf('isoWeek'))
+  const views = useMemo(() => {
+    function getViewDays(deltaView: number) {
+      const deltaFrom =
+        viewMode === 'month'
+          ? currentDate.add(deltaView, 'month')
+          : currentDate.add(deltaView * viewMode, 'week')
+      const currentMonth = deltaFrom.month()
+      if (viewMode === 'month') {
+        const startOfFirstWeek = deltaFrom.startOf('month').startOf('isoWeek')
+        const endOfLastWeek = startOfFirstWeek.endOf('month').endOf('isoWeek')
+        return Array.from(
+          { length: endOfLastWeek.diff(startOfFirstWeek, 'day') + 1 },
+          (_, i) => {
+            const date = startOfFirstWeek.add(i, 'day')
+            return {
+              date,
+              isCurrentMonth: date.month() === currentMonth,
+              eventCount: 3, //todo
+            }
+          },
+        )
+      } else {
+        const startOfWeek = deltaFrom.startOf('isoWeek')
+        return Array.from({ length: 7 * viewMode }, (_, i) => {
+          const date = startOfWeek.add(i, 'day')
+          return {
+            date,
+            isCurrentMonth: date.month() === deltaFrom.month(),
+            eventCount: 3, //todo
+          }
+        })
+      }
+    }
+    return [-1, 0, 1].map((delta) => getViewDays(delta))
+  }, [currentDate, viewMode])
+  const [lastView, currentView, nextView] = views
 
   const monthZh = [
     '一',
@@ -34,7 +69,7 @@ export default function Schedule({ now }: { now: Dayjs }) {
     '十一',
     '十二',
   ]
-  const weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  const weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
 
   return (
     <IonPage>
@@ -65,36 +100,34 @@ export default function Schedule({ now }: { now: Dayjs }) {
                 onSwiper={(swiper) => {
                   swiperRef.current = swiper
                 }}
-                onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
+                // onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
                 speed={300} // 控制滑动速度
                 touchRatio={1} // 触摸比例，控制滑动灵敏度
                 resistance={true} // 边缘抵抗
                 resistanceRatio={0.85} // 抵抗比例
                 className='week-swiper'
               >
-                {weekQueue.map((queue, index) => (
-                  <SwiperSlide key={`week-${index}`}>
+                {views.map((v, index) => (
+                  <SwiperSlide key={index}>
                     <div className='week'>
                       {weeks.map((week, index) => (
                         <div key={index} className='col'>
                           <i>{week}</i>
-                          {queue.dates.map(
-                            (date, dateIndex) =>
-                              dateIndex % 7 === index &&
-                              weekQueue[1].dates.length > dateIndex && (
-                                <div
-                                  key={dateIndex}
-                                  onClick={() => handleDateClick(date)}
-                                  className='items'
-                                >
-                                  <Dayitem
-                                    day={date.day}
-                                    isToday={}
-                                    selected={}
-                                  />
-                                </div>
-                              ),
-                          )}
+                          {v.map(({ date, isCurrentMonth, eventCount }, i) => (
+                            <div
+                              key={i}
+                              onClick={() => setSelectedDate(date)}
+                              className='items'
+                            >
+                              <Dayitem
+                                day={date.date()}
+                                isToday={date.isSame(today, 'day')}
+                                selected={date.isSame(selectedDate, 'day')}
+                                eventCount={eventCount}
+                                isCurrentMonth={isCurrentMonth}
+                              />
+                            </div>
+                          ))}
                         </div>
                       ))}
                     </div>

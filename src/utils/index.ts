@@ -8,4 +8,6 @@ import './extendString'
 
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
+import isoWeek from 'dayjs/plugin/isoWeek'
 dayjs.extend(duration)
+dayjs.extend(isoWeek)

@@ -5,11 +5,13 @@ export default function Dayitem({
   selected,
   isToday,
   eventCount,
+  isCurrentMonth,
 }: {
   day: number
   selected: boolean
   isToday: boolean
   eventCount: number
+  isCurrentMonth: boolean
 }) {
   return (
     <div className='dayitem'>
