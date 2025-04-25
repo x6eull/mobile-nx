@@ -1,142 +1,180 @@
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useEffect } from 'react'
 import { IonToolbar, IonTitle, IonPage } from '@ionic/react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import type SwiperCore from 'swiper'
-import 'swiper/css'
-
-import './Schedule.css'
-import Dayitem from './components/Dayitem'
+import { SwiperSlide, Swiper, SwiperClass } from 'swiper/react'
 import Events from './components/Events'
 import ScheduleOperations from './ScheduleOperations/ScheduleOperations'
 import dayjs, { Dayjs } from 'dayjs'
+import 'swiper/css'
+
+import './Schedule.css'
+
+type DayInfo = {
+  date: number
+  selected: boolean
+  isToday: boolean
+  eventCount: number
+  isCurrentMonth: boolean
+  onClick: () => void
+}
+
+function Day({
+  date,
+  selected,
+  isToday,
+  eventCount,
+  isCurrentMonth,
+  onClick,
+}: DayInfo) {
+  return (
+    <div className='day-container' onClick={onClick}>
+      <div
+        className={'day'
+          .with(isToday, 'today')
+          .with(selected, 'selected')
+          .with(!isCurrentMonth, 'not-current-month')}
+      >
+        {date}
+      </div>
+      <div className='event-indicator'>
+        {Array.from({ length: eventCount }).map((_, i) => (
+          <div key={i} className='dot' />
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export default function Schedule({ now }: { now: Dayjs }) {
-  const swiperRef = useRef<SwiperCore>()
+  const swiperRef = useRef<SwiperClass>()
   const today = dayjs(now)
   // 点击选中的日期
   const [selectedDate, setSelectedDate] = useState(today)
+  const selectedMonth = selectedDate.month()
   const [viewMode, setViewMode] = useState<number | 'month'>(1)
   // 左右滑动到的日期 即当前视图的第一天
   const [currentDate, setCurrentDate] = useState(() => today.startOf('isoWeek'))
   const views = useMemo(() => {
     function getViewDays(deltaView: number) {
-      const deltaFrom =
+      const currentMonth = selectedMonth
+      const deltaCurrent =
         viewMode === 'month'
           ? currentDate.add(deltaView, 'month')
           : currentDate.add(deltaView * viewMode, 'week')
-      const currentMonth = deltaFrom.month()
       if (viewMode === 'month') {
-        const startOfFirstWeek = deltaFrom.startOf('month').startOf('isoWeek')
-        const endOfLastWeek = startOfFirstWeek.endOf('month').endOf('isoWeek')
-        return Array.from(
-          { length: endOfLastWeek.diff(startOfFirstWeek, 'day') + 1 },
-          (_, i) => {
-            const date = startOfFirstWeek.add(i, 'day')
+        const startOfMonth = deltaCurrent.startOf('month')
+        const startOfFirstWeek = startOfMonth.startOf('isoWeek')
+        const endOfLastWeek = deltaCurrent.endOf('month').endOf('isoWeek')
+        return {
+          newCurrentDate: startOfMonth,
+          days: Array.from(
+            { length: endOfLastWeek.diff(startOfFirstWeek, 'day') + 1 },
+            (_, i) => {
+              const date = startOfFirstWeek.add(i, 'day')
+              return {
+                date,
+                isCurrentMonth: deltaView
+                  ? date.month() === startOfMonth.month()
+                  : date.month() === currentMonth,
+                eventCount: 3, //todo
+              }
+            },
+          ),
+        }
+      } else {
+        const startOfWeek = deltaCurrent.startOf('isoWeek')
+        return {
+          newCurrentDate: startOfWeek,
+          days: Array.from({ length: 7 * viewMode }, (_, i) => {
+            const date = startOfWeek.add(i, 'day')
             return {
               date,
-              isCurrentMonth: date.month() === currentMonth,
               eventCount: 3, //todo
+              isCurrentMonth: deltaView
+                ? date.month() === startOfWeek.month()
+                : date.month() === currentMonth,
             }
-          },
-        )
-      } else {
-        const startOfWeek = deltaFrom.startOf('isoWeek')
-        return Array.from({ length: 7 * viewMode }, (_, i) => {
-          const date = startOfWeek.add(i, 'day')
-          return {
-            date,
-            isCurrentMonth: date.month() === deltaFrom.month(),
-            eventCount: 3, //todo
-          }
-        })
+          }),
+        }
       }
     }
     return [-1, 0, 1].map((delta) => getViewDays(delta))
-  }, [currentDate, viewMode])
-  const [lastView, currentView, nextView] = views
+  }, [currentDate, viewMode, selectedMonth])
+  function getViewWeekCount(view: (typeof views)[number]) {
+    if (typeof viewMode === 'number') return viewMode
+    return view.days.length / 7
+  }
+  const [nextView, setNextView] = useState(views[1])
+  useEffect(() => setNextView(views[1]), [views])
+  const viewWeekCount = getViewWeekCount(nextView)
+  useEffect(() => {
+    swiperRef.current?.slideTo(1, 0, false)
+  }, [views])
 
-  const monthZh = [
-    '一',
-    '二',
-    '三',
-    '四',
-    '五',
-    '六',
-    '七',
-    '八',
-    '九',
-    '十',
-    '十一',
-    '十二',
-  ]
-  const weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
+  const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
 
   return (
     <IonPage>
       <div className='schedule-page'>
         <div className='container'>
-          <div className='title'>
-            <IonToolbar>
-              <IonTitle>
-                {selectedDate.year()}年 {monthZh[selectedDate.month() + 1]}月
-              </IonTitle>
-              <ScheduleOperations
-                gotoToday={() => setSelectedDate(today)}
-                onClickSingle={() => setViewMode(1)}
-                onClickDouble={() => setViewMode(2)}
-                onClickMonth={() => setViewMode('month')}
-              />
-            </IonToolbar>
-          </div>
+          <IonToolbar className='toolbar'>
+            <IonTitle>
+              {selectedDate.year()}年{selectedDate.month() + 1}月
+            </IonTitle>
+            <ScheduleOperations
+              gotoToday={() => setSelectedDate(today)}
+              onClickSingle={() => setViewMode(1)}
+              onClickDouble={() => setViewMode(2)}
+              onClickMonth={() => setViewMode('month')}
+            />
+          </IonToolbar>
 
           <div className='calendar'>
             <div className='content'>
-              <div className='calendar-left'>
-                <div className='left-line'></div>
-              </div>
               <Swiper
+                onSlideChangeTransitionStart={(sw) => {
+                  if (sw.activeIndex !== 1) setNextView(views[sw.activeIndex])
+                }}
+                onSlideChangeTransitionEnd={(sw) => {
+                  if (sw.activeIndex !== 1) {
+                    setCurrentDate(views[sw.activeIndex].newCurrentDate)
+                    setSelectedDate(views[sw.activeIndex].newCurrentDate)
+                  }
+                }}
                 initialSlide={1}
                 slidesPerView={1}
-                onSwiper={(swiper) => {
-                  swiperRef.current = swiper
-                }}
-                // onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
-                speed={300} // 控制滑动速度
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
+                speed={350} // 控制滑动速度
                 touchRatio={1} // 触摸比例，控制滑动灵敏度
                 resistance={true} // 边缘抵抗
                 resistanceRatio={0.85} // 抵抗比例
-                className='week-swiper'
+                className='views'
+                style={
+                  {
+                    '--week-count': viewWeekCount.toFixed(0),
+                  } as React.CSSProperties
+                }
               >
-                {views.map((v, index) => (
-                  <SwiperSlide key={index}>
-                    <div className='week'>
-                      {weeks.map((week, index) => (
-                        <div key={index} className='col'>
-                          <i>{week}</i>
-                          {v.map(({ date, isCurrentMonth, eventCount }, i) => (
-                            <div
-                              key={i}
-                              onClick={() => setSelectedDate(date)}
-                              className='items'
-                            >
-                              <Dayitem
-                                day={date.date()}
-                                isToday={date.isSame(today, 'day')}
-                                selected={date.isSame(selectedDate, 'day')}
-                                eventCount={eventCount}
-                                isCurrentMonth={isCurrentMonth}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
+                {views.map(({ newCurrentDate, days }) => (
+                  <SwiperSlide key={newCurrentDate.valueOf()} className='view'>
+                    {weekdays.map((day) => (
+                      <div key={day} className='weekday'>
+                        {day}
+                      </div>
+                    ))}
+                    {days.map(({ date, isCurrentMonth, eventCount }) => (
+                      <Day
+                        key={date.valueOf()}
+                        onClick={() => setSelectedDate(date)}
+                        date={date.date()}
+                        isToday={date.isSame(today, 'day')}
+                        selected={date.isSame(selectedDate, 'day')}
+                        eventCount={eventCount}
+                        isCurrentMonth={isCurrentMonth}
+                      />
+                    ))}
                   </SwiperSlide>
                 ))}
               </Swiper>
-            </div>
-            <div className='bottom'>
-              <div className='bottom-line'></div>
             </div>
           </div>
         </div>

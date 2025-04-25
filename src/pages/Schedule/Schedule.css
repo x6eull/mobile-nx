@@ -1,106 +1,133 @@
 .schedule-page {
-  margin-bottom: 1rem;
-
   &>.container {
     border-radius: 0 0 0.75rem 0.75rem;
     padding: 0 1.25rem;
-    background-color: #fff;
+    background-color: white;
     letter-spacing: -0.01875px;
     justify-content: center;
 
-    .title {
+    .toolbar {
       padding: 1rem 0;
-      background-color: #fff;
       justify-content: space-between;
 
-      ion-toolbar {
-        --background: #fff;
+      ion-title {
+        text-align: left;
+        padding: 0;
+        font-size: 1.125rem;
+      }
 
-        ion-title {
-          text-align: left;
-          padding: 0;
+      ion-buttons {
+        gap: 0.5rem;
 
-          font-family: 'OPPP Sans';
-          font-weight: 500;
-          font-size: 1.125rem;
-          line-height: 1.375rem;
-        }
-
-        ion-buttons {
-          gap: 0.5rem;
-
-          ion-button {
-            margin: 0;
-            --padding-top: 0;
-            --padding-bottom: 0;
-            --padding-start: 0;
-            --padding-end: 0;
-          }
+        ion-button {
+          margin: 0;
+          --padding-top: 0;
+          --padding-bottom: 0;
+          --padding-start: 0;
+          --padding-end: 0;
         }
       }
     }
 
     .calendar {
       padding-bottom: 0.3125rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
 
       .content {
+        width: 100%;
         display: flex;
-        position: relative;
+        flex-direction: row;
+        gap: 1rem;
         line-height: 1.125rem;
-        background-color: #fff;
 
-        .swiper {
-          .week {
-            display: flex;
-            flex-wrap: nowrap;
-            justify-content: space-around;
+        &::before {
+          content: ' ';
+          background-color: #128f9d1a;
+          width: .5rem;
+        }
 
-            .col {
-              font-size: 0.875rem;
-              font-weight: 400;
-              text-align: center;
-              color: #128f9d;
+        .views {
+          text-align: center;
+          overflow: hidden;
+          transition: height 0.2s ease-out;
+          --weekday-height: 1.5rem;
+          --day-height: 3rem;
+          height: calc(var(--weekday-height) + (var(--week-count) * var(--day-height)));
 
-              i {
-                font-style: normal;
-                font-family: 'OPPP Sans';
+          .view {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            grid-template-rows: var(--weekday-height);
+            grid-auto-rows: var(--day-height);
 
-                opacity: 0.3;
+            .weekday {
+              font-size: .9rem;
+              color: #128f9d4d;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .day-container {
+              font-family: var(--nx-font-rubik);
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: .2rem;
+
+              .day {
+                height: 2rem;
+                width: 2rem;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                border-radius: 100%;
+                transition: background-color 0.2s ease-out;
+
+                &.today {
+                  background-color: #128f9d4d;
+                }
+
+                &.not-current-month {
+                  color: #5c5c5c4d;
+                }
+
+                &.selected {
+                  color: white;
+                  background-color: #128f9d;
+                }
               }
 
-              .items {
+              .event-indicator {
                 display: flex;
-                flex-direction: column;
-                align-items: center;
+                flex-direction: row;
+                max-width: calc(100% - 1rem);
+                overflow: hidden;
+
+                .dot {
+                  flex: 0 0 auto;
+                  width: 0.3rem;
+                  height: 0.3rem;
+                  border-radius: 100%;
+                  background-color: #6a8fff40;
+                }
               }
             }
           }
         }
-
-        .calendar-left {
-          margin-right: 1rem;
-          padding: 0 0.125rem;
-          display: flex;
-          gap: 1rem;
-
-          .left-line {
-            height: 100%;
-            border: #128f9d1a 2px solid;
-          }
-        }
       }
 
-      .bottom {
-        display: flex;
-        justify-content: center;
-        opacity: 0.1;
-
-        .bottom-line {
-          width: 2.5rem;
-          height: 0.25rem;
-          background-color: #128f9d;
-          border-radius: 0.125rem;
-        }
+      &::after {
+        content: ' ';
+        width: 2.5rem;
+        height: 0.25rem;
+        background-color: #128f9d1a;
+        border-radius: .125rem;
       }
     }
   }
