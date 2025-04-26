@@ -3,12 +3,12 @@ import { IonToolbar, IonTitle, IonPage } from '@ionic/react'
 import { SwiperSlide, Swiper, SwiperClass } from 'swiper/react'
 import Events from './components/Events'
 import ScheduleOperations from './ScheduleOperations/ScheduleOperations'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { Event as EventModel } from '@/models/Event'
 import 'swiper/css'
+import { useTime } from '@/utils/hooks'
 
 import './Schedule.css'
-import { useTime } from '@/utils/hooks'
 
 type DayInfo = {
   date: number
