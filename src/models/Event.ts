@@ -1,7 +1,6 @@
 import { Dayjs } from 'dayjs'
 
 /**参考RFC-5545，此为单个VEVENT。 */
-/**参考RFC-5545，此为单个VEVENT。 */
 export interface Event {
   /**事件的唯一标识符 */
   uid: string
@@ -21,10 +20,6 @@ export interface Event {
   'x-course-id'?: string
   /**日程类别。标准中支持多个逗号分隔值，此处只接受单个值。 */
   categories: 'custom' | 'class' | 'exam'
-  /**授课教师*/
-  teacher?: string
-  /**上课学期*/
-  term?: string
   //TODO rrule, exdate, etc.
 }
 
