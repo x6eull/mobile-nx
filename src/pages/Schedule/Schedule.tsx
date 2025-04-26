@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo, useLayoutEffect } from 'react'
 import { IonToolbar, IonTitle, IonPage } from '@ionic/react'
 import { SwiperSlide, Swiper, SwiperClass } from 'swiper/react'
-import Events from './components/Events'
+import EventList from './EventList/EventList'
 import ScheduleOperations from './ScheduleOperations/ScheduleOperations'
 import dayjs from 'dayjs'
 import { Event as EventModel } from '@/models/Event'
@@ -30,8 +30,6 @@ const events: EventModel[] = [
     location: '紫金港东2-103',
     'x-course-id': 'MATH101',
     categories: 'class',
-    teacher: '苏德矿',
-    term: '24年 春夏',
   },
   {
     uid: '2',
@@ -127,6 +125,7 @@ export default function Schedule() {
     }
     return [-1, 0, 1].map((delta) => getViewDays(delta))
   }, [currentDate, viewMode, selectedMonth])
+  //即将滑动到的日期（滑动动画开始时即切换，用于高度动画）
   const [nextView, setNextView] = useState(views[1])
   useLayoutEffect(() => setNextView(views[1]), [views])
   const viewWeekCount =
@@ -201,7 +200,7 @@ export default function Schedule() {
             </div>
           </div>
         </div>
-        <Events events={events} />
+        <EventList events={events} />
       </div>
     </IonPage>
   )
