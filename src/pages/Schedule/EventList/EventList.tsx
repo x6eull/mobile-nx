@@ -1,122 +1,79 @@
-import {
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonModal,
-  IonTextarea,
-  IonToolbar,
-  useIonModal,
-} from '@ionic/react'
-import { useRef } from 'react'
-import StudyIcon from '../icon/Study.svg'
-import dailyIcon from '../icon/Daily.svg'
+import { IonHeader, IonItem, IonList, useIonModal } from '@ionic/react'
+import iconEvent from '../event.svg'
 import type { Event as EventModel } from '@/models/Event'
 import './EventList.css'
+import { throwF } from '@/utils/func'
+import { ReactNode, useContext } from 'react'
+import { CourseCombinedContext } from '@/context/CourseCombinedContext'
+import { CourseClassInfo } from '@/models/CourseClassInfo'
+import { CourseBase } from '@/models/CourseBase'
 
-function Modal({ event }: { event: EventModel }) {
+function EventDetailField({
+  label,
+  value,
+}: {
+  label: string
+  value: ReactNode
+}) {
   return (
-    <div className='model-container'>
-      <IonHeader className='ion-no-border'>
-        <IonToolbar>
-          <div className='bar'>
-            <div className='title'>
-              {event.categories === 'class' ? (
-                <div className='icon study'>
-                  <img src={StudyIcon} alt='Study' />
-                </div>
-              ) : event.categories === 'custom' ? (
-                <div className='icon daily'>
-                  <img src={dailyIcon} alt='Daily' />
-                </div>
-              ) : (
-                <div className='icon exam'>
-                  <IonLabel>考试</IonLabel>
-                </div>
-              )}
-              <div className='icon-label'>
-                <IonLabel>
-                  {(() => {
-                    let categoryLabel = ''
-                    if (event.categories === 'class') {
-                      categoryLabel = '课程' // class 代表课程
-                    } else if (event.categories === 'exam') {
-                      categoryLabel = '考试' // exam 代表考试
-                    } else if (event.categories === 'custom') {
-                      categoryLabel = '自定义' // custom 代表自定义
-                    } else {
-                      categoryLabel = '出现错误，请联系求是潮维护人员'
-                    }
-                    return categoryLabel
-                  })()}
-                </IonLabel>
-              </div>
-            </div>
-          </div>
-        </IonToolbar>
-      </IonHeader>
+    // 最后一个元素不需要分割线，在CSS中隐藏
+    <IonItem lines='full' className='field'>
+      <div slot='start' className='label'>
+        {label}
+      </div>
+      <div slot='end' className='value'>
+        {value}
+      </div>
+    </IonItem>
+  )
+}
 
+function EventDetail({ event }: { event: EventModel }) {
+  const courseCombined = useContext(CourseCombinedContext)
+  const courseId = event['x-course-id']
+  const courseRelatedInfo: { label: string; value: string }[] = []
+  if (courseId) {
+    const courseIdInfo = { label: '选课号', value: courseId }
+    courseRelatedInfo.push(courseIdInfo)
+    const course = courseCombined.find((course) => course.id === courseId) as
+      | undefined
+      | (CourseBase & Partial<CourseClassInfo>)
+    if (course) {
+      courseRelatedInfo.push({ label: '课程名', value: course.name })
+      courseRelatedInfo.push({ label: '教师', value: course.teacherName ?? '' })
+    } else courseIdInfo.value = '? ' + courseId
+  }
+  const fields = [
+    { label: '开始时间', value: event.dtstart.format('YYYY-MM-DD HH:mm') },
+    { label: '结束时间', value: event.dtend.format('YYYY-MM-DD HH:mm') },
+    { label: '地点', value: event.location },
+    ...courseRelatedInfo,
+    { label: '备注', value: event.description },
+  ]
+  return (
+    <div className='event-detail'>
+      <IonHeader className='header ion-no-border'>
+        <div className='title'>
+          <div className='icon daily'>
+            <img src={iconEvent} alt='Daily' />
+          </div>
+          <div className='icon-label'>
+            {event.categories === 'class'
+              ? '课程'
+              : event.categories === 'exam'
+                ? '考试'
+                : event.categories === 'custom'
+                  ? '日程'
+                  : throwF(new Error('Unknown event category'))}
+          </div>
+        </div>
+      </IonHeader>
       <div className='content'>
         <div className='title'>{event.summary}</div>
-        <IonList lines='none'>
-          <IonItem>
-            <IonLabel className='left'>开始时间</IonLabel>
-            <div className='time'>
-              <div className='time-label'>
-                {event.dtstart.month() + 1}月{event.dtstart.date()}日
-              </div>
-              <div className='time-label'>{event.dtstart.format('HH:mm')}</div>
-            </div>
-          </IonItem>
-          <div className='item-line'></div>
-          <IonItem>
-            <IonLabel className='left'>结束时间</IonLabel>
-            <div className='time'>
-              <div className='time-label'>
-                {event.dtend.month() + 1}月{event.dtend.date()}日
-              </div>
-              <div className='time-label'>{event.dtend.format('HH:mm')}</div>
-            </div>
-          </IonItem>
-          <div className='item-line'></div>
-          {event.location && (
-            <>
-              <IonItem>
-                <IonLabel className='left'>地点</IonLabel>
-                <IonLabel className='right'>{event.location}</IonLabel>
-              </IonItem>
-              <div className='item-line'></div>
-            </>
-          )}
-          {event.teacher && (
-            <>
-              <IonItem>
-                <IonLabel className='left'>教师</IonLabel>
-                <IonLabel className='right'>{event.teacher}</IonLabel>
-              </IonItem>
-              <div className='item-line'></div>
-            </>
-          )}
-          {event.term && (
-            <>
-              <IonItem>
-                <IonLabel className='left'>学期</IonLabel>
-                <IonLabel className='right'>{event.term}</IonLabel>
-              </IonItem>
-              <div className='item-line'></div>
-            </>
-          )}
-          <IonItem>
-            <IonLabel className='left'>备注</IonLabel>
-          </IonItem>
-          <div className='item-line'></div>
-          <IonItem>
-            <IonTextarea
-              autoGrow={true}
-              placeholder='可添加成绩构成等课程说明'
-              value={event.description}
-            ></IonTextarea>
-          </IonItem>
+        <IonList className='fields' lines='none'>
+          {fields.map(({ label, value }) => (
+            <EventDetailField key={label} label={label} value={value} />
+          ))}
         </IonList>
       </div>
     </div>
@@ -124,51 +81,45 @@ function Modal({ event }: { event: EventModel }) {
 }
 
 function Event({ event }: { event: EventModel }) {
-  const modal = useRef<HTMLIonModalElement>(null)
-
-  const [present, dismiss] = useIonModal(<Modal event={event} />, {
-    dismiss: (data: string, role: string) => dismiss(data, role),
-  })
-
+  const [present] = useIonModal(EventDetail, { event })
   function openModal() {
     present({
-      initialBreakpoint: 1,
-      breakpoints: [0, 1],
-      cssClass: 'modal-study',
+      initialBreakpoint: 0.6,
+      breakpoints: [0, 0.6, 1],
+      cssClass: 'modal-event-detail',
     })
   }
 
   return (
-    <div className='event' onClick={openModal}>
-      <div className='left-color'>
-        {(() => {
-          if (event.categories === 'class') {
-            return <div className='left-color blue'></div> // 蓝色代表课程
-          } else if (event.categories === 'exam') {
-            return <div className='left-color red'></div> // 红色代表考试
-          } else {
-            return <div className='left-color green'></div> // 绿色代表自定义
-          }
-        })()}
-      </div>
-      <div className='left'>
+    <div
+      className='event'
+      onClick={openModal}
+      style={
+        {
+          //TODO 生成事件颜色
+          '--ribbon-background':
+            event.categories === 'class'
+              ? '#2196f3'
+              : event.categories === 'exam'
+                ? '#f44336'
+                : '#4caf50',
+        } as React.CSSProperties
+      }
+    >
+      <div className='info'>
         <div className='title'>{event.summary}</div>
         {event.location && <div className='location'>{event.location}</div>}
       </div>
-      <div className='right'>
-        <div className='time'>
-          {event.dtstart.format('HH:mm')} - {event.dtend.format('HH:mm')}
-        </div>
+      <div className='time'>
+        {event.dtstart.format('HH:mm')} - {event.dtend.format('HH:mm')}
       </div>
-
-      <IonModal className='schedule-modal-study' ref={modal}></IonModal>
     </div>
   )
 }
 
 export default function EventList({ events }: { events: EventModel[] }) {
   return (
-    <div className='events'>
+    <div className='schedule-events'>
       {events.map((ev) => (
         <Event key={ev.uid} event={ev} />
       ))}

@@ -58,13 +58,14 @@ export default function CourseSchedule() {
       <div className='content'>
         <div className='conclusion'>
           <div className='info'>
-            {/* <div className='field'>
+            {/* TODO
+            <div className='field'>
               <div className='label'>学期学分</div>
               <div className='value'>30.0</div>
             </div> */}
             <div className='field'>
               <div className='label'>学期学时</div>
-              <div className='value'>0.0</div>
+              <div className='value'>-</div>
             </div>
           </div>
           <IonButtons className='operations'>

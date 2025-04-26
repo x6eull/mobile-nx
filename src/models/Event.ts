@@ -32,7 +32,7 @@ function encodeICalendarText(text: string): string {
 }
 
 /**按rfc标准，转换为类似19980119T070000Z的格式(FORM #2: DATE WITH UTC TIME) */
-function encodeICalendarDate(date: Date): string {
+function encodeICalendarDate(date: Dayjs): string {
   return date.toISOString().replace(/[-:]|\.\d+/g, '')
 }
 
@@ -50,7 +50,7 @@ export function toICalendar(events: Event[]): string {
             key = key.toUpperCase()
             if (typeof value === 'string')
               return `${key}:${encodeICalendarText(value)}`
-            else if (value instanceof Date)
+            else if (value instanceof Dayjs)
               return `${key}:${encodeICalendarDate(value)}`
             else throw new Error(`Invalid value type for key ${key}`)
           })

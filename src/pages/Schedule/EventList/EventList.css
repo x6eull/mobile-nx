@@ -1,193 +1,128 @@
-.events {
-  padding: 0.25rem 1rem 0 1rem;
+.schedule-events {
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  justify-content: start;
+  gap: 0.5rem;
 
   .event {
-    position: relative;
-    height: 5.25rem;
-    background-color: white;
-    border-radius: 0.75rem;
-
+    padding: .75rem 1.5rem;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    gap: .5rem;
+
 
     box-shadow: 1px 1px 1px 0px #0c3a371a;
+    background: white;
 
-    padding: 1rem 1rem 1rem 1.75rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
 
-    font-family: OPPO Sans;
-    font-weight: 400;
-    letter-spacing: -0.01875px;
-    line-height: 100%;
-    .left-color {
+    position: relative;
+
+    &::before {
       position: absolute;
       top: 0;
       left: 0;
+      content: ' ';
       width: 0.75rem;
       height: 100%;
-      border-radius: 0.75rem 0 0 0.75rem;
-
-      &.red {
-        background-color: #f44336;
-      }
-      &.green {
-        background-color: #4caf50;
-      }
-      &.blue {
-        background-color: #2196f3;
-      }
-      &.yellow {
-        background-color: #ffeb3b;
-      }
+      background: var(--ribbon-background);
     }
-    .left {
+
+    .info {
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      overflow: hidden;
+      gap: .25rem;
+
+      &>* {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        overflow: hidden;
+      }
 
       .title {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
       }
 
       .location {
-        font-size: 1rem;
+        font-size: .8rem;
       }
     }
-    .right {
+
+    .time {
+      flex: 0 0 auto;
+      justify-self: end;
       display: flex;
       align-items: center;
-      .time {
-        font-size: 1rem;
-      }
+      font-size: .9rem;
     }
   }
 }
 
-.modal-study {
-  --height: auto;
-  --background: #fafafa;
-  --border-radius: 0.6rem;
-  .model-container {
+.modal-event-detail {
+  --border-radius: 1rem;
+
+  .event-detail {
     padding: 0 1rem;
-    ion-header {
-      ion-toolbar {
-        --background: #f;
-        text-align: center;
-        .bar {
+    --vertical-space: .75rem;
+    overflow: auto;
+
+    &>.header {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--vertical-space) 0;
+
+      .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-weight: bold;
+        gap: .5rem;
+        font-size: 1.2rem;
+
+        .icon {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 0.5rem;
           display: flex;
-          justify-content: space-between;
-          padding: 1rem 0 0.75rem 0;
-          .title {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-
-            .icon {
-              width: 2rem;
-              height: 2rem;
-              border-radius: 0.625rem;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-
-              &.study {
-                background-color: #ff5e7233;
-              }
-              &.daily {
-                background-color: #92dbd836;
-              }
-            }
-            .icon-label {
-              font-family: OPPO Sans;
-              font-weight: 500;
-              font-size: 1.125rem;
-              line-height: 1.3125rem;
-              letter-spacing: -0.01875rem;
-            }
-          }
+          justify-content: center;
+          align-items: center;
+          background-color: #92dbd836;
         }
       }
     }
 
     .content {
-      background-color: #fafafa;
+      max-height: 100%;
       display: flex;
       flex-direction: column;
-      gap: 0.625rem;
+      gap: var(--vertical-space);
 
       .title {
-        padding: 0.5rem 0.5rem;
-        font-family: OPPO Sans;
-        font-weight: 400;
-        font-size: 2rem;
-        line-height: 100%;
-        letter-spacing: 0;
-        vertical-align: middle;
+        font-size: 1.75rem;
       }
-      border-radius: 0.625rem;
-      ion-list {
-        border-radius: 0.625rem 0.625rem 0 0;
-        background-color: #fff;
+
+      .fields {
+        border-radius: 0.5rem;
+        background: #fff;
         margin: 0;
         padding: 0;
-        ion-item {
+
+        .field {
           --background: #fff;
 
-          ion-label {
-            &.right {
-              text-align: right;
-
-              font-family: OPPO Sans;
-              font-weight: 400;
-              font-size: 1rem;
-              line-height: 100%;
-              letter-spacing: Display Large/Tracking;
-            }
-            &.left {
-              text-align: left;
-              --color: #128f9d;
-              font-family: OPPO Sans;
-              font-weight: 700;
-              font-size: 1.125rem;
-              line-height: 1.3125rem;
-              letter-spacing: -0.01875rem;
-            }
+          .label {
+            color: #128f9d;
+            font-weight: bold;
+            font-size: 1.125rem;
           }
 
-          ion-textarea {
-            font-family: OPPO Sans;
-            font-weight: 400;
-            font-size: 1rem;
-            line-height: 100%;
-            letter-spacing: Display Large/Tracking;
+          &:last-child::part(native) {
+            border-bottom: none;
           }
-
-          .time {
-            display: flex;
-            gap: 0.5rem;
-            .time-label {
-              padding: 0.3125rem 0.5rem;
-              background-color: #c3cecb33;
-              border-radius: 0.625rem;
-
-              font-family: OPPO Sans;
-              font-weight: 400;
-              font-size: 1rem;
-              line-height: 100%;
-              letter-spacing: Display Large/Tracking;
-            }
-          }
-        }
-
-        .item-line {
-          height: 0px;
-          border: #80808026 1px solid;
-          margin: 0 1rem;
         }
       }
     }
