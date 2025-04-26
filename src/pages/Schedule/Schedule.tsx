@@ -90,6 +90,7 @@ export default function Schedule() {
   const [viewMode, setViewMode] = useState<number | 'month'>(1)
   // 左右滑动到的日期 即当前视图的第一天
   const [currentDate, setCurrentDate] = useState(() => today.startOf('isoWeek'))
+
   const views = useMemo(() => {
     function getViewDays(deltaView: number) {
       const currentMonth = selectedMonth
@@ -153,6 +154,7 @@ export default function Schedule() {
         </IonTitle>
         <ScheduleOperations
           gotoToday={() => setSelectedDate(today)}
+          isToday={selectedDate.isSame(today, 'day')}
           onClickSingle={() => setViewMode(1)}
           onClickDouble={() => setViewMode(2)}
           onClickMonth={() => setViewMode('month')}
