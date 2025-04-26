@@ -31,6 +31,7 @@
     "@capgo/capacitor-updater": "^7.0.32",
     "@ionic/react": "^8.4.1",
     "@ionic/react-router": "^8.4.3",
+    "@use-gesture/react": "^10.3.1",
     "bigint-mod-arith": "^3.3.1",
     "core-js": "^3.41.0",
     "dayjs": "^1.11.13",

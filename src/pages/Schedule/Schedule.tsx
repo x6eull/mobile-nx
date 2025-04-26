@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { Event as EventModel } from '@/models/Event'
 import 'swiper/css'
 import { useTime } from '@/utils/hooks'
+import { useGesture } from '@use-gesture/react'
 
 import './Schedule.css'
 
@@ -146,6 +147,21 @@ export default function Schedule() {
 
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
 
+  const bind = useGesture({
+    onDrag: ({ direction: [, yDir], distance: [, yDist], cancel }) => {
+      if (yDist > 50) {
+        cancel?.()
+        if (yDir === 1 && viewMode !== 'month') {
+          // 向下拖动，放大视图
+          setViewMode(viewMode === 1 ? 2 : 'month')
+        } else if (yDir === -1 && viewMode !== 1) {
+          // 向上拖动，缩小视图
+          setViewMode(viewMode === 'month' ? 2 : 1)
+        }
+      }
+    },
+  })
+
   return (
     <IonPage className='schedule-page'>
       <IonToolbar className='toolbar'>
@@ -160,7 +176,7 @@ export default function Schedule() {
           onClickMonth={() => setViewMode('month')}
         />
       </IonToolbar>
-      <IonContent>
+      <IonContent {...bind()}>
         <div className='calendar'>
           <div className='content'>
             <Swiper
@@ -184,6 +200,8 @@ export default function Schedule() {
               style={
                 {
                   '--week-count': viewWeekCount.toFixed(0),
+                  '--view-mode': viewMode === 'month' ? 3 : viewMode,
+                  touchAction: 'none', // 禁用默认触摸行为
                 } as React.CSSProperties
               }
             >

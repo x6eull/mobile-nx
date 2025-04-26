@@ -10,7 +10,11 @@ function GotoToday({
 }) {
   return (
     <IonButton className='goto-today' onClick={onClick}>
-      {isToday ? <div className='container'>今</div> : <div>今</div>}
+      {isToday ? (
+        <div className='today'>今</div>
+      ) : (
+        <div className='not-today'>今</div>
+      )}
     </IonButton>
   )
 }
