@@ -81,6 +81,7 @@ export default function Schedule() {
   const [viewMode, setViewMode] = useState<number | 'month'>(1)
   // 左右滑动到的日期 即当前视图的第一天
   const [currentDate, setCurrentDate] = useState(() => today.startOf('isoWeek'))
+  const [isToday, setIsToday] = useState(true)
   const views = useMemo(() => {
     function getViewDays(deltaView: number) {
       const currentMonth = selectedMonth
@@ -144,7 +145,11 @@ export default function Schedule() {
               {selectedDate.year()}年{selectedDate.month() + 1}月
             </IonTitle>
             <ScheduleOperations
-              gotoToday={() => setSelectedDate(today)}
+              isToday={isToday}
+              gotoToday={() => {
+                setSelectedDate(today)
+                setIsToday(true)
+              }}
               onClickSingle={() => setViewMode(1)}
               onClickDouble={() => setViewMode(2)}
               onClickMonth={() => setViewMode('month')}
@@ -187,7 +192,10 @@ export default function Schedule() {
                     {days.map(({ date, isCurrentMonth, eventCount }) => (
                       <Day
                         key={date.valueOf()}
-                        onClick={() => setSelectedDate(date)}
+                        onClick={() => {
+                          setSelectedDate(date)
+                          setIsToday(date.isSame(today, 'day'))
+                        }}
                         date={date.date()}
                         isToday={date.isSame(today, 'day')}
                         selected={date.isSame(selectedDate, 'day')}
