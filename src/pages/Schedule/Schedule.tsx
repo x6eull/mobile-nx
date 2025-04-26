@@ -4,6 +4,7 @@ import { SwiperSlide, Swiper, SwiperClass } from 'swiper/react'
 import Events from './components/Events'
 import ScheduleOperations from './ScheduleOperations/ScheduleOperations'
 import dayjs, { Dayjs } from 'dayjs'
+import { Event as EventModel } from '@/models/Event'
 import 'swiper/css'
 
 import './Schedule.css'
@@ -16,6 +17,32 @@ type DayInfo = {
   isCurrentMonth: boolean
   onClick: () => void
 }
+
+const events: EventModel[] = [
+  {
+    uid: '1',
+    dtstamp: dayjs(),
+    dtstart: dayjs().hour(8).minute(0),
+    dtend: dayjs().hour(9).minute(35),
+    summary: '微积分(甲) Ⅱ',
+    description: '随堂小测',
+    location: '紫金港东2-103',
+    'x-course-id': 'MATH101',
+    categories: 'class',
+    teacher: '苏德矿',
+    term: '24年 春夏',
+  },
+  {
+    uid: '2',
+    dtstamp: dayjs(),
+    dtstart: dayjs().hour(11).minute(30),
+    dtend: dayjs().hour(14).minute(30),
+    summary: '划水划水',
+    description: '',
+    location: '紫金港小剧场 B127',
+    categories: 'custom',
+  },
+]
 
 function Day({
   date,
@@ -178,7 +205,7 @@ export default function Schedule({ now }: { now: Dayjs }) {
             </div>
           </div>
         </div>
-        <Events events={[]} />
+        <Events events={events} />
       </div>
     </IonPage>
   )

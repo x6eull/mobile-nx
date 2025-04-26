@@ -1,13 +1,16 @@
+import { Dayjs } from 'dayjs'
+
+/**参考RFC-5545，此为单个VEVENT。 */
 /**参考RFC-5545，此为单个VEVENT。 */
 export interface Event {
   /**事件的唯一标识符 */
   uid: string
   /**创建/更改时间 */
-  dtstamp: Date
+  dtstamp: Dayjs
   /**开始时间 */
-  dtstart: Date
+  dtstart: Dayjs
   /**结束时间 */
-  dtend: Date
+  dtend: Dayjs
   /**事件标题 */
   summary: string
   /**事件描述 */
@@ -18,7 +21,10 @@ export interface Event {
   'x-course-id'?: string
   /**日程类别。标准中支持多个逗号分隔值，此处只接受单个值。 */
   categories: 'custom' | 'class' | 'exam'
-
+  /**授课教师*/
+  teacher?: string
+  /**上课学期*/
+  term?: string
   //TODO rrule, exdate, etc.
 }
 
