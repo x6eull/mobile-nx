@@ -31,7 +31,7 @@ export default function Index() {
     tempMin = 4,
     tempMax = 18
   // 5s 更新header的日期
-  const date = dayjs(useTime(1000 * 5))
+  const date = useTime(1000 * 5)
 
   const tip = tips.find((item) => item.weather === weather)?.tip ?? ''
   return (

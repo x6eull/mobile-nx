@@ -1,12 +1,12 @@
-import { useState, useRef, useMemo, useEffect } from 'react'
+import { useState, useRef, useMemo, useLayoutEffect } from 'react'
 import { IonToolbar, IonTitle, IonPage } from '@ionic/react'
 import { SwiperSlide, Swiper, SwiperClass } from 'swiper/react'
 import Events from './components/Events'
 import ScheduleOperations from './ScheduleOperations/ScheduleOperations'
-import dayjs, { Dayjs } from 'dayjs'
 import 'swiper/css'
 
 import './Schedule.css'
+import { useTime } from '@/utils/hooks'
 
 type DayInfo = {
   date: number
@@ -44,9 +44,9 @@ function Day({
   )
 }
 
-export default function Schedule({ now }: { now: Dayjs }) {
+export default function Schedule() {
   const swiperRef = useRef<SwiperClass>()
-  const today = dayjs(now)
+  const today = useTime(1000 * 5)
   // 点击选中的日期
   const [selectedDate, setSelectedDate] = useState(today)
   const selectedMonth = selectedDate.month()
@@ -99,16 +99,11 @@ export default function Schedule({ now }: { now: Dayjs }) {
     }
     return [-1, 0, 1].map((delta) => getViewDays(delta))
   }, [currentDate, viewMode, selectedMonth])
-  function getViewWeekCount(view: (typeof views)[number]) {
-    if (typeof viewMode === 'number') return viewMode
-    return view.days.length / 7
-  }
   const [nextView, setNextView] = useState(views[1])
-  useEffect(() => setNextView(views[1]), [views])
-  const viewWeekCount = getViewWeekCount(nextView)
-  useEffect(() => {
-    swiperRef.current?.slideTo(1, 0, false)
-  }, [views])
+  useLayoutEffect(() => setNextView(views[1]), [views])
+  const viewWeekCount =
+    typeof viewMode === 'number' ? viewMode : nextView.days.length / 7
+  useLayoutEffect(() => void swiperRef.current?.slideTo(1, 0, false), [views])
 
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
 

@@ -3,7 +3,7 @@ import time from './time.svg'
 import remarks from './remarks.svg'
 import './CurrentEvent.css'
 import { TodayEvent } from '../Today'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { IonRouterLink } from '@ionic/react'
 
 export default function CurrentEvent({
@@ -11,9 +11,9 @@ export default function CurrentEvent({
   now,
 }: {
   event: TodayEvent
-  now: Date
+  now: Dayjs
 }) {
-  const leftDuration = dayjs.duration(dayjs(event.startAt).diff(dayjs(now)))
+  const leftDuration = dayjs.duration(event.startAt.diff(now))
   const timeLeft = leftDuration.format('HH:mm:ss')
   const timeSpan =
     event.startAt.format('HH:mm') + ' - ' + event.endAt.format('HH:mm')
@@ -24,6 +24,7 @@ export default function CurrentEvent({
       routerLink='/schedule'
     >
       <div className='countdown'>
+        {/**TODO */}
         <div className='prefix'>距上课</div>
         <div className='time'>{timeLeft}</div>
         <div className='title'>{event.name}</div>
