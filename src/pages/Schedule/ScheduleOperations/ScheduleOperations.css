@@ -1,80 +1,28 @@
-.schedule-operations {
-  .icon-dayview {
-    width: 32px;
-    height: 40px;
+/**属性选择器提升优先级*/
+.schedule-operations[class~=schedule-operations] {
+  gap: 0.5rem;
 
-    .icon-dayview-line {
-      background-color: black;
-      width: 24px;
-      height: 6px;
-      left: 4px;
-      position: absolute;
-      border-radius: 1px;
+  &>ion-button {
+    margin: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    min-height: unset;
+    overflow: hidden;
+    display: flex;
 
-      &.first {
-        top: 7.5px;
-      }
-
-      &.second {
-        top: 16.5px;
-      }
-
-      &.third {
-        top: 25.5px;
-      }
-    }
-  }
-
-  .icon-weekview {
-    width: 32px;
-    height: 40px;
-
-    .icon-weekview-line {
-      background-color: black;
-      width: 6px;
-      height: 25px;
-      top: 7px;
-      position: absolute;
-      border-radius: 1px;
-
-      &.first {
-        left: 4px;
-      }
-
-      &.second {
-        left: 13px;
-      }
-
-      &.third {
-        left: 22px;
-      }
-    }
-  }
-
-  .goto-today {
-    --background-activated: transparent !important;
-    --background-focused: transparent;
-    --background-hover: transparent;
-
-    .today {
-      background-color: black;
-      width: 1.8em;
-      height: 1.8em;
+    &.goto-today {
       border-radius: 100%;
-      font-size: 1rem;
-      color: white;
       font-weight: bold;
-      align-content: center;
-    }
+      color: white;
+      --background: #cecece88;
 
-    .not-today {
-      background-color: white;
-      width: 1.8em;
-      height: 1.8em;
-      border-radius: 100%;
-      font-size: 1rem;
-      color: black;
-      align-content: center;
+      &.is-today {
+        --background: black;
+      }
     }
   }
 }

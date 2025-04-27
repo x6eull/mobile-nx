@@ -9,12 +9,11 @@ function GotoToday({
   isToday: boolean
 }) {
   return (
-    <IonButton className='goto-today' onClick={onClick}>
-      {isToday ? (
-        <div className='today'>今</div>
-      ) : (
-        <div className='not-today'>今</div>
-      )}
+    <IonButton
+      className={'goto-today'.with(isToday, 'is-today')}
+      onClick={onClick}
+    >
+      今
     </IonButton>
   )
 }
@@ -22,9 +21,9 @@ function GotoToday({
 export default function ScheduleOperations({
   isToday,
   gotoToday,
-  onClickSingle,
-  onClickDouble,
-  onClickMonth,
+  // onClickSingle,
+  // onClickDouble,
+  // onClickMonth,
 }: {
   isToday: boolean
   gotoToday: () => void
@@ -33,11 +32,11 @@ export default function ScheduleOperations({
   onClickMonth: () => void
 }) {
   return (
-    <IonButtons class='schedule-operations' collapse={true} slot='end'>
+    <IonButtons class='schedule-operations' slot='end'>
       <GotoToday onClick={gotoToday} isToday={isToday} />
-      <IonButton onClick={onClickSingle}>单</IonButton>
+      {/* <IonButton onClick={onClickSingle}>单</IonButton>
       <IonButton onClick={onClickDouble}>双</IonButton>
-      <IonButton onClick={onClickMonth}>月</IonButton>
+      <IonButton onClick={onClickMonth}>月</IonButton> */}
     </IonButtons>
   )
 }
