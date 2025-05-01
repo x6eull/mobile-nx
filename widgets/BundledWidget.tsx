@@ -16,6 +16,13 @@ export default function BundledWidgets() {
         '',
         '0.1.0',
       ),
+      newWidgetExtension(
+        '/widgets/rollcallViewer/',
+        '00000000-0000-0000-0000-000000000001',
+        'rollcallviewer',
+        '',
+        '0.0.1',
+      ),
     ],
     [],
   )
