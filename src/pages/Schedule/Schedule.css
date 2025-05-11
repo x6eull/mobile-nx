@@ -28,7 +28,7 @@
       &::before {
         content: ' ';
         background-color: #128f9d1a;
-        width: .5rem;
+        width: 0.5rem;
       }
 
       .views {
@@ -37,7 +37,9 @@
         transition: height 0.2s ease-out;
         --weekday-height: 1.5rem;
         --day-height: 3rem;
-        height: calc(var(--weekday-height) + (var(--week-count) * var(--day-height)));
+        height: calc(
+          var(--weekday-height) + (var(--week-count) * var(--day-height))
+        );
 
         .view {
           display: grid;
@@ -46,7 +48,7 @@
           grid-auto-rows: var(--day-height);
 
           .weekday {
-            font-size: .9rem;
+            font-size: 0.9rem;
             color: #128f9d4d;
             display: flex;
             flex-direction: row;
@@ -59,7 +61,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: .2rem;
+            gap: 0.2rem;
 
             .day {
               height: 2rem;
@@ -109,7 +111,7 @@
       width: 2.5rem;
       height: 0.25rem;
       background-color: #128f9d1a;
-      border-radius: .125rem;
+      border-radius: 0.125rem;
     }
   }
 }

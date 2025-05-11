@@ -1,3 +1,7 @@
+.icon-todo {
+  color: #ff5f73;
+}
+
 .todolist {
   --item-height: 3.75rem;
   --item-gap: 0.625rem;
@@ -14,6 +18,7 @@
   );
   overflow-y: scroll;
   gap: var(--item-gap);
+
   .todo-footer {
     color: var(--todo-footer-color);
     font-size: 1rem;
@@ -32,26 +37,31 @@
       var(--todoitem-shadow-color);
     background-color: var(--todoitem-background);
     color: var(--todoitem-font-color);
+
     .todo-item-element {
       display: flex;
       flex-direction: column;
       justify-content: center;
+
       .todo-name {
         font-size: 1.0625rem;
         font-weight: 400;
       }
+
       .todo-type {
         color: var(--todoitem-note-color);
         font-weight: 400;
         font-size: 0.8125rem;
       }
     }
+
     .todo-item-other {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
       gap: 0.9375rem;
+      
       & > div {
         font-size: 0.75rem;
         font-weight: 400;

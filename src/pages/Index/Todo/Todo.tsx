@@ -50,7 +50,7 @@ export default function Todo({
     <Card
       icon={
         <CardIcon bgColor='var(--todo-icon-background)'>
-          <IconTodo />
+          <IconTodo className='icon-todo' />
         </CardIcon>
       }
       title='学在浙大待办'

@@ -1,17 +1,12 @@
 .index-container {
-  --ion-background-color: #f8f8f8;
-  --ion-font-family: 'OPPO Sans';
+  --ion-background-color: var(--nx-color-background);
+
   --card-background: white;
   --padding-top: 1rem;
   --padding-bottom: var(--padding-top);
   --padding-start: 1.2rem;
   --padding-end: var(--padding-start);
 
-  --today-icon-background: #e7f4f5;
-  --today-link-color: #6bb9c1;
-  --today-emoji-color: #808080;
-  --today-none-color: #fdab76;
-  --today-list-none-color: grey;
   --todo-footer-color: grey;
 
   --todoitem-background: white;
@@ -19,9 +14,7 @@
   --todoitem-shadow-color: #c0c0c0;
   --todoitem-note-color: rgb(91, 119, 86);
   --todoitem-time-color: #6bb9c1;
-
   --todo-icon-background: #ffe0e0;
-  --link-icon-background: #fff2ea;
 
   .cards {
     display: flex;

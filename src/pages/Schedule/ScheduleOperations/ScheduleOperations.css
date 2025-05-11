@@ -1,8 +1,8 @@
 /**属性选择器提升优先级*/
-.schedule-operations[class~=schedule-operations] {
+.schedule-operations[class~='schedule-operations'] {
   gap: 0.5rem;
 
-  &>ion-button {
+  & > ion-button {
     margin: 0;
     --padding-top: 0;
     --padding-bottom: 0;
