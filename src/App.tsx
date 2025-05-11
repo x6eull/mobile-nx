@@ -13,9 +13,9 @@ import {
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import Index from './pages/Index/Index'
-import index from './navIcon/index.svg'
-import schedule from './navIcon/schedule.svg'
-import mine from './navIcon/mine.svg'
+import iconIndex from './navIcon/index.svg'
+import iconSchedule from './navIcon/schedule.svg'
+import iconMine from './navIcon/mine.svg'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -48,6 +48,7 @@ import '@ionic/react/css/display.css'
 import './App.css'
 import GradePage from './pages/GradePage/GradePage'
 import CourseSchedule from './pages/CourseSchedule/CourseSchedule'
+import Schedule from './pages/Schedule/Schedule'
 import { useEffect, useMemo, useState } from 'react'
 import { RenewService } from './services/RenewService'
 import { CourseCombinedContext } from './context/CourseCombinedContext'
@@ -90,7 +91,7 @@ function AppRouter() {
             <Index />
           </Route>
           <Route exact path='/schedule'>
-            <IonPage>todo</IonPage>
+            <Schedule />
           </Route>
           <Route exact path='/mine'>
             <IonPage>
@@ -122,15 +123,15 @@ function AppNav() {
   return (
     <IonTabBar className='app-nav' slot='bottom'>
       <IonTabButton tab='index' href='/index'>
-        <IonIcon aria-hidden='true' icon={index} />
+        <IonIcon aria-hidden='true' icon={iconIndex} />
         <IonLabel>主页</IonLabel>
       </IonTabButton>
       <IonTabButton tab='schedule' href='/schedule'>
-        <IonIcon aria-hidden='true' icon={schedule} />
+        <IonIcon aria-hidden='true' icon={iconSchedule} />
         <IonLabel>日程</IonLabel>
       </IonTabButton>
       <IonTabButton tab='mine' href='/mine'>
-        <IonIcon aria-hidden='true' icon={mine} />
+        <IonIcon aria-hidden='true' icon={iconMine} />
         <IonLabel>我的</IonLabel>
       </IonTabButton>
     </IonTabBar>

@@ -46,7 +46,6 @@ export class GradeSpider {
       credit: Number(rawGrade.xf),
       rawScore: rawGrade.cj,
       rawGradePoint: rawGrade.jd,
-      isAborted: rawGrade.cj === '弃修',
     }
   }
 }

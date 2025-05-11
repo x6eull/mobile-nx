@@ -1,0 +1,115 @@
+.schedule-page {
+  .toolbar {
+    padding: 1rem 0;
+    justify-content: space-between;
+
+    ion-title {
+      text-align: left;
+      padding: 0;
+      font-size: 1.125rem;
+    }
+  }
+
+  .calendar {
+    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-color: white;
+
+    .content {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      line-height: 1.125rem;
+
+      &::before {
+        content: ' ';
+        background-color: #128f9d1a;
+        width: .5rem;
+      }
+
+      .views {
+        text-align: center;
+        overflow: hidden;
+        transition: height 0.2s ease-out;
+        --weekday-height: 1.5rem;
+        --day-height: 3rem;
+        height: calc(var(--weekday-height) + (var(--week-count) * var(--day-height)));
+
+        .view {
+          display: grid;
+          grid-template-columns: repeat(7, minmax(0, 1fr));
+          grid-template-rows: var(--weekday-height);
+          grid-auto-rows: var(--day-height);
+
+          .weekday {
+            font-size: .9rem;
+            color: #128f9d4d;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .day-container {
+            font-family: var(--nx-font-rubik);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .2rem;
+
+            .day {
+              height: 2rem;
+              width: 2rem;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              border-radius: 100%;
+              transition: background-color 0.2s ease-out;
+
+              &.today {
+                background-color: #128f9d4d;
+              }
+
+              &.not-current-month {
+                color: #5c5c5c4d;
+              }
+
+              &.selected {
+                color: white;
+                background-color: #128f9d;
+              }
+            }
+
+            .event-indicator {
+              display: flex;
+              flex-direction: row;
+              max-width: calc(100% - 1rem);
+              overflow: hidden;
+
+              .dot {
+                flex: 0 0 auto;
+                width: 0.3rem;
+                height: 0.3rem;
+                border-radius: 100%;
+                background-color: #6a8fff40;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &::after {
+      content: ' ';
+      width: 2.5rem;
+      height: 0.25rem;
+      background-color: #128f9d1a;
+      border-radius: .125rem;
+    }
+  }
+}

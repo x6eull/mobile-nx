@@ -42,3 +42,25 @@ export function applyOn<
     args,
   ) as ReturnType<F>
 }
+
+class AssertionError extends Error {
+  name = 'AssertionError'
+  constructor(message: string, cause?: unknown) {
+    super(message)
+    this.cause = cause
+  }
+}
+export function assert(
+  value: boolean,
+  message?: string,
+  ...optionalParams: unknown[]
+) {
+  console.assert(value, message, ...optionalParams)
+  if (!value)
+    throw new AssertionError(message ?? 'Assertion failed', optionalParams)
+}
+
+/**始终返回一个数组。如果Array.isArray(value)为真，返回value，否则返回[value] */
+export function toArray<T>(value: T | T[]): T[] {
+  return Array.isArray(value) ? value : [value]
+}

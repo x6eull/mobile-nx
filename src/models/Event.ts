@@ -1,13 +1,15 @@
+import { Dayjs } from 'dayjs'
+
 /**参考RFC-5545，此为单个VEVENT。 */
 export interface Event {
   /**事件的唯一标识符 */
   uid: string
   /**创建/更改时间 */
-  dtstamp: Date
+  dtstamp: Dayjs
   /**开始时间 */
-  dtstart: Date
+  dtstart: Dayjs
   /**结束时间 */
-  dtend: Date
+  dtend: Dayjs
   /**事件标题 */
   summary: string
   /**事件描述 */
@@ -18,7 +20,6 @@ export interface Event {
   'x-course-id'?: string
   /**日程类别。标准中支持多个逗号分隔值，此处只接受单个值。 */
   categories: 'custom' | 'class' | 'exam'
-
   //TODO rrule, exdate, etc.
 }
 
@@ -31,7 +32,7 @@ function encodeICalendarText(text: string): string {
 }
 
 /**按rfc标准，转换为类似19980119T070000Z的格式(FORM #2: DATE WITH UTC TIME) */
-function encodeICalendarDate(date: Date): string {
+function encodeICalendarDate(date: Dayjs): string {
   return date.toISOString().replace(/[-:]|\.\d+/g, '')
 }
 
@@ -49,7 +50,7 @@ export function toICalendar(events: Event[]): string {
             key = key.toUpperCase()
             if (typeof value === 'string')
               return `${key}:${encodeICalendarText(value)}`
-            else if (value instanceof Date)
+            else if (value instanceof Dayjs)
               return `${key}:${encodeICalendarDate(value)}`
             else throw new Error(`Invalid value type for key ${key}`)
           })

@@ -9,92 +9,115 @@ import Toolbar from '@/components/Toolbar/Toolbar'
 import SemesterSegment from '@/components/SemesterSegment/SemesterSegment'
 import { CourseCombinedContext } from '@/context/CourseCombinedContext'
 import { CourseBase } from '@/models/CourseBase'
-import { CourseGradeInfo } from '@/models/CourseGradeInfo'
+import { CourseGradeInfo, getEffectiveness } from '@/models/CourseGradeInfo'
 import { LastUpdatedContext } from '@/context/LastUpdatedContext'
+import { getMentionedSemesters } from '@/models/CourseCombined'
 
 export default function GradePage() {
   const courseCombined = useContext(CourseCombinedContext)
   const lastUpdated = useContext(LastUpdatedContext)
-  //计算出可选择的学期列表，以及可用年+Term索引的课程列表
-  const [semesterList, yearTermMap] = useMemo(() => {
-    const courseWithGrade = courseCombined.filter((c) => 'rawScore' in c)
-    const yearTermMap = new Map<
-      number,
-      Map<ReturnType<typeof toLongTerm>, (CourseBase & CourseGradeInfo)[]>
-    >()
-    courseWithGrade.forEach((course) => {
+
+  // 获取可选择的学期列表，及学年统计、学期统计
+  const [semesterList, overallResult] = useMemo(() => {
+    const overallResult = {
+      creditsGot: 0, // 总获得学分
+      creditsCountGpa: 0, // 总gpa计算学分
+      creditGradePoint: 0, // 总学分绩点
+      yearMap: new Map<
+        // 每年的信息
+        number,
+        {
+          creditsGot: number
+          creditsCountGpa: number
+          creditGradePoint: number
+          longTermMap: Map<
+            //每长学期的信息
+            ReturnType<typeof toLongTerm>,
+            {
+              creditsGot: number
+              creditsCountGpa: number
+              creditGradePoint: number
+              courses: (CourseBase & CourseGradeInfo)[]
+            }
+          >
+        }
+      >(),
+    }
+    const semesterList = getMentionedSemesters(courseCombined, (c) => {
+      if (!('rawScore' in c)) return null
+      const { passed, shouldCountGradePoint } = getEffectiveness(c)
       const {
+        credit,
+        rawGradePoint,
         semester: { year, term },
-      } = course
+      } = c
       const longTerm = toLongTerm(term)
-      yearTermMap.ensure(
+      const gradePoint = Number(rawGradePoint)
+      const creditsGot = passed ? credit : 0
+      const creditsCountGpa = shouldCountGradePoint ? credit : 0
+      const creditGradePoint = creditsCountGpa * gradePoint
+      /** 如果longTermMap中还不存在该学期信息，则使用此初始化信息 */
+      const longTermInfoInit = {
+        creditsGot,
+        creditsCountGpa,
+        creditGradePoint,
+        courses: [c],
+      }
+      // 先把 获得学分、计入gpa学分、学分绩点 加到长学期统计对象上
+      overallResult.yearMap.ensure(
         year,
-        () => new Map([[longTerm, [course]]]),
-        (termMap) =>
-          termMap.ensure(
+        () => ({
+          creditsGot: 0,
+          creditsCountGpa: 0,
+          creditGradePoint: 0,
+          longTermMap: new Map([[longTerm, longTermInfoInit]]),
+        }),
+        (yearInfo) =>
+          yearInfo.longTermMap.ensure(
             longTerm,
-            () => [course],
-            (courseList) => courseList.push(course),
+            () => longTermInfoInit,
+            (longTermInfo) => {
+              longTermInfo.creditsGot += creditsGot
+              longTermInfo.creditsCountGpa += creditsCountGpa
+              longTermInfo.creditGradePoint += creditGradePoint
+              longTermInfo.courses.push(c)
+            },
           ),
       )
+      return { year, term: longTerm }
     })
-    return [
-      yearTermMap
-        .entries()
-        .map(([year, terms]) =>
-          terms
-            .keys()
-            .map((t) => ({ year, term: t }) as Semester)
-            .toArray(),
-        )
-        .toArray()
-        .flat(1),
-      new Map(
-        yearTermMap.entries().map(([year, terms]) => [
-          year,
-          new Map(
-            terms.entries().map(([term, courses]) => {
-              // 总学分、总学分绩点
-              let totalCredits = 0,
-                totalCreditGradePoint = 0
-              courses.forEach((course) => {
-                //TODO 不及格没有学分？
-                if (course.isAborted) return
-                totalCredits += course.credit
-                totalCreditGradePoint +=
-                  course.credit * Number(course.rawGradePoint)
-              })
-              return [
-                term,
-                {
-                  credits: totalCredits,
-                  gpa:
-                    totalCredits > 0 ? totalCreditGradePoint / totalCredits : 0,
-                  creditGradePoint: totalCreditGradePoint,
-                  courses,
-                },
-              ]
-            }),
-          ),
-        ]),
-      ),
-    ]
+    // 再对每长学期、每学年数据求和
+    overallResult.yearMap.forEach((yearInfo) => {
+      yearInfo.longTermMap.forEach((longTermInfo) => {
+        yearInfo.creditsGot += longTermInfo.creditsGot
+        yearInfo.creditsCountGpa += longTermInfo.creditsCountGpa
+        yearInfo.creditGradePoint += longTermInfo.creditGradePoint
+      })
+      overallResult.creditsGot += yearInfo.creditsGot
+      overallResult.creditsCountGpa += yearInfo.creditsCountGpa
+      overallResult.creditGradePoint += yearInfo.creditGradePoint
+    })
+    return [semesterList, overallResult]
   }, [courseCombined])
 
   const [currentSemester, setCurrentSemester] = useState<Semester | null>(null)
-  const { year, term } = currentSemester ?? { year: 0, term: 0b1 }
-  const currentYearMap = yearTermMap.get(year),
-    currentSemesterInfo = currentYearMap?.get(term)
-  const currentSemesterCredits = currentSemesterInfo?.credits ?? 0,
-    currentSemesterGpa = currentSemesterInfo?.gpa ?? 0,
-    currentYearCredits =
-      currentYearMap?.values().reduce((acc, { credits }) => acc + credits, 0) ??
-      0,
+  const currentYearInfo = overallResult.yearMap.get(currentSemester?.year ?? -1)
+  const currentSemesterInfo = currentYearInfo?.longTermMap.get(
+    (currentSemester?.term ?? -1) as ReturnType<typeof toLongTerm>,
+  )
+  let currentSemesterCredits = NaN,
+    currentSemesterGpa = NaN,
+    currentYearCredits = NaN,
+    currentYearGpa = NaN
+  // 如果出现除0，直接照常提供给子组件，显示NaN
+  if (currentYearInfo && currentSemesterInfo) {
+    currentSemesterCredits = currentSemesterInfo.creditsGot
+    currentSemesterGpa =
+      currentSemesterInfo.creditGradePoint / currentSemesterInfo.creditsCountGpa
+    currentYearCredits = currentYearInfo.creditsGot
     currentYearGpa =
-      (currentYearMap
-        ?.values()
-        .reduce((acc, { creditGradePoint }) => acc + creditGradePoint, 0) ??
-        0) / currentYearCredits
+      currentYearInfo.creditGradePoint / currentYearInfo.creditsCountGpa
+  }
 
   return (
     <IonPage className='grade-page no-app-nav'>
@@ -102,8 +125,10 @@ export default function GradePage() {
       {semesterList.length ? (
         <>
           <GradeSummary
-            credits={0}
-            gpa5={0}
+            credits={overallResult.creditsGot}
+            gpa5={
+              overallResult.creditGradePoint / overallResult.creditsCountGpa
+            }
             gpa4_3={0}
             gpa100={0}
             lastUpdated={lastUpdated?.format('YYYY.M.D HH:mm:ss') ?? '待更新'}

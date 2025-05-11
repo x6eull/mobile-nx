@@ -1,0 +1,130 @@
+.schedule-events {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .event {
+    padding: .75rem 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: .5rem;
+
+
+    box-shadow: 1px 1px 1px 0px #0c3a371a;
+    background: white;
+
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: ' ';
+      width: 0.75rem;
+      height: 100%;
+      background: var(--ribbon-background);
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      gap: .25rem;
+
+      &>* {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .title {
+        font-size: 1.1rem;
+      }
+
+      .location {
+        font-size: .8rem;
+      }
+    }
+
+    .time {
+      flex: 0 0 auto;
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      font-size: .9rem;
+    }
+  }
+}
+
+.modal-event-detail {
+  --border-radius: 1rem;
+
+  .event-detail {
+    padding: 0 1rem;
+    --vertical-space: .75rem;
+    overflow: auto;
+
+    &>.header {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--vertical-space) 0;
+
+      .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-weight: bold;
+        gap: .5rem;
+        font-size: 1.2rem;
+
+        .icon {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 0.5rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #92dbd836;
+        }
+      }
+    }
+
+    .content {
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--vertical-space);
+
+      .title {
+        font-size: 1.75rem;
+      }
+
+      .fields {
+        border-radius: 0.5rem;
+        background: #fff;
+        margin: 0;
+        padding: 0;
+
+        .field {
+          --background: #fff;
+
+          .label {
+            color: #128f9d;
+            font-weight: bold;
+            font-size: 1.125rem;
+          }
+
+          &:last-child::part(native) {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+}

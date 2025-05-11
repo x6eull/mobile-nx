@@ -1,5 +1,8 @@
 interface Map<K, V> {
-  /**如果指定的键存在，向对应的值push一个元素；否则新建一个仅有该元素的数组，并插入Map。 */
+  /**如果指定的键存在，向对应的值push一个元素；否则新建一个仅有该元素的数组，并插入Map。
+   *
+   * Map的值(即V)必须是数组，否则未定义。
+   */
   pushValue: V extends (infer E)[] ? (key: K, element: E) => void : never
   /**如果指定的键不存在，调用valueInit，插入新的值；
    * 否则，尝试用已存在的值调用onExists。不使用onExists的返回值。

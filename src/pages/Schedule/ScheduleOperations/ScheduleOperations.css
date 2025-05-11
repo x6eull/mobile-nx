@@ -1,0 +1,28 @@
+/**属性选择器提升优先级*/
+.schedule-operations[class~=schedule-operations] {
+  gap: 0.5rem;
+
+  &>ion-button {
+    margin: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    min-height: unset;
+    overflow: hidden;
+    display: flex;
+
+    &.goto-today {
+      border-radius: 100%;
+      font-weight: bold;
+      color: white;
+      --background: #cecece88;
+
+      &.is-today {
+        --background: black;
+      }
+    }
+  }
+}
