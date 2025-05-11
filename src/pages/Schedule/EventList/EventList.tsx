@@ -7,6 +7,7 @@ import { ReactNode, useContext } from 'react'
 import { CourseCombinedContext } from '@/context/CourseCombinedContext'
 import { CourseClassInfo } from '@/models/CourseClassInfo'
 import { CourseBase } from '@/models/CourseBase'
+import ItemRow from '@/components/ItemRow/ItemRow'
 
 function EventDetailField({
   label,
@@ -91,29 +92,20 @@ function Event({ event }: { event: EventModel }) {
   }
 
   return (
-    <div
-      className='event'
+    <ItemRow
       onClick={openModal}
-      style={
-        {
-          //TODO 生成事件颜色
-          '--ribbon-background':
-            event.categories === 'class'
-              ? '#2196f3'
-              : event.categories === 'exam'
-                ? '#f44336'
-                : '#4caf50',
-        } as React.CSSProperties
+      ribbonBackground={
+        //TODO 生成事件颜色
+        event.categories === 'class'
+          ? '#2196f3'
+          : event.categories === 'exam'
+            ? '#f44336'
+            : '#4caf50'
       }
-    >
-      <div className='info'>
-        <div className='title'>{event.summary}</div>
-        {event.location && <div className='location'>{event.location}</div>}
-      </div>
-      <div className='time'>
-        {event.dtstart.format('HH:mm')} - {event.dtend.format('HH:mm')}
-      </div>
-    </div>
+      title={event.summary}
+      subtitle={event.location}
+      extra={`${event.dtstart.format('HH:mm')} - ${event.dtend.format('HH:mm')}`}
+    />
   )
 }
 
