@@ -1,77 +1,54 @@
+import { useContext, useMemo } from 'react'
 import Card, { CardIcon } from '../Card/Card'
-import IconTodo from './iconTodoList.svg?react'
+import IconTodo from './iconTodo.svg?react'
 import './Todo.css'
+import { CourseCombinedContext } from '@/context/CourseCombinedContext'
+import { CourseBase } from '@/models/CourseBase'
+import ItemRow from '@/components/ItemRow/ItemRow'
+import dayjs from 'dayjs'
+import { XzzdTodoType } from '@/models/CourseTodoInfo'
 
-function TodoItem({
-  name,
-  dueTime,
-  type,
-}: {
-  name: string
-  dueTime: string
-  type: string
-}) {
-  /**处理类型与颜色的对应 */
-  const correspondence: Record<string, string> = {
-    作业: '#FF5E72',
-    测试: '#FFCB5E',
-    讨论: '#6A8FFF',
-  }
+const todoTypeInfo = {
+  homework: { name: '作业', color: '#FFCB5E' },
+  exam: { name: '考试', color: '#FF5E72' },
+  questionnaire: { name: '问卷', color: '#6A8FFF' },
+} satisfies Record<XzzdTodoType, { name: string; color: string }>
 
-  return (
-    <div
-      className='todo-item-wrap'
-      style={{
-        borderLeft: '13px solid ' + correspondence[type],
-      }}
-    >
-      <div className='todo-item-element'>
-        <div className='todo-name'>{name}</div>
-        <div className='todo-type'>{type}</div>
-      </div>
-      <div className='todo-item-other'>
-        <div>{dueTime}</div>
-      </div>
-    </div>
+export default function Todo() {
+  const courseCombined = useContext(CourseCombinedContext)
+  const todoList = useMemo(
+    () =>
+      courseCombined
+        .map((c) =>
+          'todos' in c
+            ? c.todos.map((t) => ({
+                ...t,
+                course: c as CourseBase,
+              }))
+            : [],
+        )
+        .flat(),
+    [courseCombined],
   )
-}
-
-export default function Todo({
-  todoInfo,
-}: {
-  todoInfo: {
-    id: number
-    name: string
-    dueTime: string
-    type: string
-  }[]
-}) {
   return (
     <Card
       icon={
-        <CardIcon bgColor='var(--todo-icon-background)'>
+        <CardIcon bgColor='#ffe0e0'>
           <IconTodo className='icon-todo' />
         </CardIcon>
       }
       title='学在浙大待办'
     >
-      <div
-        className='todolist'
-        style={{
-          justifyContent: todoInfo.length > 3 ? 'space-around' : 'flex-start',
-        }}
-      >
-        {todoInfo.slice(0, 10).map((item) => (
-          <TodoItem
-            key={item.id}
-            name={item.name}
-            dueTime={item.dueTime}
-            type={item.type}
+      <div className='todo-container'>
+        {todoList.map((t, i) => (
+          <ItemRow
+            key={i}
+            ribbonBackground={todoTypeInfo[t.type].color}
+            title={t.title}
+            subtitle={`${t.course.name} (${todoTypeInfo[t.type].name})`}
+            extra={dayjs(t.endAt).format('M.D HH:mm')}
           />
         ))}
-        <div className='todo-footer'>
-          {todoInfo.length > 3 ? '别拉啦,最多显示最近10条待办哦' : ''}
-        </div>
       </div>
     </Card>
   )

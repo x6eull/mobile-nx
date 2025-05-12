@@ -13,7 +13,7 @@
     --vertical-space: 0.75rem;
     overflow: auto;
 
-    &>.header {
+    & > .header {
       display: flex;
       justify-content: space-between;
       padding: var(--vertical-space) 0;

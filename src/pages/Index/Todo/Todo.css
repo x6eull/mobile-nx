@@ -2,71 +2,15 @@
   color: #ff5f73;
 }
 
-.todolist {
-  --item-height: 3.75rem;
-  --item-gap: 0.625rem;
-  --shadow-offset: 0.1rem;
-  /**最多伸展到显示几个item */
-  --max-items: 3;
-  margin: 0 1rem;
-  padding-right: 0.225rem;
+.todo-container {
+  --item-row-height: 3.5rem;
+  --gap: 0.5rem;
+  --vertical-padding: 0.75rem;
+
+  padding: var(--vertical-padding) 0.75rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: calc(
-    var(--max-items) * var(--item-height) + var(--max-items) * var(--item-gap)
-  );
-  overflow-y: scroll;
-  gap: var(--item-gap);
-
-  .todo-footer {
-    color: var(--todo-footer-color);
-    font-size: 1rem;
-    padding-bottom: 0.75rem;
-  }
-
-  .todo-item-wrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    min-height: var(--item-height);
-    border-radius: 0.625rem;
-    padding: 0 0.9375rem 0 1.25rem;
-    box-shadow: var(--shadow-offset) var(--shadow-offset) 0
-      var(--todoitem-shadow-color);
-    background-color: var(--todoitem-background);
-    color: var(--todoitem-font-color);
-
-    .todo-item-element {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      .todo-name {
-        font-size: 1.0625rem;
-        font-weight: 400;
-      }
-
-      .todo-type {
-        color: var(--todoitem-note-color);
-        font-weight: 400;
-        font-size: 0.8125rem;
-      }
-    }
-
-    .todo-item-other {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 0.9375rem;
-      
-      & > div {
-        font-size: 0.75rem;
-        font-weight: 400;
-        color: var(--todoitem-time-color);
-      }
-    }
-  }
+  gap: var(--gap);
+  max-height: calc(var(--item-row-height) * 3 + var(--gap) * 2 + var(--vertical-padding) * 2);
+  overflow-y: auto;
 }

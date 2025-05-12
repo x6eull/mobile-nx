@@ -36,33 +36,6 @@ export default function Index() {
 
   const tip = tips.find((item) => item.weather === weather)?.tip ?? ''
 
-  const todos = [
-    {
-      id: 1,
-      name: '创业讲座听后感',
-      dueTime: '2025.05.07 23:00',
-      type: '作业',
-    },
-    {
-      id: 2,
-      name: 'Paraphrasing',
-      dueTime: '2025.05.07 23:00',
-      type: '测试',
-    },
-    {
-      id: 3,
-      name: 'mobile高保真绘制',
-      dueTime: '2025.05.07 23:00',
-      type: '讨论',
-    },
-    {
-      id: 4,
-      name: '不定积分作业',
-      dueTime: '2025.05.07 23:00',
-      type: '作业',
-    },
-  ]
-
   return (
     <IonPage>
       <IonContent className='index-container'>
@@ -76,8 +49,8 @@ export default function Index() {
         />
         <div className='cards'>
           <Today events={events} />
+          <Todo />
           <BundledWidgets />
-          <Todo todoInfo={todos} />
         </div>
       </IonContent>
     </IonPage>
